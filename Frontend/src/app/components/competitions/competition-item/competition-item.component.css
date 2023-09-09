@@ -1,0 +1,46 @@
+.competition-card {
+    max-width: 530px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .competition-title {
+    font-size: 18px;
+    text-align: center;
+    color:black;
+    margin-bottom: 20px;
+    transition: box-shadow .3s;
+    
+  }
+
+  .competition-title:hover {
+    box-shadow: 0 0 11px red; 
+  }
+  
+  .competition-doctor {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  .competition-user {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  .competition-day {
+    font-size: 17px;
+    text-align: center;
+  }
+  
+  .competition-start {
+    font-size: 17px;
+    text-align: center;
+  }
+  
+  .competition-end {
+    font-size: 17px;
+    text-align: center;
+  }

@@ -1,0 +1,243 @@
+version: '3.8'
+
+services:
+
+  api_gateway:
+    build:
+      context: ./api_gateway/
+      dockerfile: Dockerfile
+    container_name: api_gateway
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    depends_on:
+      - registrar_service
+      - auth_service
+      - healthcare_service
+      - preschool_service
+      - apr_service
+      # - croso_service
+    networks:
+      - network
+
+  auth_service:
+    image: auth_service
+    container_name: auth_service
+    build:
+      context: .
+      dockerfile: ./auth_service/Dockerfile
+    restart: always
+    ports:
+      - ${AUTH_SERVICE_PORT}:${AUTH_SERVICE_PORT}
+    environment:
+      AUTH_SERVICE_HOST: ${AUTH_SERVICE_HOST}
+      AUTH_SERVICE_PORT: ${AUTH_SERVICE_PORT}
+      AUTH_DB_HOST: ${AUTH_DB_HOST}
+      AUTH_DB_PORT: ${AUTH_DB_PORT}
+      SECRET_KEY: ${SECRET_KEY}
+      NATS_URI: ${NATS_URI}
+      CHECK_USER_JMBG: ${CHECK_USER_JMBG}
+    networks:
+      - network
+    depends_on:
+      - auth_db
+      - nats
+
+  registrar_service:
+    image: registrar_service
+    container_name: registrar_service
+    build:
+      context: .
+      dockerfile: ./registrar_service/Dockerfile
+    restart: always
+    ports:
+      - ${REGISTRAR_SERVICE_PORT}:${REGISTRAR_SERVICE_PORT}
+    environment:
+      REGISTRAR_SERVICE_HOST: ${REGISTRAR_SERVICE_HOST}
+      REGISTRAR_SERVICE_PORT: ${REGISTRAR_SERVICE_PORT}
+      REGISTRAR_DB_HOST: ${REGISTRAR_DB_HOST}
+      REGISTRAR_DB_PORT: ${REGISTRAR_DB_PORT}
+      SECRET_KEY: ${SECRET_KEY}
+      NATS_URI: ${NATS_URI}
+      CHECK_USER_JMBG: ${CHECK_USER_JMBG}
+      GET_USER_BY_JMBG: ${GET_USER_BY_JMBG}
+      CREATE_USER: ${CREATE_USER}
+    networks:
+      - network
+    depends_on:
+      - registrar_db
+      - nats
+
+  healthcare_service:
+    image: healthcare_service
+    container_name: healthcare_service
+    build:
+      context: .
+      dockerfile: ./healthcare_service/Dockerfile
+    restart: always
+    ports:
+      - ${HEALTHCARE_SERVICE_PORT}:${HEALTHCARE_SERVICE_PORT}
+    environment:
+      HEALTHCARE_SERVICE_HOST: ${HEALTHCARE_SERVICE_HOST}
+      HEALTHCARE_SERVICE_PORT: ${HEALTHCARE_SERVICE_PORT}
+      HEALTHCARE_DB_HOST: ${HEALTHCARE_DB_HOST}
+      HEALTHCARE_DB_PORT: ${HEALTHCARE_DB_PORT}
+      SECRET_KEY: ${SECRET_KEY}
+      CHECK_USER_JMBG: ${CHECK_USER_JMBG}
+      GET_USER_BY_JMBG: ${GET_USER_BY_JMBG}
+      CREATE_USER: ${CREATE_USER}
+      GET_STANJE_BY_JMBG: ${GET_STANJE_BY_JMBG}
+      NATS_URI: ${NATS_URI}
+    networks:
+      - network
+    depends_on:
+      - healthcare_db
+      - nats
+
+  apr_service:
+    image: apr_service
+    container_name: apr_service
+    build:
+      context: .
+      dockerfile: ./apr_service/Dockerfile
+    restart: always
+    ports:
+      - ${APR_SERVICE_PORT}:${APR_SERVICE_PORT}
+    environment:
+      SERVICE_HOST: ${APR_SERVICE_HOST}
+      SERVICE_PORT: ${APR_SERVICE_PORT}
+      DB_HOST: ${APR_DB_HOST}
+      DB_PORT: ${APR_DB_PORT}
+      SECRET_KEY: ${SECRET_KEY}
+      NATS_URI: ${NATS_URI}
+      COMPANY_GET_BY_FOUNDER_COMPANY_ID: ${COMPANY_GET_BY_FOUNDER_COMPANY_ID}
+    networks:
+      - network
+    depends_on:
+      - apr_db
+      - nats
+
+  croso_service:
+    image: croso_service
+    container_name: croso_service
+    build:
+      context: .
+      dockerfile: ./croso_service/Dockerfile
+    restart: always
+    ports:
+      - ${CROSO_SERVICE_PORT}:${CROSO_SERVICE_PORT}
+    environment:
+      SERVICE_HOST: ${CROSO_SERVICE_HOST}
+      SERVICE_PORT: ${CROSO_SERVICE_PORT}
+      DB_HOST: ${CROSO_DB_HOST}
+      DB_PORT: ${CROSO_DB_PORT}
+      SECRET_KEY: ${SECRET_KEY}
+      NATS_URI: ${NATS_URI}
+      COMPANY_GET_BY_FOUNDER_COMPANY_ID: ${COMPANY_GET_BY_FOUNDER_COMPANY_ID}
+      GET_EMPLOYEE_STATUS_BY_ID: ${GET_EMPLOYEE_STATUS_BY_ID}
+    networks:
+      - network
+    depends_on:
+      - croso_db
+      - nats
+
+
+  preschool_service:
+    image: preschool_service
+    container_name: preschool_service
+    build:
+      context: .
+      dockerfile: ./preschool_service/Dockerfile
+    restart: always
+    ports:
+      - "8003:8003"
+    environment:
+      PRESCHOOL_DB_HOST: ${PRESCHOOL_DB_HOST}
+      PRESCHOOL_DB_PORT: ${PRESCHOOL_DB_PORT}
+      PRESCHOOL_DB_NAME: ${PRESCHOOL_DB_NAME}
+      PRESCHOOL_SERVICE_PORT: ${PRESCHOOL_SERVICE_PORT}
+      PRESCHOOL_SERVICE_HOST: ${PRESCHOOL_SERVICE_HOST}
+      GET_EMPLOYEE_STATUS_BY_ID: ${GET_EMPLOYEE_STATUS_BY_ID}
+      GET_STANJE_BY_JMBG: ${GET_STANJE_BY_JMBG}
+      SECRET_KEY: ${SECRET_KEY}
+      NATS_URI: ${NATS_URI}
+    depends_on:
+      - nats
+      - preschool_db
+    networks:
+      - network
+
+
+  auth_db:
+    image: mongo
+    container_name: auth_db
+    restart: on-failure
+    networks:
+      - network
+    volumes:
+      - auth_db:/data/db
+
+  healthcare_db:
+    image: mongo
+    container_name: healthcare_db
+    restart: on-failure
+    networks:
+      - network
+    volumes:
+     - healthcare_db:/data/db
+
+  registrar_db:
+    image: mongo
+    container_name: registrar_db
+    restart: on-failure
+    networks:
+      - network
+    volumes:
+     - registrar_db:/data/db
+
+  apr_db:
+    image: mongo
+    container_name: apr_db
+    restart: on-failure
+    networks:
+      - network
+    volumes:
+     - apr_db:/data/db
+
+  croso_db:
+    image: mongo
+    container_name: croso_db
+    restart: on-failure
+    networks:
+      - network
+    volumes:
+     - croso_db:/data/db
+
+  nats:
+    image: nats
+    container_name: nats
+    restart: on-failure
+    networks:
+      - network
+
+  preschool_db:
+    image: mongo
+    container_name: preschool_db
+    restart: on-failure
+    networks:
+      - network
+    volumes:
+      - mongo_store:/data/db
+
+
+volumes:
+  mongo_store:
+  auth_db:
+  registrar_db:
+  apr_db:
+  healthcare_db:
+  croso_db:
+
+networks:
+  network:
+    driver: bridge
