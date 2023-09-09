@@ -6,7 +6,6 @@ import { AppointmentsDoctorComponent } from './components/eZdravstvo/appointment
 import { CompetitionsComponent } from './components/competitions/competitions/competitions.component';
 import { CompetitionViewComponent } from './components/competitions/competition-view/competition-view.component';
 import { RegisterAprComponent } from './components/register-apr/register-apr.component';
-import { MyAprsComponent } from './components/my-aprs/my-aprs.component';
 import { CompetitionAddComponent } from './components/competitions/competition-add/competition-add.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AppointmentAddComponent } from './components/eZdravstvo/appointment/appointment-add/appointment-add.component';
@@ -19,14 +18,8 @@ import { VaccinationViewComponent } from './components/eZdravstvo/vaccination/va
 import {MarriageComponent} from "./components/marriage/marriage.component";
 import {ChooseServiceComponent} from "./components/choose-service/choose-service.component";
 import {RegularOrAdminComponent} from "./components/regular-or-admin/regular-or-admin.component";
-import { VrticPocetnaComponent } from './components/preschool/vrtic-pocetna/vrtic-pocetna.component';
-import { VrticAddComponent } from './components/preschool/vrtic-add/vrtic-add.component';
-import { VrticViewComponent } from './components/preschool/vrtic-view/vrtic-view.component';
-import { PrijavaComponent } from './components/preschool/prijava/prijava.component';
-import { PrijavaMainComponent } from './components/preschool/prijava-main/prijava-main.component';
 import { AddPersonRegistryComponent } from './components/eZdravstvo/add-person-registry/add-person-registry.component'; 
 import { RegisterCrosoComponent } from './components/register-croso/register-croso.component';
-import { MyCrososComponent } from './components/my-crosos/my-crosos.component';
 import { RegisterEmployeeComponent } from './components/register-employee/register-employee.component';
 import { CompanyEmployeesComponent } from './components/company-employees/company-employees.component';
 import {ViewMyRegistryComponent} from "./components/view-my-registry/view-my-registry.component";
@@ -106,28 +99,8 @@ const routes: Routes = [
     component: CompetitionsComponent
   },
   {
-    path: "PocetnaVrtic",
-    component: VrticPocetnaComponent
-  },
-  {
-    path: "Vrtic-Add",
-    component: VrticAddComponent
-  },
-  {
-    path: "Vrtic-View/:id",
-    component: VrticViewComponent
-  },
-  {
     path: "Competition-View/:id",
     component: CompetitionViewComponent
-  },
-  {
-    path: "Prijava/:id",
-    component: PrijavaComponent
-  },
-  {
-    path: "PregledPrijava/:id",
-    component: PrijavaMainComponent
   },
   {
     path: "Competition-Add/:id",
@@ -136,10 +109,6 @@ const routes: Routes = [
   {
     path: "RegisterApr",
     component: RegisterAprComponent
-  },
-  {
-    path: "MyAprs",
-    component: MyAprsComponent
   },
   {
     path: "Welcome",
@@ -160,10 +129,6 @@ const routes: Routes = [
   {
     path:"RegisterCroso",
     component: RegisterCrosoComponent
-  },
-  {
-    path: "MyCrosos",
-    component: MyCrososComponent
   },
   {
     path: "RegisterEmployee",
