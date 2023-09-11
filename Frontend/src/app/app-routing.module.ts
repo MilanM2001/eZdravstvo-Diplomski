@@ -3,10 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AppointmentsDoctorComponent } from './components/eZdravstvo/appointment/appointments-doctor/appointments.component';
-import { CompetitionsComponent } from './components/competitions/competitions/competitions.component';
-import { CompetitionViewComponent } from './components/competitions/competition-view/competition-view.component';
-import { RegisterAprComponent } from './components/register-apr/register-apr.component';
-import { CompetitionAddComponent } from './components/competitions/competition-add/competition-add.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AppointmentAddComponent } from './components/eZdravstvo/appointment/appointment-add/appointment-add.component';
 import { AppointmentViewComponent } from './components/eZdravstvo/appointment/appointment-view/appointment-view.component';
@@ -15,14 +11,11 @@ import { VaccinationsDoctorComponent } from './components/eZdravstvo/vaccination
 import { VaccinationsRegularComponent } from './components/eZdravstvo/vaccination/vaccinations-regular/vaccinations-regular.component'
 import { VaccinationAddComponent } from './components/eZdravstvo/vaccination/vaccination-add/vaccination-add.component';
 import { VaccinationViewComponent } from './components/eZdravstvo/vaccination/vaccination-view/vaccination-view.component';
-import {MarriageComponent} from "./components/marriage/marriage.component";
+import {MarriageComponent} from "./components/eMaticar/marriage/marriage.component";
 import {ChooseServiceComponent} from "./components/choose-service/choose-service.component";
 import {RegularOrAdminComponent} from "./components/regular-or-admin/regular-or-admin.component";
 import { AddPersonRegistryComponent } from './components/eZdravstvo/add-person-registry/add-person-registry.component'; 
-import { RegisterCrosoComponent } from './components/register-croso/register-croso.component';
-import { RegisterEmployeeComponent } from './components/register-employee/register-employee.component';
-import { CompanyEmployeesComponent } from './components/company-employees/company-employees.component';
-import {ViewMyRegistryComponent} from "./components/view-my-registry/view-my-registry.component";
+import {ViewMyRegistryComponent} from "./components/eMaticar/view-my-registry/view-my-registry.component";
 import { ZdravstvenoStanjeAddComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-add/zdravstveno-stanje-add.component';
 import { ZdravstvenaStanjaDoctorComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstvena-stanja-doctor/zdravstvena-stanja-doctor.component';
 import { ZdravstvenoStanjeViewMyComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-view-my/zdravstveno-stanje-view-my.component';
@@ -95,22 +88,6 @@ const routes: Routes = [
     component: UserDiedComponent
   },
   {
-    path: "Competitions",
-    component: CompetitionsComponent
-  },
-  {
-    path: "Competition-View/:id",
-    component: CompetitionViewComponent
-  },
-  {
-    path: "Competition-Add/:id",
-    component: CompetitionAddComponent
-  },
-  {
-    path: "RegisterApr",
-    component: RegisterAprComponent
-  },
-  {
     path: "Welcome",
     component: WelcomeComponent
   },
@@ -127,17 +104,6 @@ const routes: Routes = [
     component: RegularOrAdminComponent
   },
   {
-    path:"RegisterCroso",
-    component: RegisterCrosoComponent
-  },
-  {
-    path: "RegisterEmployee",
-    component: RegisterEmployeeComponent
-  },
-  {
-    path: "CompanyEmployees",
-    component: CompanyEmployeesComponent
-  },{
     path: "view-my-registry",
     component: ViewMyRegistryComponent
   }

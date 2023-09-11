@@ -43,17 +43,17 @@ func (repository *HealthcareRepositoryImpl) GetMojiPreglediLekar(id primitive.Ob
 	return repository.filterPregledi(filter)
 }
 
-func (repository *HealthcareRepositoryImpl) GetMojeSlobodnePregledeLekar(id primitive.ObjectID) ([]*model.Pregled, error) {
+func (repository *HealthcareRepositoryImpl) GetMojiSlobodniPreglediLekar(id primitive.ObjectID) ([]*model.Pregled, error) {
 	filter := bson.M{"lekar._id": id, "gradjanin": nil}
 	return repository.filterPregledi(filter)
 }
 
-func (repository *HealthcareRepositoryImpl) GetMojeZauzetePregledeLekar(id primitive.ObjectID) ([]*model.Pregled, error) {
+func (repository *HealthcareRepositoryImpl) GetMojiZauzetiPreglediLekar(id primitive.ObjectID) ([]*model.Pregled, error) {
 	filter := bson.M{"lekar._id": id, "gradjanin": bson.M{"$ne": nil}}
 	return repository.filterPregledi(filter)
 }
 
-func (repository *HealthcareRepositoryImpl) GetSveSlobodnePreglede() ([]*model.Pregled, error) {
+func (repository *HealthcareRepositoryImpl) GetSviSlobodniPregledi() ([]*model.Pregled, error) {
 	filter := bson.M{"gradjanin": nil}
 	return repository.filterPregledi(filter)
 }

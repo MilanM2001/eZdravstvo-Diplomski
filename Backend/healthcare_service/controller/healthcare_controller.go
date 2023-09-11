@@ -2,9 +2,11 @@ package controller
 
 import (
 	"authorization"
+	"encoding/json"
 	"github.com/casbin/casbin"
 	"github.com/cristalhq/jwt/v4"
 	"github.com/gorilla/mux"
+	"healthcare_service/model"
 	"healthcare_service/service"
 	"log"
 	"net/http"
@@ -30,15 +32,15 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 		log.Fatal(err)
 	}
 
-	router.HandleFunc("/allAppointments", controller.GetAllAppointments).Methods("GET")
-	router.HandleFunc("/myAppointmentsDoctor", controller.GetAllMyAppointmentsDoctor).Methods("GET")
-	router.HandleFunc("/myAvailableAppointmentsDoctor", controller.GetMyAvailableAppointmentsDoctor).Methods("GET")
-	router.HandleFunc("/myTakenAppointmentsDoctor", controller.GetMyTakenAppointmentsDoctor).Methods("GET")
-	router.HandleFunc("/allAvailableAppointments", controller.GetAllAvailableAppointments).Methods("GET")
-	router.HandleFunc("/getAppointmentByID/{id}", controller.GetAppointmentByID).Methods("GET")
-	router.HandleFunc("/newAppointment", controller.CreateNewAppointment).Methods("POST")
-	router.HandleFunc("/setAppointment/{id}", controller.SetAppointment).Methods("PUT")
-	router.HandleFunc("/deleteAppointmentByID/{id}", controller.DeleteAppointmentByID).Methods("DELETE")
+	router.HandleFunc("/getSviPregledi", controller.GetSviPregledi).Methods("GET")
+	router.HandleFunc("/getMojiPreglediLekar", controller.GetMojiPreglediLekar).Methods("GET")
+	router.HandleFunc("/getMojiSlobodniPreglediLekar", controller.GetMojiSlobodniPreglediLekar).Methods("GET")
+	router.HandleFunc("/getMojiZauzetiPreglediLekar", controller.GetMojiZauzetiPreglediLekar).Methods("GET")
+	router.HandleFunc("/getSviSlobodniPregledi", controller.GetSviSlobodniPregledi).Methods("GET")
+	router.HandleFunc("/getPregledID/{id}", controller.GetPregledID).Methods("GET")
+	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
+	//router.HandleFunc("/setAppointment/{id}", controller.SetAppointment).Methods("PUT")
+	//router.HandleFunc("/deleteAppointmentByID/{id}", controller.DeleteAppointmentByID).Methods("DELETE")
 
 	//router.HandleFunc("/allVaccinations", controller.GetAllVaccinations).Methods("GET")
 	//router.HandleFunc("/myVaccinationsDoctor", controller.GetAllMyVaccinationsDoctor).Methods("GET")
@@ -58,119 +60,118 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	//router.HandleFunc("/newZdravstvenoStanje", controller.CreateNewZdravstvenoStanje).Methods("POST")
 	//router.HandleFunc("/deleteZdravstvenoStanjeByJMBG/{jmbg}", controller.DeleteZdravstvenoStanjeByJMBG).Methods("DELETE")
 
-	router.HandleFunc("/addPersonToRegistry", controller.AddPersonToRegistry).Methods("POST")
-	router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
+	//router.HandleFunc("/addPersonToRegistry", controller.AddPersonToRegistry).Methods("POST")
+	//router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
 
 	http.Handle("/", router)
-	log.Fatal(http.ListenAndServe(":8005", authorization.Authorizer(authEnforcer)(router)))
+	log.Fatal(http.ListenAndServe(":8003", authorization.Authorizer(authEnforcer)(router)))
 }
 
 func (controller *HealthcareController) GetSviPregledi(writer http.ResponseWriter, req *http.Request) {
-	appointments, err := controller.service.GetAllAppointments()
+	pregledi, err := controller.service.GetSviPregledi()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
 		return
 	}
 
-	jsonResponse(appointments, writer)
+	jsonResponse(pregledi, writer)
 	writer.WriteHeader(http.StatusOK)
 }
 
-//
-//func (controller *HealthcareController) GetAllMyAppointmentsDoctor(writer http.ResponseWriter, req *http.Request) {
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	appointments, err := controller.service.GetMyAppointmentsDoctor(jmbg)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		log.Println(err)
-//		return
-//	}
-//
-//	jsonResponse(appointments, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetMyAvailableAppointmentsDoctor(writer http.ResponseWriter, req *http.Request) {
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	appointments, err := controller.service.GetMyAvailableAppointmentsDoctor(jmbg)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		log.Println(err)
-//		return
-//	}
-//
-//	jsonResponse(appointments, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetMyTakenAppointmentsDoctor(writer http.ResponseWriter, req *http.Request) {
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	appointments, err := controller.service.GetMyTakenAppointmentsDoctor(jmbg)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		log.Println(err)
-//		return
-//	}
-//
-//	jsonResponse(appointments, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetAllAvailableAppointments(writer http.ResponseWriter, req *http.Request) {
-//	appointments, err := controller.service.GetAllAvailableAppointments()
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		return
-//	}
-//
-//	jsonResponse(appointments, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetAppointmentByID(writer http.ResponseWriter, req *http.Request) {
-//	objectID, err := getIDFromReqAsPrimitive(writer, req)
-//
-//	appointment, err := controller.service.GetAppointmentByID(objectID)
-//	if err != nil {
-//		log.Println("Error finding Appointment By ID")
-//		writer.WriteHeader(http.StatusBadRequest)
-//		return
-//	}
-//
-//	jsonResponse(appointment, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) CreateNewAppointment(writer http.ResponseWriter, req *http.Request) {
-//	var appointment model.Appointment
-//	err := json.NewDecoder(req.Body).Decode(&appointment)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte("There is a problem in decoding JSON"))
-//		return
-//	}
-//
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	value, err := controller.service.CreateNewAppointment(&appointment, jmbg)
-//	if value == 1 {
-//		writer.WriteHeader(http.StatusNotAcceptable)
-//		writer.Write([]byte("Appointment already exists in that time"))
-//		return
-//	}
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		return
-//	}
-//
-//	jsonResponse(appointment, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
+func (controller *HealthcareController) GetMojiPreglediLekar(writer http.ResponseWriter, req *http.Request) {
+	jmbg, err := extractJMBGFromClaims(writer, req)
+
+	pregledi, err := controller.service.GetMojiPreglediLekar(jmbg)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(pregledi, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetMojiSlobodniPreglediLekar(writer http.ResponseWriter, req *http.Request) {
+	jmbg, err := extractJMBGFromClaims(writer, req)
+
+	pregledi, err := controller.service.GetMojiSlobodniPreglediLekar(jmbg)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(pregledi, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetMojiZauzetiPreglediLekar(writer http.ResponseWriter, req *http.Request) {
+	jmbg, err := extractJMBGFromClaims(writer, req)
+
+	pregledi, err := controller.service.GetMojiZauzetiPreglediLekar(jmbg)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(pregledi, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetSviSlobodniPregledi(writer http.ResponseWriter, req *http.Request) {
+	pregledi, err := controller.service.GetSviSlobodniPregledi()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	jsonResponse(pregledi, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetPregledID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	pregled, err := controller.service.GetPregledID(objectID)
+	if err != nil {
+		log.Println("Error finding Appointment By ID")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	jsonResponse(pregled, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) PostPregled(writer http.ResponseWriter, req *http.Request) {
+	var pregled model.Pregled
+	err := json.NewDecoder(req.Body).Decode(&pregled)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("There is a problem in decoding JSON"))
+		return
+	}
+
+	jmbg, err := extractJMBGFromClaims(writer, req)
+
+	value, err := controller.service.PostPregled(&pregled, jmbg)
+	if value == 1 {
+		writer.WriteHeader(http.StatusNotAcceptable)
+		writer.Write([]byte("Appointment already exists in that time"))
+		return
+	}
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	jsonResponse(pregled, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
 //func (controller *HealthcareController) SetAppointment(writer http.ResponseWriter, req *http.Request) {
 //	objectID, err := getIDFromReqAsPrimitive(writer, req)
 //	jmbg, err := extractJMBGFromClaims(writer, req)

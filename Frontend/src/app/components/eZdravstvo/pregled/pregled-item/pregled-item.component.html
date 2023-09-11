@@ -1,0 +1,14 @@
+<mat-card class="appointment-card">
+    <mat-card-title *ngIf="isTaken()" class="appointment-title-taken" [routerLink]="['/Appointment-View', pregled.id]">
+      Zauzet Pregled
+    </mat-card-title>
+    <mat-card-title *ngIf="!isTaken()" class="appointment-title-available" [routerLink]="['/Appointment-View', pregled.id]">
+      Slobodan Pregled
+    </mat-card-title>
+    <mat-card-title class="appointment-doctor">Doktor: {{pregled.doctor.ime + " " + pregled.doctor.prezime}}</mat-card-title>
+    <mat-card-title *ngIf="isTaken()" class="appointment-user">Pacijent: {{pregled.user.ime + " " + pregled.user.prezime}}</mat-card-title>
+    <mat-card-content>
+      <p class="appointment-start">Početak: {{pregled.startOfAppointment * 1000 | date: "longDate"}}</p>
+      <p class="appointment-end">Kraj: {{pregled.endOfAppointment * 1000 | date: "longDate"}}</p>
+    </mat-card-content>
+  </mat-card>

@@ -8,9 +8,9 @@ import (
 type HealthcareRepository interface {
 	GetSviPregledi() ([]*model.Pregled, error)
 	GetMojiPreglediLekar(id primitive.ObjectID) ([]*model.Pregled, error)
-	GetMojeSlobodnePregledeLekar(id primitive.ObjectID) ([]*model.Pregled, error)
-	GetMojeZauzetePregledeLekar(id primitive.ObjectID) ([]*model.Pregled, error)
-	GetSveSlobodnePreglede() ([]*model.Pregled, error)
+	GetMojiSlobodniPreglediLekar(id primitive.ObjectID) ([]*model.Pregled, error)
+	GetMojiZauzetiPreglediLekar(id primitive.ObjectID) ([]*model.Pregled, error)
+	GetSviSlobodniPregledi() ([]*model.Pregled, error)
 	GetPregledID(id primitive.ObjectID) (*model.Pregled, error)
 	PostPregled(appointment *model.Pregled) error
 	PutPregled(appointment *model.Pregled) error

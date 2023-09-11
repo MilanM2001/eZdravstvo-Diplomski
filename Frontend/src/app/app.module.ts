@@ -14,14 +14,6 @@ import { AppointmentViewComponent } from './components/eZdravstvo/appointment/ap
 import { AppointmentsDoctorComponent } from './components/eZdravstvo/appointment/appointments-doctor/appointments.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
-import { CompetitionsComponent } from './components/competitions/competitions/competitions.component';
-import { CompetitionListComponent } from './components/competitions/competition-list/competition-list.component';
-import { CompetitionAddComponent } from './components/competitions/competition-add/competition-add.component';
-import { CompetitionItemComponent } from './components/competitions/competition-item/competition-item.component';
-import { CompetitionViewComponent } from './components/competitions/competition-view/competition-view.component';
-import { RegisterAprComponent } from './components/register-apr/register-apr.component';
-import { MyAprsComponent } from './components/my-aprs/my-aprs.component';
-import { AprListItemComponent } from './components/apr-list-item/apr-list-item.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AppointmentsRegularComponent } from './components/eZdravstvo/appointment/appointments-regular/appointments-regular.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,27 +29,12 @@ import { VaccinationListComponent } from './components/eZdravstvo/vaccination/va
 import { VaccinationViewComponent } from './components/eZdravstvo/vaccination/vaccination-view/vaccination-view.component';
 import { VaccinationsDoctorComponent } from './components/eZdravstvo/vaccination/vaccinations-doctor/vaccinations-doctor.component';
 import { VaccinationsRegularComponent } from './components/eZdravstvo/vaccination/vaccinations-regular/vaccinations-regular.component'; 
-import { MarriageComponent } from './components/marriage/marriage.component';
+import { MarriageComponent } from './components/eMaticar/marriage/marriage.component';
 import { ChooseServiceComponent } from './components/choose-service/choose-service.component';
 import { RegularOrAdminComponent } from './components/regular-or-admin/regular-or-admin.component'; 
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { VrticAddComponent } from './components/preschool/vrtic-add/vrtic-add.component';
-import { VrticListComponent } from './components/preschool/vrtic-list/vrtic-list.component';
-import { VrticViewComponent } from './components/preschool/vrtic-view/vrtic-view.component';
-import { VrticPocetnaComponent } from './components/preschool/vrtic-pocetna/vrtic-pocetna.component';
-import { VrticItemComponent } from './components/preschool/vrtic-item/vrtic-item.component';
-import { PrijavaComponent } from './components/preschool/prijava/prijava.component';
-import { RegisterCrosoComponent } from './components/register-croso/register-croso.component';
-import { MyCrososComponent } from './components/my-crosos/my-crosos.component';
-import { CrosoListItemComponent } from './components/croso-list-item/croso-list-item.component';
-import { RegisterEmployeeComponent } from './components/register-employee/register-employee.component';
-import { CompanyEmployeesComponent } from './components/company-employees/company-employees.component';
-import { EmployeeListItemComponent } from './components/employee-list-item/employee-list-item.component';
-import { PrijavaListComponent } from './components/preschool/prijava-list/prijava-list.component';
-import { PrijavaItemComponent } from './components/preschool/prijava-item/prijava-item.component';
-import { PrijavaMainComponent } from './components/preschool/prijava-main/prijava-main.component';
 import { AddPersonRegistryComponent } from './components/eZdravstvo/add-person-registry/add-person-registry.component'; 
-import { ViewMyRegistryComponent } from './components/view-my-registry/view-my-registry.component';
+import { ViewMyRegistryComponent } from './components/eMaticar/view-my-registry/view-my-registry.component';
 import { ZdravstvenoStanjeItemComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-item/zdravstveno-stanje-item.component';
 import { ZdravstvenoStanjeListComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-list/zdravstveno-stanje-list.component';
 import { ZdravstvenoStanjeAddComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-add/zdravstveno-stanje-add.component';
@@ -65,6 +42,12 @@ import { ZdravstvenaStanjaDoctorComponent } from './components/eZdravstvo/zdravs
 import { ZdravstvenoStanjeViewMyComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-view-my/zdravstveno-stanje-view-my.component';
 import { VaccinationsMyRegularComponent } from './components/eZdravstvo/vaccination/vaccinations-my-regular/vaccinations-my-regular.component';
 import { UserDiedComponent } from './components/eZdravstvo/user-died/user-died.component';
+import { PregledAddComponent } from './components/eZdravstvo/pregled/pregled-add/pregled-add.component';
+import { PregledItemComponent } from './components/eZdravstvo/pregled/pregled-item/pregled-item.component';
+import { PregledListComponent } from './components/eZdravstvo/pregled/pregled-list/pregled-list.component';
+import { PregledViewComponent } from './components/eZdravstvo/pregled/pregled-view/pregled-view.component';
+import { PreglediLekarComponent } from './components/eZdravstvo/pregled/pregledi-lekar/pregledi-lekar.component';
+import { PreglediGradjaninComponent } from './components/eZdravstvo/pregled/pregledi-gradjanin/pregledi-gradjanin.component';
 
 
 
@@ -79,14 +62,6 @@ import { UserDiedComponent } from './components/eZdravstvo/user-died/user-died.c
     AppointmentsDoctorComponent,
     RegisterComponent,
     LoginComponent,
-    CompetitionsComponent,
-    CompetitionListComponent,
-    CompetitionAddComponent,
-    CompetitionItemComponent,
-    CompetitionViewComponent,
-    RegisterAprComponent,
-    MyAprsComponent,
-    AprListItemComponent,
     WelcomeComponent,
     AppointmentsRegularComponent,
     VaccinationAddComponent,
@@ -98,22 +73,7 @@ import { UserDiedComponent } from './components/eZdravstvo/user-died/user-died.c
     MarriageComponent,
     ChooseServiceComponent,
     RegularOrAdminComponent,
-    VrticAddComponent,
-    VrticListComponent,
-    VrticViewComponent,
-    VrticPocetnaComponent,
-    VrticItemComponent,
-    PrijavaComponent,
-    PrijavaListComponent,
-    PrijavaItemComponent,
-    PrijavaMainComponent,
     AddPersonRegistryComponent,
-    RegisterCrosoComponent,
-    MyCrososComponent,
-    CrosoListItemComponent,
-    RegisterEmployeeComponent,
-    CompanyEmployeesComponent,
-    EmployeeListItemComponent,
     ViewMyRegistryComponent,
     ZdravstvenoStanjeItemComponent,
     ZdravstvenoStanjeListComponent,
@@ -121,7 +81,13 @@ import { UserDiedComponent } from './components/eZdravstvo/user-died/user-died.c
     ZdravstvenaStanjaDoctorComponent,
     ZdravstvenoStanjeViewMyComponent,
     VaccinationsMyRegularComponent,
-    UserDiedComponent
+    UserDiedComponent,
+    PregledAddComponent,
+    PregledItemComponent,
+    PregledListComponent,
+    PregledViewComponent,
+    PreglediLekarComponent,
+    PreglediGradjaninComponent
   ],
   imports: [
     BrowserModule,

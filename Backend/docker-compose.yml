@@ -17,29 +17,6 @@ services:
     networks:
       - network
 
-  auth_service:
-    image: auth_service
-    container_name: auth_service
-    build:
-      context: .
-      dockerfile: ./auth_service/Dockerfile
-    restart: always
-    ports:
-      - ${AUTH_SERVICE_PORT}:${AUTH_SERVICE_PORT}
-    environment:
-      AUTH_SERVICE_HOST: ${AUTH_SERVICE_HOST}
-      AUTH_SERVICE_PORT: ${AUTH_SERVICE_PORT}
-      AUTH_DB_HOST: ${AUTH_DB_HOST}
-      AUTH_DB_PORT: ${AUTH_DB_PORT}
-      SECRET_KEY: ${SECRET_KEY}
-      NATS_URI: ${NATS_URI}
-      CHECK_USER_JMBG: ${CHECK_USER_JMBG}
-    networks:
-      - network
-    depends_on:
-      - auth_db
-      - nats
-
   registrar_service:
     image: registrar_service
     container_name: registrar_service
@@ -63,6 +40,29 @@ services:
       - network
     depends_on:
       - registrar_db
+      - nats
+
+  auth_service:
+    image: auth_service
+    container_name: auth_service
+    build:
+      context: .
+      dockerfile: ./auth_service/Dockerfile
+    restart: always
+    ports:
+      - ${AUTH_SERVICE_PORT}:${AUTH_SERVICE_PORT}
+    environment:
+      AUTH_SERVICE_HOST: ${AUTH_SERVICE_HOST}
+      AUTH_SERVICE_PORT: ${AUTH_SERVICE_PORT}
+      AUTH_DB_HOST: ${AUTH_DB_HOST}
+      AUTH_DB_PORT: ${AUTH_DB_PORT}
+      SECRET_KEY: ${SECRET_KEY}
+      NATS_URI: ${NATS_URI}
+      CHECK_USER_JMBG: ${CHECK_USER_JMBG}
+    networks:
+      - network
+    depends_on:
+      - auth_db
       - nats
 
   healthcare_service:
@@ -91,6 +91,15 @@ services:
       - healthcare_db
       - nats
 
+  registrar_db:
+    image: mongo
+    container_name: registrar_db
+    restart: on-failure
+    networks:
+      - network
+    volumes:
+      - registrar_db:/data/db
+
   auth_db:
     image: mongo
     container_name: auth_db
@@ -108,15 +117,6 @@ services:
       - network
     volumes:
      - healthcare_db:/data/db
-
-  registrar_db:
-    image: mongo
-    container_name: registrar_db
-    restart: on-failure
-    networks:
-      - network
-    volumes:
-     - registrar_db:/data/db
 
   nats:
     image: nats
