@@ -52,13 +52,6 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	//router.HandleFunc("/newVaccination", controller.CreateNewVaccination).Methods("POST")
 	//router.HandleFunc("/setVaccination/{id}", controller.SetVaccination).Methods("PUT")
 	//router.HandleFunc("/deleteVaccinationByID/{id}", controller.DeleteVaccinationByID).Methods("DELETE")
-	//
-	//router.HandleFunc("/allZdravstvenaStanja", controller.GetAllZdravstvenaStanja).Methods("GET")
-	//router.HandleFunc("/getZdravstvenoStanjeByID/{id}", controller.GetZdravstvenoStanjeByID).Methods("GET")
-	//router.HandleFunc("/getZdravstvenoStanjeByJMBG/{jmbg}", controller.GetZdravstvenoStanjeByJMBG).Methods("GET")
-	//router.HandleFunc("/myZdravstvenoStanje", controller.GetMyZdravstvenoStanje).Methods("GET")
-	//router.HandleFunc("/newZdravstvenoStanje", controller.CreateNewZdravstvenoStanje).Methods("POST")
-	//router.HandleFunc("/deleteZdravstvenoStanjeByJMBG/{jmbg}", controller.DeleteZdravstvenoStanjeByJMBG).Methods("DELETE")
 
 	//router.HandleFunc("/addPersonToRegistry", controller.AddPersonToRegistry).Methods("POST")
 	//router.HandleFunc("/getMe", controller.GetMe).Methods("GET")

@@ -21,6 +21,9 @@ import { ZdravstvenaStanjaDoctorComponent } from './components/eZdravstvo/zdravs
 import { ZdravstvenoStanjeViewMyComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-view-my/zdravstveno-stanje-view-my.component';
 import { VaccinationsMyRegularComponent } from './components/eZdravstvo/vaccination/vaccinations-my-regular/vaccinations-my-regular.component';
 import { UserDiedComponent } from './components/eZdravstvo/user-died/user-died.component';
+import { PreglediLekarComponent } from './components/eZdravstvo/pregled/pregledi-lekar/pregledi-lekar.component';
+import { PreglediGradjaninComponent } from './components/eZdravstvo/pregled/pregledi-gradjanin/pregledi-gradjanin.component';
+import { PregledAddComponent } from './components/eZdravstvo/pregled/pregled-add/pregled-add.component';
 
 const routes: Routes = [
   {
@@ -34,6 +37,18 @@ const routes: Routes = [
   {
     path: "New-Person",
     component: AddPersonRegistryComponent
+  },
+  {
+    path: "Pregledi-Lekar",
+    component: PreglediLekarComponent
+  },
+  {
+    path: "Pregledi-Gradjanin",
+    component: PreglediGradjaninComponent
+  },
+  {
+    path: "Pregled-Add",
+    component: PregledAddComponent
   },
   {
     path: "Appointments-Doctor",
@@ -96,7 +111,7 @@ const routes: Routes = [
     component: MarriageComponent
   },
   {
-    path: "chose-service",
+    path: "choose-service",
     component: ChooseServiceComponent
   },
   {

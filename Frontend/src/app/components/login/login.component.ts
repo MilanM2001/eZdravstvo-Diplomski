@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
               localStorage.clear()
             }else{
               localStorage.setItem('authToken', response)
-              this.router.navigate(['/chose-service']).then();
+              this.router.navigate(['/choose-service']).then();
             }
           }
         },

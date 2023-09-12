@@ -1,3 +1,5 @@
+import { User } from "./user.model";
+
 export class Pregled {
     id: number = 0;
 	dayOfAppointment: number = 0;
