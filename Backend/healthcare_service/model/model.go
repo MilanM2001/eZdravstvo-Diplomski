@@ -8,7 +8,7 @@ type Pregled struct {
 	ID                primitive.ObjectID `json:"id" bson:"_id"`
 	PocetakPregleda   int64              `json:"pocetakPregleda" bson:"pocetakPregleda"`
 	ZavrsetakPregleda int64              `json:"zavrsetakPregleda" bson:"zavrsetakPregleda"`
-	TipVakcine        TipVakcine         `bson:"tipVakcine" bson:"tipVakcine"`
+	Vakcina           Vakcina            `bson:"vakcina" bson:"vakcina"`
 	TipPregleda       TipPregleda        `json:"tipPregleda" bson:"tipPregleda"`
 	Gradjanin         *User              `json:"gradjanin" bson:"gradjanin"`
 	Lekar             *User              `json:"lekar" bson:"lekar"`
@@ -39,7 +39,7 @@ const (
 	Zenski = "Zenski"
 )
 
-type TipVakcine struct {
+type Vakcina struct {
 	ID        primitive.ObjectID `json:"id" bson:"_id"`
 	Naziv     string             `json:"naziv" bson:"naziv"`
 	Kompanija string             `json:"kompanija" bson:"kompanija"`

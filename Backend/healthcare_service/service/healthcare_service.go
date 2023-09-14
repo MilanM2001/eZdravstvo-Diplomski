@@ -172,6 +172,30 @@ func (service *HealthcareService) DeletePregledID(id primitive.ObjectID) error {
 	return service.repository.DeletePregledID(id)
 }
 
+func (service *HealthcareService) GetSveVakcine() ([]*model.Vakcina, error) {
+	return service.repository.GetSveVakcine()
+}
+
+func (service *HealthcareService) GetVakcinaID(id primitive.ObjectID) (*model.Vakcina, error) {
+	return service.repository.GetVakcinaID(id)
+}
+
+func (service *HealthcareService) PostVakcina(vakcina *model.Vakcina) (int, error) {
+	vakcina.ID = primitive.NewObjectID()
+
+	err := service.repository.PostVakcina(vakcina)
+	if err != nil {
+		log.Println("Error in trying to save Vakcina")
+		return 0, err
+	}
+
+	return 0, nil
+}
+
+func (service *HealthcareService) DeleteVakcinaID(id primitive.ObjectID) error {
+	return service.repository.DeleteVakcinaID(id)
+}
+
 func (service *HealthcareService) GetMe(jmbg string) (*model.User, error) {
 	dataToSend, err := json.Marshal(jmbg)
 	if err != nil {

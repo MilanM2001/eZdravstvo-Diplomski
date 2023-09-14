@@ -39,6 +39,11 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/getSviSlobodniPregledi", controller.GetSviSlobodniPregledi).Methods("GET")
 	router.HandleFunc("/getPregledID/{id}", controller.GetPregledID).Methods("GET")
 	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
+
+	router.HandleFunc("/getSveVakcine", controller.GetSveVakcine).Methods("GET")
+	router.HandleFunc("/getVakcinaID", controller.GetVakcinaID).Methods("GET")
+	router.HandleFunc("/postVakcina", controller.PostVakcina).Methods("POST")
+
 	//router.HandleFunc("/setAppointment/{id}", controller.SetAppointment).Methods("PUT")
 	//router.HandleFunc("/deleteAppointmentByID/{id}", controller.DeleteAppointmentByID).Methods("DELETE")
 
@@ -162,6 +167,64 @@ func (controller *HealthcareController) PostPregled(writer http.ResponseWriter, 
 	}
 
 	jsonResponse(pregled, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetSveVakcine(writer http.ResponseWriter, req *http.Request) {
+	vakcine, err := controller.service.GetSveVakcine()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(vakcine, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetVakcinaID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	vakcina, err := controller.service.GetVakcinaID(objectID)
+	if err != nil {
+		log.Println("Error finding Vakcina By ID")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	jsonResponse(vakcina, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) PostVakcina(writer http.ResponseWriter, req *http.Request) {
+	var vakcina model.Vakcina
+	err := json.NewDecoder(req.Body).Decode(&vakcina)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("There is a problem in decoding JSON"))
+		return
+	}
+
+	_, err = controller.service.PostVakcina(&vakcina)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	jsonResponse(vakcina, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) DeleteVakcinaID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	err = controller.service.DeleteVakcinaID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
 	writer.WriteHeader(http.StatusOK)
 }
 

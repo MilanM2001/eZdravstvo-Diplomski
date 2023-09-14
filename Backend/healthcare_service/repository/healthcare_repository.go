@@ -15,6 +15,12 @@ type HealthcareRepository interface {
 	PostPregled(appointment *model.Pregled) error
 	PutPregled(appointment *model.Pregled) error
 	DeletePregledID(id primitive.ObjectID) error
+
+	GetSveVakcine() ([]*model.Vakcina, error)
+	GetVakcinaID(id primitive.ObjectID) (*model.Vakcina, error)
+	PostVakcina(tipVakcine *model.Vakcina) error
+	PutVakcina(tipVakcine *model.Vakcina) error
+	DeleteVakcinaID(id primitive.ObjectID) error
 	//
 	//GetAllVaccinations() ([]*model.Vaccination, error)
 	//GetMyVaccinationsDoctor(id primitive.ObjectID) ([]*model.Vaccination, error)

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AddAppointment } from 'src/app/dto/addAppointment';
+import { Pregled } from 'src/app/models/pregled.model';
 import { HealthcareService } from 'src/app/services/healthcare.service';
 
 @Component({
@@ -11,9 +12,11 @@ import { HealthcareService } from 'src/app/services/healthcare.service';
 })
 export class PregledAddComponent implements OnInit {
 
-  appointmentFormGroup: FormGroup = new FormGroup({
-    startOfAppointment: new FormControl(''),
-    endOfAppointment: new FormControl('')
+  pregledFormGroup: FormGroup = new FormGroup({
+    pocetakPregleda: new FormControl(''),
+    zavrsetakPregleda: new FormControl(''),
+    tipVakcine: new FormControl(''),
+    tipPregleda: new FormControl('')
   });
 
   constructor(private healthcareService: HealthcareService,
@@ -25,14 +28,16 @@ export class PregledAddComponent implements OnInit {
   alreadyExists = false;
 
   ngOnInit(): void {
-    this.appointmentFormGroup = this.formBuilder.group({
-      startOfAppointment: ['', [Validators.required]],
-      endOfAppointment: ['', [Validators.required]]
+    this.pregledFormGroup = this.formBuilder.group({
+      pocetakPregleda: ['', [Validators.required]],
+      zavrsetakPregleda: ['', [Validators.required]],
+      tipVakcine: ['', [Validators.required]],
+      tipPregleda: ['', [Validators.required]]
     });
   }
 
-  get appointmentGroup(): { [key: string]: AbstractControl } {
-    return this.appointmentFormGroup.controls;
+  get pregledGroup(): { [key: string]: AbstractControl } {
+    return this.pregledFormGroup.controls;
   }
 
   removeError() {
@@ -42,29 +47,34 @@ export class PregledAddComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    if (this.appointmentFormGroup.invalid) {
+    if (this.pregledFormGroup.invalid) {
       return;
     }
 
-    let addAppointment: AddAppointment = new AddAppointment();
+    let addPregled: Pregled = new Pregled();
 
-    var StartOfAppointment: Date = new Date(this.appointmentFormGroup.get('startOfAppointment')?.value)
-    var EndOfAppointment: Date = new Date(this.appointmentFormGroup.get('endOfAppointment')?.value)
+    var PocetakPregleda: Date = new Date(this.pregledFormGroup.get('pocetakPregleda')?.value)
+    var ZavrsetakPregleda: Date = new Date(this.pregledFormGroup.get('zavrsetakPregleda')?.value)
 
-    addAppointment.startOfAppointment = Number(StartOfAppointment.getTime()) / 1000;
-    addAppointment.endOfAppointment = Number(EndOfAppointment.getTime()) / 1000;
+    addPregled.pocetakPregleda = Number(PocetakPregleda.getTime()) / 1000;
+    addPregled.zavrsetakPregleda = Number(ZavrsetakPregleda.getTime()) / 1000;
+    addPregled.tipPregleda = this.pregledFormGroup.get('tipPregleda')?.value
+    addPregled.tipVakcine = this.pregledFormGroup.get('tipVakcine')?.value
 
-    this.healthcareService.AddAppointment(addAppointment)
-      .subscribe({
-        next: (data) => {
-          this.router.navigate(['/Appointments-Doctor']);
-        },
-        error: (error) => {
-          console.log(error);
-          this.alreadyExists = true;
-        }
-      })
+    console.log(addPregled)
+    // this.healthcareService.AddAppointment(addAppointment)
+    //   .subscribe({
+    //     next: (data) => {
+    //       this.router.navigate(['/Appointments-Doctor']);
+    //     },
+    //     error: (error) => {
+    //       console.log(error);
+    //       this.alreadyExists = true;
+    //     }
+    //   })
 
   }
+
+  tipoviPregleda = new Array("Obican", "Vakcinacija")
 
 }

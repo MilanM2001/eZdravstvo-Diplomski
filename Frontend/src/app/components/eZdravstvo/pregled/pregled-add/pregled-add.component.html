@@ -3,21 +3,32 @@
         <mat-card class="add-appointment-card">
             <mat-card-title class="card-title-main">Kreiranje Novog Pregleda</mat-card-title>
             <div class="form-group">
-                <form [formGroup]="appointmentFormGroup">
+                <form [formGroup]="pregledFormGroup">
+
+                    <div class="form-outline mb-4">
+                        <select id="tipPregleda" class="form-control form-control-lg" formControlName="tipPregleda"
+                        [ngClass]="{ 'is-invalid': submitted && pregledGroup['tipPregleda'].errors }">
+                          <option [value]="tipPregleda" *ngFor="let tipPregleda of tipoviPregleda">{{tipPregleda}}</option>
+                        </select>
+                        <div *ngIf="submitted && pregledGroup['tipPregleda'].errors" class="invalid-feedback">
+                          <div *ngIf="pregledGroup['tipPregleda'].errors['required']">Država je obavezna.</div>
+                        </div>
+                        <label class="form-label" for="tipPregleda">TipPregleda</label>
+                    </div>
 
                     <mat-form-field class="date-pick" appearance="outline">
                         <mat-label>Početak i Kraj</mat-label>
                             <mat-date-range-input [rangePicker]="picker">
                                 <input matStartDate formControlName="startOfAppointment" placeholder="Početak"
-                                [ngClass]="{ 'is-invalid': submitted && appointmentGroup['startOfAppointment'].errors }">
-                                <div *ngIf="submitted && appointmentGroup['startOfAppointment'].errors" class="invalid-feedback">
-                                    <div *ngIf="appointmentGroup['startOfAppointment'].errors['required']">Početak je obavezan.</div>
+                                [ngClass]="{ 'is-invalid': submitted && pregledGroup['startOfAppointment'].errors }">
+                                <div *ngIf="submitted && pregledGroup['startOfAppointment'].errors" class="invalid-feedback">
+                                    <div *ngIf="pregledGroup['startOfAppointment'].errors['required']">Početak je obavezan.</div>
                                 </div>
 
                                 <input matEndDate formControlName="endOfAppointment" placeholder="Kraj"
-                                [ngClass]="{ 'is-invalid': submitted && appointmentGroup['endOfAppointment'].errors }">
-                                <div *ngIf="submitted && appointmentGroup['endOfAppointment'].errors" class="invalid-feedback">
-                                    <div *ngIf="appointmentGroup['endOfAppointment'].errors['required']">Kraj je obavezan.</div>
+                                [ngClass]="{ 'is-invalid': submitted && pregledGroup['endOfAppointment'].errors }">
+                                <div *ngIf="submitted && pregledGroup['endOfAppointment'].errors" class="invalid-feedback">
+                                    <div *ngIf="pregledGroup['endOfAppointment'].errors['required']">Kraj je obavezan.</div>
                                 </div>
                             </mat-date-range-input>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -30,8 +41,8 @@
                         </button>
                     </h2>
 
-                    <h2 class="time-display">Početak: {{appointmentFormGroup.value.startOfAppointment | date}}</h2>
-                    <h2 class="time-display">Kraj: {{appointmentFormGroup.value.endOfAppointment | date}}</h2>
+                    <h2 class="time-display">Početak: {{pregledFormGroup.value.startOfAppointment | date}}</h2>
+                    <h2 class="time-display">Kraj: {{pregledFormGroup.value.endOfAppointment | date}}</h2>
                     
                     <div class="form-group form-check">
                         <button type="submit" class="btn btn-primary" (click)="onSubmit()">Dodaj</button>

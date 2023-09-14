@@ -11,23 +11,23 @@ import (
 )
 
 type HealthcareRepositoryImpl struct {
-	pregled    *mongo.Collection
-	tipVakcine *mongo.Collection
+	pregled *mongo.Collection
+	vakcina *mongo.Collection
 }
 
 const (
-	DATABASE               = "healthcare"
-	COLLECTION_PREGLED     = "pregled"
-	COLLECTION_TIP_VAKCINE = "tipVakcine"
+	DATABASE           = "healthcare"
+	COLLECTION_PREGLED = "pregled"
+	COLLECTION_VAKCINA = "vakcina"
 )
 
 func NewAuthRepositoryImpl(client *mongo.Client) repository.HealthcareRepository {
 	pregled := client.Database(DATABASE).Collection(COLLECTION_PREGLED)
-	tipVakcine := client.Database(DATABASE).Collection(COLLECTION_TIP_VAKCINE)
+	vakcina := client.Database(DATABASE).Collection(COLLECTION_VAKCINA)
 
 	return &HealthcareRepositoryImpl{
-		pregled:    pregled,
-		tipVakcine: tipVakcine,
+		pregled: pregled,
+		vakcina: vakcina,
 	}
 }
 
@@ -104,9 +104,61 @@ func (repository *HealthcareRepositoryImpl) filterPregledi(filter interface{}) (
 	return decodePregled(cursor)
 }
 
-func (repository *HealthcareRepositoryImpl) filterOnePregled(filter interface{}) (appointment *model.Pregled, err error) {
+func (repository *HealthcareRepositoryImpl) filterOnePregled(filter interface{}) (pregled *model.Pregled, err error) {
 	result := repository.pregled.FindOne(context.Background(), filter)
-	err = result.Decode(&appointment)
+	err = result.Decode(&pregled)
+	return
+}
+
+//Vakcine
+
+func (repository *HealthcareRepositoryImpl) GetSveVakcine() ([]*model.Vakcina, error) {
+	filter := bson.M{}
+	return repository.filterVakcine(filter)
+}
+
+func (repository *HealthcareRepositoryImpl) GetVakcinaID(id primitive.ObjectID) (*model.Vakcina, error) {
+	filter := bson.M{"_id": id}
+	return repository.filterOneTipVakcine(filter)
+}
+
+func (repository *HealthcareRepositoryImpl) PostVakcina(vakcina *model.Vakcina) error {
+	_, err := repository.vakcina.InsertOne(context.Background(), vakcina)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repository *HealthcareRepositoryImpl) PutVakcina(tipVakcine *model.Vakcina) error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (repository *HealthcareRepositoryImpl) DeleteVakcinaID(id primitive.ObjectID) error {
+	filter := bson.M{"_id": id}
+	_, err := repository.vakcina.DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (repository *HealthcareRepositoryImpl) filterVakcine(filter interface{}) ([]*model.Vakcina, error) {
+	cursor, err := repository.vakcina.Find(context.Background(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return decodeVakcina(cursor)
+}
+
+func (repository *HealthcareRepositoryImpl) filterOneTipVakcine(filter interface{}) (tipVakcine *model.Vakcina, err error) {
+	result := repository.vakcina.FindOne(context.Background(), filter)
+	err = result.Decode(&tipVakcine)
 	return
 }
 
@@ -164,6 +216,19 @@ func decodePregled(cursor *mongo.Cursor) (pregledi []*model.Pregled, err error) 
 			return
 		}
 		pregledi = append(pregledi, &pregled)
+	}
+	err = cursor.Err()
+	return
+}
+
+func decodeVakcina(cursor *mongo.Cursor) (vakcine []*model.Vakcina, err error) {
+	for cursor.Next(context.Background()) {
+		var vakcina model.Vakcina
+		err = cursor.Decode(&vakcina)
+		if err != nil {
+			return
+		}
+		vakcine = append(vakcine, &vakcina)
 	}
 	err = cursor.Err()
 	return

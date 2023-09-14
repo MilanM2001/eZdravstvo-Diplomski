@@ -1,19 +1,23 @@
+import { TipVakcine } from "./tipVakcine.model";
 import { User } from "./user.model";
 
 export class Pregled {
-    id: number = 0;
-	dayOfAppointment: number = 0;
-    startOfAppointment: number = 0;
-    endOfAppointment: number = 0;
-    user: User = new User;
-    doctor: User = new User;
+    id: number = 0
+	pocetakPregleda: number = 0
+    zavrsetakPregleda: number = 0
+    tipVakcine: TipVakcine = new TipVakcine()
+    tipPregleda: string = ""
+    gradjanin: User = new User;
+    lekar: User = new User;
 
-    Appointment(id: number, dayOfAppointment: number, startOfAppointment: number, endOfAppointment: number, user: User, doctor: User) {
-        this.id = id;
-        this.dayOfAppointment = dayOfAppointment;
-        this.startOfAppointment = startOfAppointment;
-        this.endOfAppointment = endOfAppointment;
-        this.user = user;
-        this.doctor = doctor;
-    }
+
+	Pregled(id: number , pocetakPregleda: number , zavrsetakPregleda: number , tipVakcine: TipVakcine , tipPregleda: string , gradjanin: User , lekar: User ) {
+		this.id = id;
+		this.pocetakPregleda = pocetakPregleda;
+		this.zavrsetakPregleda = zavrsetakPregleda;
+		this.tipVakcine = tipVakcine;
+		this.tipPregleda = tipPregleda;
+		this.gradjanin = gradjanin;
+		this.lekar = lekar;
+	}
 }
