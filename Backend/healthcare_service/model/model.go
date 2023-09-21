@@ -8,7 +8,7 @@ type Pregled struct {
 	ID                primitive.ObjectID `json:"id" bson:"_id"`
 	PocetakPregleda   int64              `json:"pocetakPregleda" bson:"pocetakPregleda"`
 	ZavrsetakPregleda int64              `json:"zavrsetakPregleda" bson:"zavrsetakPregleda"`
-	Vakcina           Vakcina            `bson:"vakcina" bson:"vakcina"`
+	Vakcina           *Vakcina           `json:"vakcina" bson:"vakcina"`
 	TipPregleda       TipPregleda        `json:"tipPregleda" bson:"tipPregleda"`
 	Gradjanin         *User              `json:"gradjanin" bson:"gradjanin"`
 	Lekar             *User              `json:"lekar" bson:"lekar"`

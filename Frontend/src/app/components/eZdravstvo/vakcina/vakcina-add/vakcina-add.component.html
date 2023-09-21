@@ -1,0 +1,49 @@
+<section class="vh-100 mt-5">
+    <div class="mask d-flex align-items-center h-80 gradient-custom-3">
+      <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100" >
+          <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+            <div class="card" style="border-radius: 15px;">
+              <div class="card-body p-5">
+                <h2 class="text-uppercase text-center mb-5 text-primary">Dodavanje Vakcine</h2>
+  
+                <form [formGroup]="vakcinaFormGroup">
+
+                  <div class="form-outline mb-4">
+                    <h3 class="field-name">Naziv</h3>
+                    <input type="text" id="naziv" class="form-control form-control-lg" formControlName="naziv"
+                    [ngClass]="{ 'is-invalid': submitted && vakcinaGroup['naziv'].errors }" />
+                    <div *ngIf="submitted && vakcinaGroup['naziv'].errors" class="invalid-feedback">
+                      <div *ngIf="vakcinaGroup['naziv'].errors['required']">Naziv je obavezan.</div>
+                    </div>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <h3 class="field-name">Kompanija</h3>
+                    <input type="text" id="kompanija" class="form-control form-control-lg" formControlName="kompanija" 
+                    [ngClass]="{ 'is-invalid': submitted && vakcinaGroup['kompanija'].errors }"/>
+                    <div *ngIf="submitted && vakcinaGroup['kompanija'].errors" class="invalid-feedback">
+                      <div *ngIf="vakcinaGroup['kompanija'].errors['required']">Kompanija je obavezna.</div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="alreadyExists">
+                    <h1 class="vakcina-exists">Vakcina već postoji</h1>
+                  </div>
+  
+                  <div class="d-flex justify-content-center">
+                    <button type="button"
+                            class="btn btn-primary btn-block btn-lg gradient-custom-4 text-body" (click)="onSubmit()">Dodaj
+                    </button>
+                  </div>
+
+                </form>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

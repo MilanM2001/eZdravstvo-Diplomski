@@ -41,7 +41,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
 
 	router.HandleFunc("/getSveVakcine", controller.GetSveVakcine).Methods("GET")
-	router.HandleFunc("/getVakcinaID", controller.GetVakcinaID).Methods("GET")
+	router.HandleFunc("/getVakcinaID/{id}", controller.GetVakcinaID).Methods("GET")
 	router.HandleFunc("/postVakcina", controller.PostVakcina).Methods("POST")
 
 	//router.HandleFunc("/setAppointment/{id}", controller.SetAppointment).Methods("PUT")
@@ -205,7 +205,13 @@ func (controller *HealthcareController) PostVakcina(writer http.ResponseWriter, 
 		return
 	}
 
-	_, err = controller.service.PostVakcina(&vakcina)
+	value, err := controller.service.PostVakcina(&vakcina)
+	if value == 1 {
+		writer.WriteHeader(http.StatusNotAcceptable)
+		writer.Write([]byte("Vaccine already exists"))
+		return
+	}
+
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		return

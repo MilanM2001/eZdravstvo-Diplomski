@@ -1,0 +1,32 @@
+.btn-primary {
+    float: right;
+    margin-right: 200px;
+    margin-top: 30px;
+}
+
+.title {
+    text-align: center;
+    color: blue;
+    font-size: 45px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.table {
+    margin: auto;
+}
+
+.heads {
+    font-size: 22px;
+    color: blue;
+}
+
+.bodies {
+    font-size: 20px;
+}
+
+.btn-warning {
+    float: right;
+    margin-right: 190px;
+    margin-top: 30px;
+}

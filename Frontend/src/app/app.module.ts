@@ -48,6 +48,8 @@ import { PregledListComponent } from './components/eZdravstvo/pregled/pregled-li
 import { PregledViewComponent } from './components/eZdravstvo/pregled/pregled-view/pregled-view.component';
 import { PreglediLekarComponent } from './components/eZdravstvo/pregled/pregledi-lekar/pregledi-lekar.component';
 import { PreglediGradjaninComponent } from './components/eZdravstvo/pregled/pregledi-gradjanin/pregledi-gradjanin.component';
+import { VakcinaAddComponent } from './components/eZdravstvo/vakcina/vakcina-add/vakcina-add.component';
+import { VakcineComponent } from './components/eZdravstvo/vakcina/vakcine/vakcine.component';
 
 
 
@@ -87,7 +89,9 @@ import { PreglediGradjaninComponent } from './components/eZdravstvo/pregled/preg
     PregledListComponent,
     PregledViewComponent,
     PreglediLekarComponent,
-    PreglediGradjaninComponent
+    PreglediGradjaninComponent,
+    VakcinaAddComponent,
+    VakcineComponent,
   ],
   imports: [
     BrowserModule,

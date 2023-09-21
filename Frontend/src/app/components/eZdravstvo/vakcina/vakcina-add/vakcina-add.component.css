@@ -1,0 +1,10 @@
+.vakcina-exists {
+    text-align: center;
+    color: red;
+}
+
+.field-name {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}

@@ -1,0 +1,24 @@
+<div id="htmlData">
+    <h2 class="title">Vakcine</h2>
+  
+    <div class="table-view">
+      <table class="table w-75 text-center">
+        <thead class="heads">
+          <tr>
+            <th scope="col">Naziv</th>
+            <th scope="col">Kompanija</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let vakcina of vakcine" class="bodies">
+          <tr>
+            <td>{{vakcina.naziv}}</td>
+            <td>{{vakcina.kompanija}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+</div>
+<button class="btn btn-warning" routerLink="/Vakcina-Add">Dodavanje Vakcine</button>
+<!-- <button class="btn btn-primary" (click)="openPDF()">Preuzmi PDF</button> -->
+  

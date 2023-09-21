@@ -18,25 +18,25 @@ export class PreglediLekarComponent implements OnInit {
   constructor(private healthcareService: HealthcareService) { }
 
   ngOnInit(): void {
-    this.healthcareService.GetMyAppointmentsDoctor()
-      .subscribe({
-        next: (data) => {
-          this.appointments = data;
-        },
-        error: (error) => {
-          console.log(error)
-        }
-      })
+    // this.healthcareService.GetMyAppointmentsDoctor()
+    //   .subscribe({
+    //     next: (data) => {
+    //       this.appointments = data;
+    //     },
+    //     error: (error) => {
+    //       console.log(error)
+    //     }
+    //   })
 
-    this.healthcareService.GetMe()
-      .subscribe({
-        next: (data) => {
-          this.user = data;
-        },
-        error: (error) => {
-          console.log(error)
-        }
-      })
+    // this.healthcareService.GetMe()
+    //   .subscribe({
+    //     next: (data) => {
+    //       this.user = data;
+    //     },
+    //     error: (error) => {
+    //       console.log(error)
+    //     }
+    //   })
   }
 
   search(search_option: string) {

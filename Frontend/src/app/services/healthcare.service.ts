@@ -8,6 +8,9 @@ import { Appointment } from "../models/appointment.model";
 import { User } from "../models/user.model";
 import { Vaccination } from "../models/vaccination.model";
 import { ZdravstvenoStanje } from "../models/zdravstvenoStanje.model";
+import { Vakcina } from "../models/vakcina.model";
+import { AddVakcina } from "../dto/addVakcina";
+import { AddPregled } from "../dto/addPregled";
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +25,14 @@ export class HealthcareService {
 
     public GetAllAvailableAppointments(): Observable<Appointment[]> {
         return this.http.get<Appointment[]>(`${environment.baseApiUrl}/${this.url}/allAvailableAppointments`);
+    }
+
+    public GetSveVakcine(): Observable<Vakcina[]> {
+        return this.http.get<Vakcina[]>(`${environment.baseApiUrl}/${this.url}/getSveVakcine`);
+    }
+
+    public GetVakcinaID(id: string): Observable<Vakcina> {
+        return this.http.get<Vakcina>(`${environment.baseApiUrl}/${this.url}/getVakcinaID/` + id);
     }
 
     public GetSingleAppointment(appointment_id: string): Observable<Appointment> {
@@ -40,8 +51,12 @@ export class HealthcareService {
         return this.http.get<Appointment[]>(`${environment.baseApiUrl}/${this.url}/myTakenAppointmentsDoctor`);
     }
 
-    public AddAppointment(addAppointment: AddAppointment): Observable<AddAppointment> {
-        return this.http.post<AddAppointment>(`${environment.baseApiUrl}/${this.url}/newAppointment`, addAppointment);
+    public PostVakcina(vakcina: AddVakcina): Observable<AddVakcina> {
+        return this.http.post<AddVakcina>(`${environment.baseApiUrl}/${this.url}/postVakcina`, vakcina);
+    }
+
+    public PostPregled(pregled: AddPregled): Observable<AddPregled> {
+        return this.http.post<AddPregled>(`${environment.baseApiUrl}/${this.url}/postPregled`, pregled);
     }
 
     public SetAppointment(id: string) {

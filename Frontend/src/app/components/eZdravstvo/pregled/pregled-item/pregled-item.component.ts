@@ -16,7 +16,7 @@ export class PregledItemComponent implements OnInit {
   }
 
   isTaken(): boolean {
-    if (this.pregled.user != null) {
+    if (this.pregled.gradjanin != null) {
       return true;
     } else {
       return false;

@@ -24,6 +24,8 @@ import { UserDiedComponent } from './components/eZdravstvo/user-died/user-died.c
 import { PreglediLekarComponent } from './components/eZdravstvo/pregled/pregledi-lekar/pregledi-lekar.component';
 import { PreglediGradjaninComponent } from './components/eZdravstvo/pregled/pregledi-gradjanin/pregledi-gradjanin.component';
 import { PregledAddComponent } from './components/eZdravstvo/pregled/pregled-add/pregled-add.component';
+import { VakcinaAddComponent } from './components/eZdravstvo/vakcina/vakcina-add/vakcina-add.component';
+import { VakcineComponent } from './components/eZdravstvo/vakcina/vakcine/vakcine.component';
 
 const routes: Routes = [
   {
@@ -33,10 +35,6 @@ const routes: Routes = [
   {
     path: "Register",
     component: RegisterComponent
-  },
-  {
-    path: "New-Person",
-    component: AddPersonRegistryComponent
   },
   {
     path: "Pregledi-Lekar",
@@ -51,52 +49,12 @@ const routes: Routes = [
     component: PregledAddComponent
   },
   {
-    path: "Appointments-Doctor",
-    component: AppointmentsDoctorComponent
+    path: "Vakcine",
+    component: VakcineComponent
   },
   {
-    path: "Appointments-Regular",
-    component: AppointmentsRegularComponent
-  },
-  {
-    path: "Appointment-Add",
-    component: AppointmentAddComponent
-  },
-  {
-    path: "Appointment-View/:id",
-    component: AppointmentViewComponent
-  },
-  {
-    path: "Vaccinations-Doctor",
-    component: VaccinationsDoctorComponent
-  },
-  {
-    path: "Vaccinations-Regular",
-    component: VaccinationsRegularComponent
-  },
-  {
-    path: "Vaccination-Add",
-    component: VaccinationAddComponent
-  },
-  {
-    path: "Vaccination-View/:id",
-    component: VaccinationViewComponent
-  },
-  {
-    path: "Zdravstvena-Stanja-Doctor",
-    component: ZdravstvenaStanjaDoctorComponent
-  },
-  {
-    path: "Zdravstveno-Stanje-View-My",
-    component: ZdravstvenoStanjeViewMyComponent
-  },
-  {
-    path: "Vaccinations-My-Regular",
-    component: VaccinationsMyRegularComponent
-  },
-  {
-    path: "Zdravstveno-Stanje-Add",
-    component: ZdravstvenoStanjeAddComponent
+    path: "Vakcina-Add",
+    component: VakcinaAddComponent
   },
   {
     path: "User-Died",

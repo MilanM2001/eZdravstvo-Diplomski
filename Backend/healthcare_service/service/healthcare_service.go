@@ -126,6 +126,9 @@ func (service *HealthcareService) PostPregled(pregled *model.Pregled, jmbg strin
 	pregled.ID = primitive.NewObjectID()
 	pregled.Lekar = &lekar
 	pregled.Gradjanin = nil
+	if pregled.TipPregleda == "Obican" {
+		pregled.Vakcina = nil
+	}
 
 	err = service.repository.PostPregled(pregled)
 	if err != nil {

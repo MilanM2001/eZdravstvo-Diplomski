@@ -54,16 +54,16 @@ export class AppointmentAddComponent implements OnInit {
     addAppointment.startOfAppointment = Number(StartOfAppointment.getTime()) / 1000;
     addAppointment.endOfAppointment = Number(EndOfAppointment.getTime()) / 1000;
 
-    this.healthcareService.AddAppointment(addAppointment)
-      .subscribe({
-        next: (data) => {
-          this.router.navigate(['/Appointments-Doctor']);
-        },
-        error: (error) => {
-          console.log(error);
-          this.alreadyExists = true;
-        }
-      })
+    // this.healthcareService.AddAppointment(addAppointment)
+    //   .subscribe({
+    //     next: (data) => {
+    //       this.router.navigate(['/Appointments-Doctor']);
+    //     },
+    //     error: (error) => {
+    //       console.log(error);
+    //       this.alreadyExists = true;
+    //     }
+    //   })
 
   }
 

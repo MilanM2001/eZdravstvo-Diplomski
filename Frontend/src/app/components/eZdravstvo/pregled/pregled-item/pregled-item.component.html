@@ -5,10 +5,10 @@
     <mat-card-title *ngIf="!isTaken()" class="appointment-title-available" [routerLink]="['/Appointment-View', pregled.id]">
       Slobodan Pregled
     </mat-card-title>
-    <mat-card-title class="appointment-doctor">Doktor: {{pregled.doctor.ime + " " + pregled.doctor.prezime}}</mat-card-title>
-    <mat-card-title *ngIf="isTaken()" class="appointment-user">Pacijent: {{pregled.user.ime + " " + pregled.user.prezime}}</mat-card-title>
+    <mat-card-title class="appointment-doctor">Lekar: {{pregled.lekar.ime + " " + pregled.lekar.prezime}}</mat-card-title>
+    <mat-card-title *ngIf="isTaken()" class="appointment-user">Pacijent: {{pregled.gradjanin.ime + " " + pregled.gradjanin.prezime}}</mat-card-title>
     <mat-card-content>
-      <p class="appointment-start">Početak: {{pregled.startOfAppointment * 1000 | date: "longDate"}}</p>
-      <p class="appointment-end">Kraj: {{pregled.endOfAppointment * 1000 | date: "longDate"}}</p>
+      <p class="appointment-start">Početak: {{pregled.pocetakPregleda * 1000 | date: "longDate"}}</p>
+      <p class="appointment-end">Kraj: {{pregled.zavrsetakPregleda * 1000 | date: "longDate"}}</p>
     </mat-card-content>
   </mat-card>
