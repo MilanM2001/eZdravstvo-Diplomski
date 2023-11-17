@@ -186,7 +186,36 @@ func (service *HealthcareService) GetVakcinaID(id primitive.ObjectID) (*model.Va
 func (service *HealthcareService) PostVakcina(vakcina *model.Vakcina) (int, error) {
 	vakcina.ID = primitive.NewObjectID()
 
+	existingVakcina, _ := service.repository.GetVakcinaNaziv(vakcina.Naziv)
+	if existingVakcina != nil {
+		return 1, nil
+	}
+
 	err := service.repository.PostVakcina(vakcina)
+	if err != nil {
+		log.Println("Error in trying to save Vakcina")
+		return 0, err
+	}
+
+	return 0, nil
+}
+
+func (service *HealthcareService) PutVakcina(vakcina *model.Vakcina, id primitive.ObjectID) (int, error) {
+	updateVakcina, err := service.repository.GetVakcinaID(id)
+	if err != nil {
+		log.Println("Error in trying to update Vakcina")
+		return 0, err
+	}
+
+	existingVakcina, _ := service.repository.GetVakcinaNaziv(vakcina.Naziv)
+	if existingVakcina != nil {
+		return 1, nil
+	}
+
+	updateVakcina.Naziv = vakcina.Naziv
+	updateVakcina.Kompanija = vakcina.Kompanija
+
+	err = service.repository.PutVakcina(updateVakcina)
 	if err != nil {
 		log.Println("Error in trying to save Vakcina")
 		return 0, err

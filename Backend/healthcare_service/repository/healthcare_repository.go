@@ -18,6 +18,7 @@ type HealthcareRepository interface {
 
 	GetSveVakcine() ([]*model.Vakcina, error)
 	GetVakcinaID(id primitive.ObjectID) (*model.Vakcina, error)
+	GetVakcinaNaziv(naziv string) (*model.Vakcina, error)
 	PostVakcina(tipVakcine *model.Vakcina) error
 	PutVakcina(tipVakcine *model.Vakcina) error
 	DeleteVakcinaID(id primitive.ObjectID) error

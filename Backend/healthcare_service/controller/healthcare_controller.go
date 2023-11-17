@@ -43,6 +43,9 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/getSveVakcine", controller.GetSveVakcine).Methods("GET")
 	router.HandleFunc("/getVakcinaID/{id}", controller.GetVakcinaID).Methods("GET")
 	router.HandleFunc("/postVakcina", controller.PostVakcina).Methods("POST")
+	router.HandleFunc("/putVakcina", controller.PutVakcina).Methods("PUT")
+	router.HandleFunc("/deleteVakcinaID/{id}", controller.DeleteVakcinaID).Methods("DELETE")
+	router.HandleFunc("/putVakcina/{id}", controller.PutVakcina).Methods("PUT")
 
 	//router.HandleFunc("/setAppointment/{id}", controller.SetAppointment).Methods("PUT")
 	//router.HandleFunc("/deleteAppointmentByID/{id}", controller.DeleteAppointmentByID).Methods("DELETE")
@@ -206,14 +209,41 @@ func (controller *HealthcareController) PostVakcina(writer http.ResponseWriter, 
 	}
 
 	value, err := controller.service.PostVakcina(&vakcina)
-	if value == 1 {
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	} else if value == 1 {
 		writer.WriteHeader(http.StatusNotAcceptable)
 		writer.Write([]byte("Vaccine already exists"))
 		return
 	}
 
+	jsonResponse(vakcina, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) PutVakcina(writer http.ResponseWriter, req *http.Request) {
+	var vakcina model.Vakcina
+	err := json.NewDecoder(req.Body).Decode(&vakcina)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("There is a problem in decoding JSON"))
+		return
+	}
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	value, err := controller.service.PutVakcina(&vakcina, objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	} else if value == 1 {
+		writer.WriteHeader(http.StatusNotAcceptable)
+		writer.Write([]byte("Vaccine already exists"))
 		return
 	}
 

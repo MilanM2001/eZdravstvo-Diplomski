@@ -11,7 +11,7 @@
         </thead>
         <tbody *ngFor="let vakcina of vakcine" class="bodies">
           <tr>
-            <td>{{vakcina.naziv}}</td>
+            <td [routerLink]="['/Vakcina-View', vakcina.id]">{{vakcina.naziv}}</td>
             <td>{{vakcina.kompanija}}</td>
           </tr>
         </tbody>

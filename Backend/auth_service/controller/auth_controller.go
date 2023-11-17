@@ -28,18 +28,11 @@ func (controller *AuthController) Init(router *mux.Router) {
 		log.Fatal(err)
 	}
 
-	//router.HandleFunc("/getAll", controller.GetAll).Methods("GET")
 	router.HandleFunc("/registration", controller.SignUp).Methods("POST")
 	router.HandleFunc("/login", controller.Login).Methods("POST")
-	router.HandleFunc("/test", controller.Test).Methods("GET")
 
 	http.Handle("/", router)
 	log.Fatal(http.ListenAndServe(":8002", authorization.Authorizer(authEnforcer)(router)))
-}
-
-func (controller *AuthController) Test(response http.ResponseWriter, request *http.Request) {
-	response.WriteHeader(http.StatusOK)
-	response.Write([]byte("Okej test"))
 }
 
 func (controller *AuthController) SignUp(response http.ResponseWriter, request *http.Request) {

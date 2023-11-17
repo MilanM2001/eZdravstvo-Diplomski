@@ -122,6 +122,11 @@ func (repository *HealthcareRepositoryImpl) GetVakcinaID(id primitive.ObjectID) 
 	return repository.filterOneTipVakcine(filter)
 }
 
+func (repository *HealthcareRepositoryImpl) GetVakcinaNaziv(naziv string) (*model.Vakcina, error) {
+	filter := bson.M{"naziv": naziv}
+	return repository.filterOneTipVakcine(filter)
+}
+
 func (repository *HealthcareRepositoryImpl) PostVakcina(vakcina *model.Vakcina) error {
 	_, err := repository.vakcina.InsertOne(context.Background(), vakcina)
 	if err != nil {
@@ -130,9 +135,16 @@ func (repository *HealthcareRepositoryImpl) PostVakcina(vakcina *model.Vakcina) 
 	return nil
 }
 
-func (repository *HealthcareRepositoryImpl) PutVakcina(tipVakcine *model.Vakcina) error {
-	//TODO implement me
-	panic("implement me")
+func (repository *HealthcareRepositoryImpl) PutVakcina(vakcina *model.Vakcina) error {
+	filter := bson.M{"_id": vakcina.ID}
+	update := bson.D{{"$set", vakcina}}
+	_, err := repository.vakcina.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		log.Println("Updating Pregled Error MongoDB", err.Error())
+		return err
+	}
+
+	return nil
 }
 
 func (repository *HealthcareRepositoryImpl) DeleteVakcinaID(id primitive.ObjectID) error {

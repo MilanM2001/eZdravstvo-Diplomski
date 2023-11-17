@@ -15,6 +15,8 @@
                     [ngClass]="{ 'is-invalid': submitted && vakcinaGroup['naziv'].errors }" />
                     <div *ngIf="submitted && vakcinaGroup['naziv'].errors" class="invalid-feedback">
                       <div *ngIf="vakcinaGroup['naziv'].errors['required']">Naziv je obavezan.</div>
+                      <div *ngIf="vakcinaGroup['naziv'].errors['minlength']">Naziv mora biti bar 2 karaktera.</div>
+                      <div *ngIf="vakcinaGroup['naziv'].errors['maxlength']">Naziv ne može biti duži od 20 karaktera.</div>
                     </div>
                   </div>
 
@@ -24,6 +26,8 @@
                     [ngClass]="{ 'is-invalid': submitted && vakcinaGroup['kompanija'].errors }"/>
                     <div *ngIf="submitted && vakcinaGroup['kompanija'].errors" class="invalid-feedback">
                       <div *ngIf="vakcinaGroup['kompanija'].errors['required']">Kompanija je obavezna.</div>
+                      <div *ngIf="vakcinaGroup['kompanija'].errors['minlength']">Komapnija mora biti bar 2 karaktera.</div>
+                      <div *ngIf="vakcinaGroup['kompanija'].errors['maxlength']">Kompanija ne može biti duža od 20 karaktera.</div>
                     </div>
                   </div>
 

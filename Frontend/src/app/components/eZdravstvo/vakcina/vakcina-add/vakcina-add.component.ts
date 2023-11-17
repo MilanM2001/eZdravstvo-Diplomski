@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AddVakcina } from 'src/app/dto/addVakcina';
-import { Vakcina } from 'src/app/models/vakcina.model';
 import { HealthcareService } from 'src/app/services/healthcare.service';
 
 @Component({
@@ -27,8 +26,8 @@ export class VakcinaAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.vakcinaFormGroup = this.formBuilder.group({
-      naziv: ['', [Validators.required]],
-      kompanija: ['', [Validators.required]]
+      naziv: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      kompanija: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]]
     })
   }
 
@@ -54,10 +53,13 @@ export class VakcinaAddComponent implements OnInit {
       .subscribe({
         next: (data) => {
           console.log("Uspeh")
-          this.router.navigate(['/Pregledi-Lekar']);
+          this.router.navigate(['/Vakcine']);
         },
         error: (error) => {
           console.log(error)
+          if (error.status == 406) {
+            this.alreadyExists = true
+          }
         }
       })
   }

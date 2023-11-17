@@ -55,6 +55,14 @@ export class HealthcareService {
         return this.http.post<AddVakcina>(`${environment.baseApiUrl}/${this.url}/postVakcina`, vakcina);
     }
 
+    public PutVakcina(vakcina: AddVakcina, id: string): Observable<AddVakcina> {
+        return this.http.put<AddVakcina>(`${environment.baseApiUrl}/${this.url}/putVakcina/` + id, vakcina)
+    }
+
+    public DeleteVakcinaID(id: string) {
+        return this.http.delete(`${environment.baseApiUrl}/${this.url}/deleteVakcinaID/` + id)
+    }
+
     public PostPregled(pregled: AddPregled): Observable<AddPregled> {
         return this.http.post<AddPregled>(`${environment.baseApiUrl}/${this.url}/postPregled`, pregled);
     }
