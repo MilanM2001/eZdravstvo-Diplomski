@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AddVakcina } from 'src/app/dto/addVakcina';
 import { HealthcareService } from 'src/app/services/healthcare.service';
@@ -7,61 +13,73 @@ import { HealthcareService } from 'src/app/services/healthcare.service';
 @Component({
   selector: 'app-vakcina-add',
   templateUrl: './vakcina-add.component.html',
-  styleUrls: ['./vakcina-add.component.css']
+  styleUrls: ['./vakcina-add.component.css'],
 })
 export class VakcinaAddComponent implements OnInit {
-
   vakcinaFormGroup: FormGroup = new FormGroup({
     naziv: new FormControl(''),
-    kompanija: new FormControl('')
-  })
+    kompanija: new FormControl(''),
+  });
 
-  constructor(private healthcareService: HealthcareService,
-              private formBuilder: FormBuilder,
-              private router: Router) 
-  { }
+  constructor(
+    private healthcareService: HealthcareService,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {}
 
-  submitted = false
-  alreadyExists = false
+  submitted = false;
+  alreadyExists = false;
 
   ngOnInit(): void {
     this.vakcinaFormGroup = this.formBuilder.group({
-      naziv: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
-      kompanija: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]]
-    })
+      naziv: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(20),
+        ],
+      ],
+      kompanija: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(20),
+        ],
+      ],
+    });
   }
 
   get vakcinaGroup(): { [key: string]: AbstractControl } {
-    return this.vakcinaFormGroup.controls
+    return this.vakcinaFormGroup.controls;
   }
 
   onSubmit() {
-    this.submitted = true
+    this.submitted = true;
 
     if (this.vakcinaFormGroup.invalid) {
-      return
+      return;
     }
 
-    let vakcina: AddVakcina = new AddVakcina()
+    let vakcina: AddVakcina = new AddVakcina();
 
-    vakcina.naziv = this.vakcinaFormGroup.get('naziv')?.value
-    vakcina.kompanija = this.vakcinaFormGroup.get('kompanija')?.value
+    vakcina.naziv = this.vakcinaFormGroup.get('naziv')?.value;
+    vakcina.kompanija = this.vakcinaFormGroup.get('kompanija')?.value;
 
-    console.log(vakcina)
+    console.log(vakcina);
 
-    this.healthcareService.PostVakcina(vakcina)
-      .subscribe({
-        next: (data) => {
-          console.log("Uspeh")
-          this.router.navigate(['/Vakcine']);
-        },
-        error: (error) => {
-          console.log(error)
-          if (error.status == 406) {
-            this.alreadyExists = true
-          }
+    this.healthcareService.PostVakcina(vakcina).subscribe({
+      next: (data) => {
+        console.log('Uspeh');
+        this.router.navigate(['/Vakcine']);
+      },
+      error: (error) => {
+        console.log(error);
+        if (error.status == 406) {
+          this.alreadyExists = true;
         }
-      })
+      },
+    });
   }
-
 }

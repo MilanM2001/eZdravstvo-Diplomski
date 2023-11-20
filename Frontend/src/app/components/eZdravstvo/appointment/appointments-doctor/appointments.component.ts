@@ -19,64 +19,64 @@ export class AppointmentsDoctorComponent implements OnInit {
   constructor(private healthcareService: HealthcareService) { }
 
   ngOnInit(): void {
-    this.healthcareService.GetMyAppointmentsDoctor()
-      .subscribe({
-        next: (data) => {
-          this.appointments = data;
-        },
-        error: (error) => {
-          console.log(error)
-        }
-      })
+  //   this.healthcareService.GetMyAppointmentsDoctor()
+  //     .subscribe({
+  //       next: (data) => {
+  //         this.appointments = data;
+  //       },
+  //       error: (error) => {
+  //         console.log(error)
+  //       }
+  //     })
 
-    this.healthcareService.GetMe()
-      .subscribe({
-        next: (data) => {
-          this.user = data;
-        },
-        error: (error) => {
-          console.log(error)
-        }
-      })
-  }
+  //   this.healthcareService.GetMe()
+  //     .subscribe({
+  //       next: (data) => {
+  //         this.user = data;
+  //       },
+  //       error: (error) => {
+  //         console.log(error)
+  //       }
+  //     })
+  // }
 
-  search(search_option: string) {
+  // search(search_option: string) {
 
-    if (search_option == "Slobodni") {
-      this.healthcareService.GetMyAvailableAppointmentsDoctor()
-        .subscribe({
-          next: (data) => {
-            this.appointments = data;
-          },
-          error: (error) => {
-            console.log(error)
-          }
-        })
-    }
+  //   if (search_option == "Slobodni") {
+  //     this.healthcareService.GetMyAvailableAppointmentsDoctor()
+  //       .subscribe({
+  //         next: (data) => {
+  //           this.appointments = data;
+  //         },
+  //         error: (error) => {
+  //           console.log(error)
+  //         }
+  //       })
+  //   }
 
-    if (search_option == "Zauzeti") {
-      this.healthcareService.GetMyTakenAppointmentsDoctor()
-        .subscribe({
-          next: (data) => {
-            this.appointments = data;
-          },
-          error: (error) => {
-            console.log(error)
-          }
-        })
-    }
+  //   if (search_option == "Zauzeti") {
+  //     this.healthcareService.GetMyTakenAppointmentsDoctor()
+  //       .subscribe({
+  //         next: (data) => {
+  //           this.appointments = data;
+  //         },
+  //         error: (error) => {
+  //           console.log(error)
+  //         }
+  //       })
+  //   }
 
-    if (search_option == "Svi") {
-      this.healthcareService.GetMyAppointmentsDoctor()
-        .subscribe({
-          next: (data) => {
-            this.appointments = data;
-          },
-          error: (error) => {
-            console.log(error)
-          }
-        })
-    }
+  //   if (search_option == "Svi") {
+  //     this.healthcareService.GetMyAppointmentsDoctor()
+  //       .subscribe({
+  //         next: (data) => {
+  //           this.appointments = data;
+  //         },
+  //         error: (error) => {
+  //           console.log(error)
+  //         }
+  //       })
+  //   }
 
   }
 

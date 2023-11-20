@@ -32,10 +32,13 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 		log.Fatal(err)
 	}
 
+	//Lekar
 	router.HandleFunc("/getSviPregledi", controller.GetSviPregledi).Methods("GET")
 	router.HandleFunc("/getMojiPreglediLekar", controller.GetMojiPreglediLekar).Methods("GET")
 	router.HandleFunc("/getMojiSlobodniPreglediLekar", controller.GetMojiSlobodniPreglediLekar).Methods("GET")
 	router.HandleFunc("/getMojiZauzetiPreglediLekar", controller.GetMojiZauzetiPreglediLekar).Methods("GET")
+
+	//Obican
 	router.HandleFunc("/getSviSlobodniPregledi", controller.GetSviSlobodniPregledi).Methods("GET")
 	router.HandleFunc("/getPregledID/{id}", controller.GetPregledID).Methods("GET")
 	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
