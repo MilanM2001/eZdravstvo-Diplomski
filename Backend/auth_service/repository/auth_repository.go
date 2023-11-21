@@ -6,6 +6,7 @@ import (
 
 type AuthRepository interface {
 	IsJMBGUnique(jmbg string) bool
-	SignUp(credentials domain.Credentials)
+	Register(credentials domain.Credentials)
 	GetCredentials(jmbg string) (*domain.Credentials, error)
+	GetAllCredentials() ([]*domain.Credentials, error)
 }

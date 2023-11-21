@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AddPregled } from 'src/app/dto/addPregled';
 import { Vakcina } from 'src/app/models/vakcina.model';
@@ -8,49 +14,59 @@ import { HealthcareService } from 'src/app/services/healthcare.service';
 @Component({
   selector: 'app-pregled-add',
   templateUrl: './pregled-add.component.html',
-  styleUrls: ['./pregled-add.component.css']
+  styleUrls: ['./pregled-add.component.css'],
 })
 export class PregledAddComponent implements OnInit {
+  constructor(
+    private healthcareService: HealthcareService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {}
 
   pregledFormGroup: FormGroup = new FormGroup({
     pocetakPregleda: new FormControl(''),
     zavrsetakPregleda: new FormControl(''),
-    vakcina: new FormControl(''),
-    tipPregleda: new FormControl('')
+    tipPregleda: new FormControl(''),
   });
 
-  constructor(private healthcareService: HealthcareService,
-              private router: Router,
-              private formBuilder: FormBuilder) 
-              { }
+  vakcinaFormGroup: FormGroup = new FormGroup({
+    vakcina: new FormControl(''),
+  });
 
-  submitted = false;
+  submittedPregled = false;
+  submittedVakcina = false;
   alreadyExists = false;
-  vakcine: Vakcina[] = []
-  vakcina: Vakcina = new Vakcina()
-  vakcinaID: string = ""
+  vakcine: Vakcina[] = [];
+  vakcinaID: string = '';
+  tipoviPregleda = new Array('Običan', 'Vakcinacija');
 
   ngOnInit(): void {
     this.pregledFormGroup = this.formBuilder.group({
       pocetakPregleda: ['', [Validators.required]],
       zavrsetakPregleda: ['', [Validators.required]],
-      vakcina: ['',],
-      tipPregleda: ['', [Validators.required]]
+      tipPregleda: ['', [Validators.required]],
     });
 
-    this.healthcareService.GetSveVakcine()
-      .subscribe({
-        next: (data) => {
-          this.vakcine = data
-        },
-        error: (error) => {
-          console.log(error)
-        }
-      })
+    this.vakcinaFormGroup = this.formBuilder.group({
+      vakcina: ['', [Validators.required]],
+    });
+
+    this.healthcareService.GetSveVakcine().subscribe({
+      next: (data) => {
+        this.vakcine = data;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   get pregledGroup(): { [key: string]: AbstractControl } {
     return this.pregledFormGroup.controls;
+  }
+
+  get vakcinaGroup(): { [key: string]: AbstractControl } {
+    return this.vakcinaFormGroup.controls;
   }
 
   removeError() {
@@ -58,73 +74,71 @@ export class PregledAddComponent implements OnInit {
   }
 
   isVakcinacija(): boolean {
-    if (this.pregledFormGroup.get('tipPregleda')?.value == "Vakcinacija") {
-      return true
-    } 
-    return false
+    if (this.pregledFormGroup.get('tipPregleda')?.value == 'Vakcinacija') {
+      return true;
+    }
+    return false;
   }
 
-  izabrao(): boolean {
-    if (this.pregledFormGroup.get('tipPregleda')?.value == "Vakcinacija" || this.pregledFormGroup.get('tipPregleda')?.value == "Običan") {
-      return true
+  hasChosen(): boolean {
+    if (
+      this.pregledFormGroup.get('tipPregleda')?.value == 'Vakcinacija' ||
+      this.pregledFormGroup.get('tipPregleda')?.value == 'Običan'
+    ) {
+      return true;
     }
-    return false
+    return false;
   }
 
   onSubmit() {
-    this.submitted = true;
+    this.submittedPregled = true;
 
     if (this.pregledFormGroup.invalid) {
       return;
     }
 
-    let addPregled: AddPregled = new AddPregled();
+    let pregled: AddPregled = new AddPregled();
 
-    var PocetakPregleda: Date = new Date(this.pregledFormGroup.get('pocetakPregleda')?.value)
-    var ZavrsetakPregleda: Date = new Date(this.pregledFormGroup.get('zavrsetakPregleda')?.value)
+    var PocetakPregleda: Date = new Date(
+      this.pregledFormGroup.get('pocetakPregleda')?.value
+    );
+    var ZavrsetakPregleda: Date = new Date(
+      this.pregledFormGroup.get('zavrsetakPregleda')?.value
+    );
 
-    addPregled.pocetakPregleda = Number(PocetakPregleda.getTime()) / 1000;
-    addPregled.zavrsetakPregleda = Number(ZavrsetakPregleda.getTime()) / 1000;
-
-    if (this.pregledFormGroup.get('tipPregleda')?.value == "Običan") {
-      addPregled.tipPregleda = "Obican"
-    } 
-    if (this.pregledFormGroup.get('tipPregleda')?.value == "Vakcinacija") {
-      addPregled.tipPregleda = "Vakcinacija"
+    if (this.pregledFormGroup.get('tipPregleda')?.value == 'Običan') {
+      pregled.tipPregleda = 'Obican';
+    }
+    if (this.pregledFormGroup.get('tipPregleda')?.value == 'Vakcinacija') {
+      pregled.tipPregleda = 'Vakcinacija';
     }
 
-    if (this.pregledFormGroup.get('tipPregleda')?.value == "Vakcinacija") {
-      this.vakcinaID = this.pregledFormGroup.get("vakcina")?.value
+    if (this.pregledFormGroup.get('tipPregleda')?.value == 'Vakcinacija') {
+      if (this.vakcinaFormGroup.invalid) {
+        return;
+      }
+
+      this.vakcinaID = this.vakcinaFormGroup.get('vakcina')?.value;
+    } else {
+      this.vakcinaID = ""
     }
 
-    if (this.vakcinaID != "") {
-      this.healthcareService.GetVakcinaID(this.vakcinaID)
-        .subscribe({
-          next: (data) => {
-            this.vakcina = data
-            addPregled.vakcina = this.vakcina
-          },
-          error: (error) => {
-            console.log(error)
-          }
-      })
-    }
+    pregled.pocetakPregleda = Number(PocetakPregleda.getTime()) / 1000;
+    pregled.zavrsetakPregleda = Number(ZavrsetakPregleda.getTime()) / 1000;
+    pregled.vakcinaID = this.vakcinaID
 
-    console.log(addPregled)
-    // console.log(this.vakcina)
-    this.healthcareService.PostPregled(addPregled)
-      .subscribe({
-        next: (data) => {
-          this.router.navigate(['/Pregledi-Lekar']);
-        },
-        error: (error) => {
-          console.log(error);
-          // this.alreadyExists = true;
+    console.log(pregled);
+
+    this.healthcareService.PostPregled(pregled).subscribe({
+      next: (data) => {
+        this.router.navigate(['/Pregledi-Lekar']);
+      },
+      error: (error) => {
+        console.error(error);
+        if (error.status == 406) {
+          this.alreadyExists = true;
         }
-      })
-
+      },
+    });
   }
-
-  tipoviPregleda = new Array("Običan", "Vakcinacija")
-
 }

@@ -19,6 +19,7 @@ export class PreglediLekarComponent implements OnInit {
     this.healthcareService.GetMojiPreglediLekar().subscribe({
       next: (data) => {
         this.pregledi = data;
+        console.log(this.pregledi)
       },
       error: (error) => {
         console.log(error);

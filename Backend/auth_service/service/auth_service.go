@@ -25,11 +25,15 @@ func NewAuthService(store repository.AuthRepository, natsConnection *nats.Conn) 
 	}
 }
 
+func (service *AuthService) GetAllCredentials() ([]*domain.Credentials, error) {
+	return service.store.GetAllCredentials()
+}
+
 func (service *AuthService) IsJMBGUnique(jmbg string) bool {
 	return service.store.IsJMBGUnique(jmbg)
 }
 
-func (service *AuthService) SignUp(credentials domain.Credentials) (int, error) {
+func (service *AuthService) Register(credentials domain.Credentials) (int, error) {
 
 	dataToSend, err := json.Marshal(credentials)
 
@@ -54,7 +58,7 @@ func (service *AuthService) SignUp(credentials domain.Credentials) (int, error) 
 		if err != nil {
 			return 0, err
 		}
-		service.store.SignUp(credentials)
+		service.store.Register(credentials)
 		return 0, nil
 	} else {
 		return -2, nil
@@ -63,7 +67,6 @@ func (service *AuthService) SignUp(credentials domain.Credentials) (int, error) 
 }
 
 func (service *AuthService) Login(jmbg string, password string) (string, int) {
-
 	credentials, err := service.store.GetCredentials(jmbg)
 	if err != nil {
 		log.Println(err)

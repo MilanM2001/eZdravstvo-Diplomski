@@ -95,7 +95,12 @@ func (service *HealthcareService) GetPregledID(id primitive.ObjectID) (*model.Pr
 	return service.repository.GetPregledID(id)
 }
 
-func (service *HealthcareService) PostPregled(pregled *model.Pregled, jmbg string) (int, error) {
+func (service *HealthcareService) PostPregled(addPregled *model.AddPregled, jmbg string) (int, error) {
+	var pregled model.Pregled
+	pregled.PocetakPregleda = addPregled.PocetakPregleda
+	pregled.ZavrsetakPregleda = addPregled.ZavrsetakPregleda
+	pregled.TipPregleda = addPregled.TipPregleda
+
 	dataToSend, err := json.Marshal(jmbg)
 	if err != nil {
 		log.Println("Error Marshaling JMBG")
@@ -123,14 +128,22 @@ func (service *HealthcareService) PostPregled(pregled *model.Pregled, jmbg strin
 		return 0, err
 	}
 
+	if addPregled.VakcinaID != "" {
+		vakcinaID, err := primitive.ObjectIDFromHex(addPregled.VakcinaID)
+		if err != nil {
+			log.Println("Convert to Primitive error")
+			return 0, err
+		}
+
+		vakcina, err := service.repository.GetVakcinaID(vakcinaID)
+		pregled.Vakcina = vakcina
+	}
+
 	pregled.ID = primitive.NewObjectID()
 	pregled.Lekar = &lekar
 	pregled.Gradjanin = nil
-	if pregled.TipPregleda == "Obican" {
-		pregled.Vakcina = nil
-	}
 
-	err = service.repository.PostPregled(pregled)
+	err = service.repository.PostPregled(&pregled)
 	if err != nil {
 		log.Println("Error in trying to save Pregled")
 		return 0, err

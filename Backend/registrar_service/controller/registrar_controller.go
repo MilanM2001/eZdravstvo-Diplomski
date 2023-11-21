@@ -32,19 +32,17 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	}
 
 	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
-	router.HandleFunc("/test", controller.Test).Methods("GET")
 	router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
 	router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
 	router.HandleFunc("/marriage", controller.Marriage).Methods("POST")
 	router.HandleFunc("/isParent/{jmbg}", controller.IsParent).Methods("GET")
 	router.HandleFunc("/died", controller.UpdateCertificate).Methods("POST")
 	http.Handle("/", router)
-	log.Fatal(http.ListenAndServe(":8001", authorization.Authorizer(authEnforcer)(router)))
 
+	log.Fatal(http.ListenAndServe(":8001", authorization.Authorizer(authEnforcer)(router)))
 }
 
 func (controller *RegistrarController) CreateNewBirthCertificate(writer http.ResponseWriter, req *http.Request) {
-
 	var user entity.User
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil {
@@ -203,10 +201,4 @@ func (controller *RegistrarController) IsParent(writer http.ResponseWriter, req 
 	} else {
 		jsonResponse(false, writer)
 	}
-}
-
-func (controller *RegistrarController) Test(writer http.ResponseWriter, req *http.Request) {
-	writer.WriteHeader(http.StatusOK)
-	writer.Write([]byte("Okej"))
-	//jsonResponse(token, writer)
 }

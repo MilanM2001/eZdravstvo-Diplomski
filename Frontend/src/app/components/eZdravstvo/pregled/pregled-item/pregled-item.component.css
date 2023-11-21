@@ -1,47 +1,62 @@
-.appointment-card {
-    max-width: 530px;
-    margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .appointment-title-taken {
-    font-size: 22px;
-    text-align: center;
-    color:red;
-    margin-bottom: 20px;
-  }
-  
-  .appointment-title-available {
-    font-size: 22px;
-    text-align: center;
-    color:blue;
-    margin-bottom: 20px;
-  }
-  
-  .appointment-doctor {
-    text-align: center;
-    font-size: 16px;
-    margin-bottom: 15px;
-  }
-  
-  .appointment-user {
-    text-align: center;
-    font-size: 16px;
-    margin-bottom: 15px;
-  }
-  
-  .appointment-day {
-    font-size: 17px;
-    text-align: center;
-  }
-  
-  .appointment-start {
-    font-size: 17px;
-    text-align: center;
-  }
-  
-  .appointment-end {
-    font-size: 17px;
-    text-align: center;
-  }
+.pregled-card {
+  max-width: 530px;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pregled-title-zauzet {
+  font-size: 22px;
+  text-align: center;
+  color: red;
+  margin-bottom: 20px;
+}
+
+.pregled-title-slobodan {
+  font-size: 22px;
+  text-align: center;
+  color: green;
+  margin-bottom: 20px;
+}
+
+.vakcinacija-title-zauzeta {
+  font-size: 22px;
+  text-align: center;
+  color: red;
+  margin-bottom: 20px;
+}
+
+.vakcinacija-title-slobodna {
+  font-size: 22px;
+  text-align: center;
+  color: orange;
+  margin-bottom: 20px;
+}
+
+.pregled-lekar {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.pregled-gradjanin {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.pregled-vakcina {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.pregled-pocetak {
+  font-size: 17px;
+  text-align: center;
+}
+
+.pregled-kraj {
+  font-size: 17px;
+  text-align: center;
+}

@@ -37,11 +37,12 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/getMojiPreglediLekar", controller.GetMojiPreglediLekar).Methods("GET")
 	router.HandleFunc("/getMojiSlobodniPreglediLekar", controller.GetMojiSlobodniPreglediLekar).Methods("GET")
 	router.HandleFunc("/getMojiZauzetiPreglediLekar", controller.GetMojiZauzetiPreglediLekar).Methods("GET")
+	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
+	router.HandleFunc("/deletePregledID/{id}", controller.DeletePregledID).Methods("DELETE")
 
 	//Obican
 	router.HandleFunc("/getSviSlobodniPregledi", controller.GetSviSlobodniPregledi).Methods("GET")
 	router.HandleFunc("/getPregledID/{id}", controller.GetPregledID).Methods("GET")
-	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
 
 	router.HandleFunc("/getSveVakcine", controller.GetSveVakcine).Methods("GET")
 	router.HandleFunc("/getVakcinaID/{id}", controller.GetVakcinaID).Methods("GET")
@@ -51,7 +52,6 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/putVakcina/{id}", controller.PutVakcina).Methods("PUT")
 
 	//router.HandleFunc("/setAppointment/{id}", controller.SetAppointment).Methods("PUT")
-	//router.HandleFunc("/deleteAppointmentByID/{id}", controller.DeleteAppointmentByID).Methods("DELETE")
 
 	//router.HandleFunc("/allVaccinations", controller.GetAllVaccinations).Methods("GET")
 	//router.HandleFunc("/myVaccinationsDoctor", controller.GetAllMyVaccinationsDoctor).Methods("GET")
@@ -65,7 +65,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	//router.HandleFunc("/deleteVaccinationByID/{id}", controller.DeleteVaccinationByID).Methods("DELETE")
 
 	//router.HandleFunc("/addPersonToRegistry", controller.AddPersonToRegistry).Methods("POST")
-	//router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
+	router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
 
 	http.Handle("/", router)
 	log.Fatal(http.ListenAndServe(":8003", authorization.Authorizer(authEnforcer)(router)))
@@ -151,11 +151,12 @@ func (controller *HealthcareController) GetPregledID(writer http.ResponseWriter,
 }
 
 func (controller *HealthcareController) PostPregled(writer http.ResponseWriter, req *http.Request) {
-	var pregled model.Pregled
+	var pregled model.AddPregled
 	err := json.NewDecoder(req.Body).Decode(&pregled)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write([]byte("There is a problem in decoding JSON"))
+		log.Println(err)
 		return
 	}
 
@@ -169,10 +170,24 @@ func (controller *HealthcareController) PostPregled(writer http.ResponseWriter, 
 	}
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
 		return
 	}
 
 	jsonResponse(pregled, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) DeletePregledID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	err = controller.service.DeletePregledID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
 	writer.WriteHeader(http.StatusOK)
 }
 
@@ -544,17 +559,18 @@ func (controller *HealthcareController) DeleteVakcinaID(writer http.ResponseWrit
 //	writer.WriteHeader(http.StatusOK)
 //}
 //
-//func (controller *HealthcareController) GetMe(writer http.ResponseWriter, req *http.Request) {
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	user, err := controller.service.GetMe(jmbg)
-//	if err != nil {
-//		log.Println("Error getting User")
-//	}
-//
-//	jsonResponse(user, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
+func (controller *HealthcareController) GetMe(writer http.ResponseWriter, req *http.Request) {
+	jmbg, err := extractJMBGFromClaims(writer, req)
+
+	user, err := controller.service.GetMe(jmbg)
+	if err != nil {
+		log.Println("Error getting User")
+	}
+
+	jsonResponse(user, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
 //
 //func (controller *HealthcareController) AddPersonToRegistry(writer http.ResponseWriter, req *http.Request) {
 //	var user model.User

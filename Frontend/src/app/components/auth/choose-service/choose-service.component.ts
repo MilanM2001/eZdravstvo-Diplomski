@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Credentials} from "../../models/credentials";
+import {Credentials} from "../../../models/credentials";
 import {Router} from "@angular/router";
-import {StoreServiceService} from "../../services/store-service.service";
+import {StoreServiceService} from "../../../services/store-service.service";
 
 @Component({
   selector: 'app-choose-service',

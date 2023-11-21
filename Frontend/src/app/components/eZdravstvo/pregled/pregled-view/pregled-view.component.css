@@ -1,40 +1,35 @@
-.appointment-card {
+.pregled-card {
 max-width: 530px;
 margin-top: 30px;
 margin-left: auto;
 margin-right: auto;
 }
 
-.appointment-title {
+.pregled-title {
 font-size: 22px;
 text-align: center;
 color:blue;
 margin-bottom: 20px;
 }
 
-.appointment-doctor {
+.pregled-lekar {
 text-align: center;
 font-size: 16px;
 margin-bottom: 15px;
 }
 
-.appointment-user {
+.pregled-gradjanin {
 text-align: center;
 font-size: 16px;
 margin-bottom: 15px;
 }
 
-.appointment-day {
+.pregled-pocetak {
 font-size: 17px;
 text-align: center;
 }
 
-.appointment-start {
-font-size: 17px;
-text-align: center;
-}
-
-.appointment-end {
+.pregled-kraj {
 font-size: 17px;
 text-align: center;
 }

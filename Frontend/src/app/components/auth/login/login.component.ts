@@ -6,8 +6,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Credentials } from '../../models/credentials';
-import { AuthService } from '../../services/auth.service';
+import { Credentials } from '../../../models/credentials';
+import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

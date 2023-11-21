@@ -6,8 +6,8 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { Credentials } from '../../models/credentials';
-import { AuthService } from '../../services/auth.service';
+import { Credentials } from '../../../models/credentials';
+import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   passwordNotMatch = false;
   JMBGNotExist = false;
+  JMBGExists = false;
 
   ngOnInit(): void {
     this.registerFormGroup = this.formBuilder.group({
@@ -40,7 +41,7 @@ export class RegisterComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(1),
           Validators.maxLength(30),
         ],
       ],
@@ -91,7 +92,14 @@ export class RegisterComponent implements OnInit {
         },
         error: (error) => {
           console.log(JSON.stringify(error?.error?.text));
-          this.JMBGNotExist = true;
+          if (error.status == 202) {
+            this.JMBGExists = true
+            this.JMBGNotExist = false
+          } else if (error.status == 201) {
+            this.JMBGExists = false
+            this.JMBGNotExist = true;
+          }
+         
           this.passwordNotMatch = false;
         },
       });

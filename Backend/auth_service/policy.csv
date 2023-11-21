@@ -1,6 +1,7 @@
 p, NotLoggedIn, /registration, POST
 p, NotLoggedIn, /login, POST
 p, Regular, /test, GET
+p, NotLoggedIn, /allCredentials, GET
 
 
 

@@ -26,8 +26,12 @@ func NewAuthRepositoryImpl(client *mongo.Client) repository.AuthRepository {
 	}
 }
 
-func (store *AuthRepositoryImpl) IsJMBGUnique(jmbg string) bool {
+func (store *AuthRepositoryImpl) GetAllCredentials() ([]*domain.Credentials, error) {
+	filter := bson.M{}
+	return store.filter(filter)
+}
 
+func (store *AuthRepositoryImpl) IsJMBGUnique(jmbg string) bool {
 	exist := false
 	filter := bson.M{"jmbg": jmbg}
 	credentials, err := store.filterOne(filter)
@@ -40,7 +44,7 @@ func (store *AuthRepositoryImpl) IsJMBGUnique(jmbg string) bool {
 	return exist
 }
 
-func (store *AuthRepositoryImpl) SignUp(credentials domain.Credentials) {
+func (store *AuthRepositoryImpl) Register(credentials domain.Credentials) {
 	_, err := store.auth.InsertOne(context.Background(), credentials) //insert credentials of user
 	if err != nil {
 		fmt.Errorf("AuthRepositoryImpl Error SignUp(): %s", err)
@@ -62,5 +66,29 @@ func (store *AuthRepositoryImpl) GetCredentials(jmbg string) (*domain.Credential
 func (store *AuthRepositoryImpl) filterOne(filter interface{}) (credentials *domain.Credentials, err error) {
 	result := store.auth.FindOne(context.TODO(), filter)
 	err = result.Decode(&credentials)
+	return
+}
+
+func (store *AuthRepositoryImpl) filter(filter interface{}) ([]*domain.Credentials, error) {
+	cursor, err := store.auth.Find(context.Background(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return decode(cursor)
+}
+
+func decode(cursor *mongo.Cursor) (credentials []*domain.Credentials, err error) {
+	for cursor.Next(context.Background()) {
+		var credential domain.Credentials
+		err = cursor.Decode(&credential)
+		if err != nil {
+			return
+		}
+		credentials = append(credentials, &credential)
+	}
+	err = cursor.Err()
 	return
 }

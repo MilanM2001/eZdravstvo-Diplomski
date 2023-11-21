@@ -2,6 +2,7 @@ p, Doctor, /getSviPregledi, GET
 p, Doctor, /getMojiPreglediLekar, GET
 p, Doctor, /getMojiSlobodniPreglediLekar, GET
 p, Doctor, /getMojiZauzetiPreglediLekar, GET
+p, Doctor, /deletePregledID/*, DELETE
 p, Doctor, /getPregledID/*, GET
 p, Doctor, /postPregled, POST
 p, Doctor, /getSveVakcine, GET

@@ -28,15 +28,27 @@ func (controller *AuthController) Init(router *mux.Router) {
 		log.Fatal(err)
 	}
 
-	router.HandleFunc("/registration", controller.SignUp).Methods("POST")
+	router.HandleFunc("/allCredentials", controller.GetAllCredentials).Methods("GET")
+	router.HandleFunc("/registration", controller.Register).Methods("POST")
 	router.HandleFunc("/login", controller.Login).Methods("POST")
 
 	http.Handle("/", router)
 	log.Fatal(http.ListenAndServe(":8002", authorization.Authorizer(authEnforcer)(router)))
 }
 
-func (controller *AuthController) SignUp(response http.ResponseWriter, request *http.Request) {
+func (controller *AuthController) GetAllCredentials(writer http.ResponseWriter, req *http.Request) {
+	credentials, err := controller.service.GetAllCredentials()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
 
+	jsonResponse(credentials, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *AuthController) Register(response http.ResponseWriter, request *http.Request) {
 	var credentials domain.Credentials
 	err := json.NewDecoder(request.Body).Decode(&credentials)
 	fmt.Println(credentials)
@@ -46,7 +58,7 @@ func (controller *AuthController) SignUp(response http.ResponseWriter, request *
 		return
 	}
 
-	value, err := controller.service.SignUp(credentials)
+	value, err := controller.service.Register(credentials)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		return
@@ -64,7 +76,6 @@ func (controller *AuthController) SignUp(response http.ResponseWriter, request *
 }
 
 func (controller *AuthController) Login(response http.ResponseWriter, request *http.Request) {
-
 	var credentials domain.Credentials
 	err := json.NewDecoder(request.Body).Decode(&credentials)
 	if err != nil {
@@ -90,5 +101,4 @@ func (controller *AuthController) Login(response http.ResponseWriter, request *h
 
 	response.WriteHeader(http.StatusOK)
 	response.Write([]byte(token))
-
 }

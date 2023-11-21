@@ -2,11 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AddAppointment } from '../dto/addAppointment';
-import { AddVaccination } from '../dto/addVaccination';
-import { Appointment } from '../models/appointment.model';
 import { User } from '../models/user.model';
-import { Vaccination } from '../models/vaccination.model';
 import { ZdravstvenoStanje } from '../models/zdravstvenoStanje.model';
 import { Vakcina } from '../models/vakcina.model';
 import { AddVakcina } from '../dto/addVakcina';
@@ -20,18 +16,6 @@ export class HealthcareService {
   private url = 'healthcare';
   constructor(private http: HttpClient) {}
 
-  public GetAllAppointments(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(
-      `${environment.baseApiUrl}/${this.url}/allAppointments`
-    );
-  }
-
-  public GetAllAvailableAppointments(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(
-      `${environment.baseApiUrl}/${this.url}/allAvailableAppointments`
-    );
-  }
-
   public GetSveVakcine(): Observable<Vakcina[]> {
     return this.http.get<Vakcina[]>(
       `${environment.baseApiUrl}/${this.url}/getSveVakcine`
@@ -44,16 +28,9 @@ export class HealthcareService {
     );
   }
 
-  public GetSingleAppointment(appointment_id: string): Observable<Appointment> {
-    return this.http.get<Appointment>(
-      `${environment.baseApiUrl}/${this.url}/getAppointmentByID/` +
-        appointment_id
-    );
-  }
-
-  public GetMyAppointmentsDoctor(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(
-      `${environment.baseApiUrl}/${this.url}/myAppointmentsDoctor`
+  public GetPregledID(pregled_id: string): Observable<Pregled> {
+    return this.http.get<Pregled>(
+      `${environment.baseApiUrl}/${this.url}/getPregledID/` + pregled_id
     );
   }
 
@@ -63,21 +40,9 @@ export class HealthcareService {
     );
   }
 
-  public GetMyAvailableAppointmentsDoctor(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(
-      `${environment.baseApiUrl}/${this.url}/myAvailableAppointmentsDoctor`
-    );
-  }
-
   public GetMojiSlobodniPreglediLekar(): Observable<Pregled[]> {
     return this.http.get<Pregled[]>(
       `${environment.baseApiUrl}/${this.url}/getMojiSlobodniPreglediLekar`
-    );
-  }
-
-  public GetMyTakenAppointmentsDoctor(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(
-      `${environment.baseApiUrl}/${this.url}/myTakenAppointmentsDoctor`
     );
   }
 
@@ -127,72 +92,14 @@ export class HealthcareService {
     );
   }
 
+  public DeletePregledID(id: string) {
+    return this.http.delete(
+      `${environment.baseApiUrl}/${this.url}/deletePregledID/` + id
+    );
+  }
+
   public GetMe(): Observable<User> {
     return this.http.get<User>(`${environment.baseApiUrl}/${this.url}/getMe`);
-  }
-
-  public GetAllVaccinations(): Observable<Vaccination[]> {
-    return this.http.get<Vaccination[]>(
-      `${environment.baseApiUrl}/${this.url}/allVaccinations`
-    );
-  }
-
-  public GetAllAvailableVaccinations(): Observable<Vaccination[]> {
-    return this.http.get<Vaccination[]>(
-      `${environment.baseApiUrl}/${this.url}/allAvailableVaccinations`
-    );
-  }
-
-  public GetSingleVaccination(id: string): Observable<Vaccination> {
-    return this.http.get<Vaccination>(
-      `${environment.baseApiUrl}/${this.url}/getVaccinationByID/` + id
-    );
-  }
-
-  public GetMyVaccinationsDoctor(): Observable<Vaccination[]> {
-    return this.http.get<Vaccination[]>(
-      `${environment.baseApiUrl}/${this.url}/myVaccinationsDoctor`
-    );
-  }
-
-  public GetMyAvailableVaccinationsDoctor(): Observable<Vaccination[]> {
-    return this.http.get<Vaccination[]>(
-      `${environment.baseApiUrl}/${this.url}/myAvailableVaccinationsDoctor`
-    );
-  }
-
-  public GetMyTakenVaccinationsDoctor(): Observable<Vaccination[]> {
-    return this.http.get<Vaccination[]>(
-      `${environment.baseApiUrl}/${this.url}/myTakenVaccinationsDoctor`
-    );
-  }
-
-  public GetMyTakenVaccinationsRegular(): Observable<Vaccination[]> {
-    return this.http.get<Vaccination[]>(
-      `${environment.baseApiUrl}/${this.url}/myTakenVaccinationsRegular`
-    );
-  }
-
-  public AddVaccination(
-    addVaccination: AddVaccination
-  ): Observable<AddVaccination> {
-    return this.http.post<AddVaccination>(
-      `${environment.baseApiUrl}/${this.url}/newVaccination`,
-      addVaccination
-    );
-  }
-
-  public SetVaccination(id: string) {
-    return this.http.put(
-      `${environment.baseApiUrl}/${this.url}/setVaccination/` + id,
-      null
-    );
-  }
-
-  public DeleteVaccination(id: string) {
-    return this.http.delete(
-      `${environment.baseApiUrl}/${this.url}/deleteVaccinationByID/` + id
-    );
   }
 
   public GetAllZdravstvenaStanja(): Observable<ZdravstvenoStanje[]> {
