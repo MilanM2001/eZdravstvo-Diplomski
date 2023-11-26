@@ -3,11 +3,11 @@
     <h3 class="search-h3">Tip Pregleda</h3>
     <mat-form-field appearance="outline">
         <mat-select (selectionChange)="search($event.value)">
-            <mat-option  style="font-size: 15px; text-align: center" *ngFor="let option of options" [value]="option">
-            {{option}}
+            <mat-option style="font-size: 15px; text-align: center" *ngFor="let option of options" [value]="option">
+                {{option}}
             </mat-option>
         </mat-select>
     </mat-form-field>
 </div>
-    <button class="btn btn-success" routerLink="/Pregled-Add">Dodavanje Pregleda</button>
+<button class="btn btn-success" routerLink="/Pregled-Add">Dodavanje Pregleda</button>
 <app-pregled-list [pregledi]="pregledi"></app-pregled-list>

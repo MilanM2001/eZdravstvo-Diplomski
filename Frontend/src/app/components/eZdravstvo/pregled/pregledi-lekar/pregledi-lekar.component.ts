@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Pregled } from 'src/app/models/pregled.model';
-import { User } from 'src/app/models/user.model';
 import { HealthcareService } from 'src/app/services/healthcare.service';
 
 @Component({
@@ -10,7 +9,6 @@ import { HealthcareService } from 'src/app/services/healthcare.service';
 })
 export class PreglediLekarComponent implements OnInit {
   pregledi: Array<Pregled> = [];
-  user: User = new User();
   options = ['Slobodni', 'Zauzeti', 'Svi'];
 
   constructor(private healthcareService: HealthcareService) {}
@@ -19,22 +17,11 @@ export class PreglediLekarComponent implements OnInit {
     this.healthcareService.GetMojiPreglediLekar().subscribe({
       next: (data) => {
         this.pregledi = data;
-        console.log(this.pregledi)
       },
       error: (error) => {
         console.log(error);
       },
     });
-
-    // this.healthcareService.GetMe()
-    //   .subscribe({
-    //     next: (data) => {
-    //       this.user = data;
-    //     },
-    //     error: (error) => {
-    //       console.log(error)
-    //     }
-    //   })
   }
 
   search(search_option: string) {

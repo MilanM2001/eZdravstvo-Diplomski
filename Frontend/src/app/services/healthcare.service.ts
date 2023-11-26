@@ -16,18 +16,6 @@ export class HealthcareService {
   private url = 'healthcare';
   constructor(private http: HttpClient) {}
 
-  public GetSveVakcine(): Observable<Vakcina[]> {
-    return this.http.get<Vakcina[]>(
-      `${environment.baseApiUrl}/${this.url}/getSveVakcine`
-    );
-  }
-
-  public GetVakcinaID(id: string): Observable<Vakcina> {
-    return this.http.get<Vakcina>(
-      `${environment.baseApiUrl}/${this.url}/getVakcinaID/` + id
-    );
-  }
-
   public GetPregledID(pregled_id: string): Observable<Pregled> {
     return this.http.get<Pregled>(
       `${environment.baseApiUrl}/${this.url}/getPregledID/` + pregled_id
@@ -40,6 +28,12 @@ export class HealthcareService {
     );
   }
 
+  public GetSviSlobodniPregledi(): Observable<Pregled[]> {
+    return this.http.get<Pregled[]>(
+      `${environment.baseApiUrl}/${this.url}/getSviSlobodniPregledi`
+    );
+  }
+
   public GetMojiSlobodniPreglediLekar(): Observable<Pregled[]> {
     return this.http.get<Pregled[]>(
       `${environment.baseApiUrl}/${this.url}/getMojiSlobodniPreglediLekar`
@@ -49,6 +43,31 @@ export class HealthcareService {
   public GetMojiZauzetiPreglediLekar(): Observable<Pregled[]> {
     return this.http.get<Pregled[]>(
       `${environment.baseApiUrl}/${this.url}/getMojiZauzetiPreglediLekar`
+    );
+  }
+
+  public PostPregled(pregled: AddPregled): Observable<AddPregled> {
+    return this.http.post<AddPregled>(
+      `${environment.baseApiUrl}/${this.url}/postPregled`,
+      pregled
+    );
+  }
+
+  public DeletePregledID(id: string) {
+    return this.http.delete(
+      `${environment.baseApiUrl}/${this.url}/deletePregledID/` + id
+    );
+  }
+
+  public GetSveVakcine(): Observable<Vakcina[]> {
+    return this.http.get<Vakcina[]>(
+      `${environment.baseApiUrl}/${this.url}/getSveVakcine`
+    );
+  }
+
+  public GetVakcinaID(id: string): Observable<Vakcina> {
+    return this.http.get<Vakcina>(
+      `${environment.baseApiUrl}/${this.url}/getVakcinaID/` + id
     );
   }
 
@@ -69,32 +88,6 @@ export class HealthcareService {
   public DeleteVakcinaID(id: string) {
     return this.http.delete(
       `${environment.baseApiUrl}/${this.url}/deleteVakcinaID/` + id
-    );
-  }
-
-  public PostPregled(pregled: AddPregled): Observable<AddPregled> {
-    return this.http.post<AddPregled>(
-      `${environment.baseApiUrl}/${this.url}/postPregled`,
-      pregled
-    );
-  }
-
-  public SetAppointment(id: string) {
-    return this.http.put(
-      `${environment.baseApiUrl}/${this.url}/setAppointment/` + id,
-      null
-    );
-  }
-
-  public DeleteAppointment(id: string) {
-    return this.http.delete(
-      `${environment.baseApiUrl}/${this.url}/deleteAppointmentByID/` + id
-    );
-  }
-
-  public DeletePregledID(id: string) {
-    return this.http.delete(
-      `${environment.baseApiUrl}/${this.url}/deletePregledID/` + id
     );
   }
 

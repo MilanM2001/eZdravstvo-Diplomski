@@ -51,12 +51,17 @@
   margin-bottom: 15px;
 }
 
-.pregled-pocetak {
+.pregled-datum {
   font-size: 17px;
   text-align: center;
 }
 
-.pregled-kraj {
+.pregled-od {
+  font-size: 17px;
+  text-align: center;
+}
+
+.pregled-do {
   font-size: 17px;
   text-align: center;
 }

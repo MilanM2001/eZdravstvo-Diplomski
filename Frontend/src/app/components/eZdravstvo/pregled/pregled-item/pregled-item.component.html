@@ -20,7 +20,8 @@
     pregled.gradjanin.prezime}}</mat-card-title>
   <mat-card-title *ngIf="isVakcinacija()" class="pregled-vakcina">Vakcina: {{pregled.vakcina.naziv}}</mat-card-title>
   <mat-card-content>
-    <p class="pregled-pocetak">Početak: {{pregled.pocetakPregleda * 1000 | date: "longDate"}}</p>
-    <p class="pregled-kraj">Kraj: {{pregled.zavrsetakPregleda * 1000 | date: "longDate"}}</p>
+    <p class="pregled-datum">Datum: {{pregled.pocetakPregleda * 1000 | date: "longDate"}}</p>
+    <p class="pregled-od">Od: {{pregled.pocetakPregleda * 1000 | date: "shortTime"}}</p>
+    <p class="pregled-do">Do: {{pregled.zavrsetakPregleda * 1000 | date: "shortTime"}}</p>
   </mat-card-content>
 </mat-card>

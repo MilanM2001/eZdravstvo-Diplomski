@@ -11,27 +11,35 @@ import (
 )
 
 type HealthcareRepositoryImpl struct {
-	pregled *mongo.Collection
-	vakcina *mongo.Collection
+	pregled     *mongo.Collection
+	vakcina     *mongo.Collection
+	alergija    *mongo.Collection
+	invaliditet *mongo.Collection
 }
 
 const (
-	DATABASE           = "healthcare"
-	COLLECTION_PREGLED = "pregled"
-	COLLECTION_VAKCINA = "vakcina"
+	DATABASE               = "healthcare"
+	COLLECTION_PREGLED     = "pregled"
+	COLLECTION_VAKCINA     = "vakcina"
+	COLLECTION_ALERGIJA    = "alergija"
+	COLLECTION_INVALIDITET = "invaliditet"
 )
 
 func NewAuthRepositoryImpl(client *mongo.Client) repository.HealthcareRepository {
 	pregled := client.Database(DATABASE).Collection(COLLECTION_PREGLED)
 	vakcina := client.Database(DATABASE).Collection(COLLECTION_VAKCINA)
+	alergija := client.Database(DATABASE).Collection(COLLECTION_ALERGIJA)
+	invaliditet := client.Database(DATABASE).Collection(COLLECTION_INVALIDITET)
 
 	return &HealthcareRepositoryImpl{
-		pregled: pregled,
-		vakcina: vakcina,
+		pregled:     pregled,
+		vakcina:     vakcina,
+		alergija:    alergija,
+		invaliditet: invaliditet,
 	}
 }
 
-//Pregled
+//Pregled ------------------------------------------------------------------------------------------------------------------
 
 func (repository *HealthcareRepositoryImpl) GetSviPregledi() ([]*model.Pregled, error) {
 	filter := bson.M{}
@@ -110,7 +118,7 @@ func (repository *HealthcareRepositoryImpl) filterOnePregled(filter interface{})
 	return
 }
 
-//Vakcine
+//Vakcina ------------------------------------------------------------------------------------------------------------------
 
 func (repository *HealthcareRepositoryImpl) GetSveVakcine() ([]*model.Vakcina, error) {
 	filter := bson.M{}
@@ -119,12 +127,12 @@ func (repository *HealthcareRepositoryImpl) GetSveVakcine() ([]*model.Vakcina, e
 
 func (repository *HealthcareRepositoryImpl) GetVakcinaID(id primitive.ObjectID) (*model.Vakcina, error) {
 	filter := bson.M{"_id": id}
-	return repository.filterOneTipVakcine(filter)
+	return repository.filterOneVakcina(filter)
 }
 
 func (repository *HealthcareRepositoryImpl) GetVakcinaNaziv(naziv string) (*model.Vakcina, error) {
 	filter := bson.M{"naziv": naziv}
-	return repository.filterOneTipVakcine(filter)
+	return repository.filterOneVakcina(filter)
 }
 
 func (repository *HealthcareRepositoryImpl) PostVakcina(vakcina *model.Vakcina) error {
@@ -168,58 +176,98 @@ func (repository *HealthcareRepositoryImpl) filterVakcine(filter interface{}) ([
 	return decodeVakcina(cursor)
 }
 
-func (repository *HealthcareRepositoryImpl) filterOneTipVakcine(filter interface{}) (tipVakcine *model.Vakcina, err error) {
+func (repository *HealthcareRepositoryImpl) filterOneVakcina(filter interface{}) (tipVakcine *model.Vakcina, err error) {
 	result := repository.vakcina.FindOne(context.Background(), filter)
 	err = result.Decode(&tipVakcine)
 	return
 }
 
-//func (repository *HealthcareRepositoryImpl) GetMyTakenVaccinationsRegular(id primitive.ObjectID) ([]*model.Vaccination, error) {
-//	filter := bson.M{"user._id": id}
-//	return repository.filterVaccinations(filter)
-//}
+//Alergija ------------------------------------------------------------------------------------------------------------------
 
-//
+func (repository *HealthcareRepositoryImpl) GetSveAlergije() ([]*model.Alergija, error) {
+	filter := bson.M{}
+	return repository.filterAlergije(filter)
+}
 
-//func (repository *HealthcareRepositoryImpl) GetZdravstvenoStanjeByJMBG(jmbg string) (*model.ZdravstvenoStanje, error) {
-//	filter := bson.M{"jmbg": jmbg}
-//	return repository.filterOneZdravstvenoStanje(filter)
-//}
-//
-//func (repository *HealthcareRepositoryImpl) CreateNewZdravstvenoStanje(zdravstvenoStanje *model.ZdravstvenoStanje) error {
-//	_, err := repository.zdravstvenoStanje.InsertOne(context.Background(), zdravstvenoStanje)
-//	if err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//func (repository *HealthcareRepositoryImpl) DeleteZdravstvenoStanjeByJMBG(jmbg string) error {
-//	filter := bson.M{"jmbg": jmbg}
-//	_, err := repository.zdravstvenoStanje.DeleteOne(context.Background(), filter)
-//	if err != nil {
-//		return err
-//	}
-//
-//	return nil
-//}
-//func (repository *HealthcareRepositoryImpl) filterZdravstvenaStanja(filter interface{}) ([]*model.ZdravstvenoStanje, error) {
-//	cursor, err := repository.zdravstvenoStanje.Find(context.Background(), filter)
-//	defer cursor.Close(context.TODO())
-//
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	return decodeZdravstvenoStanje(cursor)
-//}
-//
-//func (repository *HealthcareRepositoryImpl) filterOneZdravstvenoStanje(filter interface{}) (zdravstvenoStanje *model.ZdravstvenoStanje, err error) {
-//	result := repository.zdravstvenoStanje.FindOne(context.Background(), filter)
-//	err = result.Decode(&zdravstvenoStanje)
-//	return
-//}
-//
+func (repository *HealthcareRepositoryImpl) GetAlergijaID(id primitive.ObjectID) (*model.Alergija, error) {
+	filter := bson.M{"_id": id}
+	return repository.filterOneAlergija(filter)
+}
+
+func (repository *HealthcareRepositoryImpl) GetAlergijaNaziv(naziv string) (*model.Alergija, error) {
+	filter := bson.M{"naziv": naziv}
+	return repository.filterOneAlergija(filter)
+}
+
+func (repository *HealthcareRepositoryImpl) PostAlergija(alergija *model.Alergija) error {
+	_, err := repository.alergija.InsertOne(context.Background(), alergija)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repository *HealthcareRepositoryImpl) filterAlergije(filter interface{}) ([]*model.Alergija, error) {
+	cursor, err := repository.alergija.Find(context.Background(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return decodeAlergija(cursor)
+}
+
+func (repository *HealthcareRepositoryImpl) filterOneAlergija(filter interface{}) (alergija *model.Alergija, err error) {
+	result := repository.alergija.FindOne(context.Background(), filter)
+	err = result.Decode(&alergija)
+	return
+}
+
+//Invaliditet ------------------------------------------------------------------------------------------------------------------
+
+func (repository *HealthcareRepositoryImpl) GetSveInvaliditete() ([]*model.Invaliditet, error) {
+	filter := bson.M{}
+	return repository.filterInvaliditeti(filter)
+}
+
+func (repository *HealthcareRepositoryImpl) GetInvaliditetID(id primitive.ObjectID) (*model.Invaliditet, error) {
+	filter := bson.M{"_id": id}
+	return repository.filterOneInvaliditet(filter)
+}
+
+func (repository *HealthcareRepositoryImpl) GetInvaliditetNaziv(naziv string) (*model.Invaliditet, error) {
+	filter := bson.M{"naziv": naziv}
+	return repository.filterOneInvaliditet(filter)
+}
+
+func (repository *HealthcareRepositoryImpl) PostInvaliditet(invaliditet *model.Invaliditet) error {
+	_, err := repository.invaliditet.InsertOne(context.Background(), invaliditet)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repository *HealthcareRepositoryImpl) filterInvaliditeti(filter interface{}) ([]*model.Invaliditet, error) {
+	cursor, err := repository.invaliditet.Find(context.Background(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return decodeInvaliditet(cursor)
+}
+
+func (repository *HealthcareRepositoryImpl) filterOneInvaliditet(filter interface{}) (invaliditet *model.Invaliditet, err error) {
+	result := repository.invaliditet.FindOne(context.Background(), filter)
+	err = result.Decode(&invaliditet)
+	return
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+
 func decodePregled(cursor *mongo.Cursor) (pregledi []*model.Pregled, err error) {
 	for cursor.Next(context.Background()) {
 		var pregled model.Pregled
@@ -241,6 +289,32 @@ func decodeVakcina(cursor *mongo.Cursor) (vakcine []*model.Vakcina, err error) {
 			return
 		}
 		vakcine = append(vakcine, &vakcina)
+	}
+	err = cursor.Err()
+	return
+}
+
+func decodeAlergija(cursor *mongo.Cursor) (alergije []*model.Alergija, err error) {
+	for cursor.Next(context.Background()) {
+		var alergija model.Alergija
+		err = cursor.Decode(&alergija)
+		if err != nil {
+			return
+		}
+		alergije = append(alergije, &alergija)
+	}
+	err = cursor.Err()
+	return
+}
+
+func decodeInvaliditet(cursor *mongo.Cursor) (invaliditeti []*model.Invaliditet, err error) {
+	for cursor.Next(context.Background()) {
+		var invaliditet model.Invaliditet
+		err = cursor.Decode(&invaliditet)
+		if err != nil {
+			return
+		}
+		invaliditeti = append(invaliditeti, &invaliditet)
 	}
 	err = cursor.Err()
 	return

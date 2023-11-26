@@ -27,6 +27,8 @@ func (service *HealthcareService) GetSviPregledi() ([]*model.Pregled, error) {
 	return service.repository.GetSviPregledi()
 }
 
+//Pregled ------------------------------------------------------------------------------------------------------------------
+
 func (service *HealthcareService) GetMojiPreglediLekar(jmbg string) ([]*model.Pregled, error) {
 	dataToSend, err := json.Marshal(jmbg)
 	if err != nil {
@@ -188,6 +190,8 @@ func (service *HealthcareService) DeletePregledID(id primitive.ObjectID) error {
 	return service.repository.DeletePregledID(id)
 }
 
+//Vakcina ------------------------------------------------------------------------------------------------------------------
+
 func (service *HealthcareService) GetSveVakcine() ([]*model.Vakcina, error) {
 	return service.repository.GetSveVakcine()
 }
@@ -239,6 +243,60 @@ func (service *HealthcareService) PutVakcina(vakcina *model.Vakcina, id primitiv
 
 func (service *HealthcareService) DeleteVakcinaID(id primitive.ObjectID) error {
 	return service.repository.DeleteVakcinaID(id)
+}
+
+//Alergija ------------------------------------------------------------------------------------------------------------------
+
+func (service *HealthcareService) GetSveAlergije() ([]*model.Alergija, error) {
+	return service.repository.GetSveAlergije()
+}
+
+func (service *HealthcareService) GetAlergijaID(id primitive.ObjectID) (*model.Alergija, error) {
+	return service.repository.GetAlergijaID(id)
+}
+
+func (service *HealthcareService) PostAlergija(alergija *model.Alergija) (int, error) {
+	alergija.ID = primitive.NewObjectID()
+
+	existingAlergija, _ := service.repository.GetAlergijaNaziv(alergija.Naziv)
+	if existingAlergija != nil {
+		return 1, nil
+	}
+
+	err := service.repository.PostAlergija(alergija)
+	if err != nil {
+		log.Println("Error in trying to save Alergija")
+		return 0, err
+	}
+
+	return 0, nil
+}
+
+//Invaliditet ------------------------------------------------------------------------------------------------------------------
+
+func (service *HealthcareService) GetSveInvaliditete() ([]*model.Invaliditet, error) {
+	return service.repository.GetSveInvaliditete()
+}
+
+func (service *HealthcareService) GetInvaliditetID(id primitive.ObjectID) (*model.Invaliditet, error) {
+	return service.repository.GetInvaliditetID(id)
+}
+
+func (service *HealthcareService) PostInvaliditet(invaliditet *model.Invaliditet) (int, error) {
+	invaliditet.ID = primitive.NewObjectID()
+
+	existingInvaliditet, _ := service.repository.GetInvaliditetNaziv(invaliditet.Naziv)
+	if existingInvaliditet != nil {
+		return 1, nil
+	}
+
+	err := service.repository.PostInvaliditet(invaliditet)
+	if err != nil {
+		log.Println("Error in trying to save Invaliditet")
+		return 0, err
+	}
+
+	return 0, nil
 }
 
 func (service *HealthcareService) GetMe(jmbg string) (*model.User, error) {

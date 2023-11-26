@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Pregled } from 'src/app/models/pregled.model';
+import { HealthcareService } from 'src/app/services/healthcare.service';
 
 @Component({
   selector: 'app-pregledi-gradjanin',
@@ -6,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pregledi-gradjanin.component.css']
 })
 export class PreglediGradjaninComponent implements OnInit {
+  pregledi: Array<Pregled> = [];
 
-  constructor() { }
+  constructor(private healthcareService: HealthcareService) {}
 
   ngOnInit(): void {
+    this.healthcareService.GetSviSlobodniPregledi().subscribe({
+      next: (data) => {
+        this.pregledi = data;
+        console.log(this.pregledi)
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
-
 }

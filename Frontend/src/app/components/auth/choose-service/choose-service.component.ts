@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Credentials} from "../../../models/credentials";
 import {Router} from "@angular/router";
-import {StoreServiceService} from "../../../services/store-service.service";
+import {StoreService} from "../../../services/store-service.service";
 
 @Component({
   selector: 'app-choose-service',
@@ -12,10 +12,16 @@ export class ChooseServiceComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private storeService: StoreServiceService
+    public storeService: StoreService
   ) { }
 
   ngOnInit(): void {
+  }
+
+  selectedAdmin(role: string, service: string) {
+    localStorage.setItem('customRole', role)
+    localStorage.setItem('service', service)
+    this.router.navigate(['Welcome']).then()
   }
 
   selectService(role: string, service: string){

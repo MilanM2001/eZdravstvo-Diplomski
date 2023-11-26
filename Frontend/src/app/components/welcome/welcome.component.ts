@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreServiceService } from "../../services/store-service.service";
+import { StoreService } from "../../services/store-service.service";
 
 @Component({
   selector: 'app-welcome',
@@ -9,7 +9,7 @@ import { StoreServiceService } from "../../services/store-service.service";
 export class WelcomeComponent implements OnInit {
 
   constructor(
-    private storeService: StoreServiceService,
+    private storeService: StoreService,
   ) { }
 
   ngOnInit(): void {

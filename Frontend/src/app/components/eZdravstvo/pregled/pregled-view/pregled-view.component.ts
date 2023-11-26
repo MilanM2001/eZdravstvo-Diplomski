@@ -74,4 +74,12 @@ export class PregledViewComponent implements OnInit {
       return false;
     }
   }
+
+  isVakcinacija(): boolean {
+    if (this.pregled.tipPregleda == "Vakcinacija") {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

@@ -4,16 +4,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type Pregled struct {
-	ID                primitive.ObjectID `json:"id" bson:"_id"`
-	PocetakPregleda   int64              `json:"pocetakPregleda" bson:"pocetakPregleda"`
-	ZavrsetakPregleda int64              `json:"zavrsetakPregleda" bson:"zavrsetakPregleda"`
-	Vakcina           *Vakcina           `json:"vakcina" bson:"vakcina"`
-	TipPregleda       TipPregleda        `json:"tipPregleda" bson:"tipPregleda"`
-	Gradjanin         *User              `json:"gradjanin" bson:"gradjanin"`
-	Lekar             *User              `json:"lekar" bson:"lekar"`
-}
-
 type User struct {
 	ID            primitive.ObjectID `json:"id" bson:"_id"`
 	Ime           string             `json:"ime" bson:"ime"`
@@ -32,12 +22,15 @@ type User struct {
 	Drzava        string             `json:"drzava" bson:"Drzava"`
 }
 
-type Pol string
-
-const (
-	Muski  = "Muski"
-	Zenski = "Zenski"
-)
+type Pregled struct {
+	ID                primitive.ObjectID `json:"id" bson:"_id"`
+	PocetakPregleda   int64              `json:"pocetakPregleda" bson:"pocetakPregleda"`
+	ZavrsetakPregleda int64              `json:"zavrsetakPregleda" bson:"zavrsetakPregleda"`
+	Vakcina           *Vakcina           `json:"vakcina" bson:"vakcina"`
+	TipPregleda       TipPregleda        `json:"tipPregleda" bson:"tipPregleda"`
+	Gradjanin         *User              `json:"gradjanin" bson:"gradjanin"`
+	Lekar             *User              `json:"lekar" bson:"lekar"`
+}
 
 type Vakcina struct {
 	ID        primitive.ObjectID `json:"id" bson:"_id"`
@@ -45,18 +38,37 @@ type Vakcina struct {
 	Kompanija string             `json:"kompanija" bson:"kompanija"`
 }
 
-//const (
-//	BCG = "BCG"
-//	HB  = "HB"
-//	DTP = "DTP"
-//	IPV = "IPV"
-//	HIB = "HIB"
-//	PCV = "PCV"
-//)
+type Alergija struct {
+	ID         primitive.ObjectID `json:"id" bson:"_id"`
+	Naziv      string             `json:"naziv" bson:"naziv"`
+	Ozbiljnost Ozbiljnost         `json:"ozbiljnost" bson:"ozbiljnost"`
+}
+
+type Invaliditet struct {
+	ID         primitive.ObjectID `json:"ID" bson:"ID"`
+	Naziv      string             `json:"naziv" bson:"naziv"`
+	Opis       string             `json:"opis" bson:"opis"`
+	Ozbiljnost Ozbiljnost         `json:"ozbiljnost" bson:"ozbiljnost"`
+}
+
+type Pol string
+
+const (
+	Muski  = "Muski"
+	Zenski = "Zenski"
+)
 
 type TipPregleda string
 
 const (
 	Obican      = "Obican"
 	Vakcinacija = "Vakcinacija"
+)
+
+type Ozbiljnost string
+
+const (
+	Blaga    = "Blaga"
+	Umerena  = "Umerena"
+	Ozbiljna = "Ozbiljna"
 )

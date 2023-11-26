@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {StoreServiceService} from "../../services/store-service.service";
+import {StoreService} from "../../services/store-service.service";
 
 @Component({
   selector: 'app-header',
@@ -11,7 +11,7 @@ export class HeaderComponent {
 
   constructor(
     private router: Router,
-    public storeService: StoreServiceService
+    public storeService: StoreService
 
   ) { }
 

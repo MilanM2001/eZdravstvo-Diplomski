@@ -13,6 +13,9 @@
         <div class="col d-flex justify-content-center align-items-center">
           <button class="btn btn-success" (click)="selectService('Doctor', 'eZdravstvo')">eZdravstvo</button>
         </div>
+        <div *ngIf="this.storeService.getRoleFromToken() == 'Admin'" class="col d-flex justify-content-center align-items-center">
+          <button class="btn btn-danger" (click)="selectedAdmin('Admin', 'Admin')">Admin</button>
+        </div>
       </div>
     </div>
   </div>

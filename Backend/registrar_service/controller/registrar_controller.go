@@ -32,6 +32,7 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	}
 
 	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
+	router.HandleFunc("/registryAdmin", controller.CreateNewBirthCertificate).Methods("POST")
 	router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
 	router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
 	router.HandleFunc("/marriage", controller.Marriage).Methods("POST")
@@ -51,7 +52,6 @@ func (controller *RegistrarController) CreateNewBirthCertificate(writer http.Res
 		return
 	}
 
-	log.Println(user)
 	value, err := controller.service.CreateNewBirthCertificate(user)
 	if value == 1 {
 		writer.WriteHeader(http.StatusAccepted)
@@ -64,8 +64,8 @@ func (controller *RegistrarController) CreateNewBirthCertificate(writer http.Res
 		return
 	}
 
+	jsonResponse(user, writer)
 	writer.WriteHeader(http.StatusOK)
-	writer.Write([]byte("Okej"))
 }
 
 func (controller *RegistrarController) Marriage(writer http.ResponseWriter, req *http.Request) {
@@ -149,7 +149,6 @@ func (controller *RegistrarController) GetChildren(writer http.ResponseWriter, r
 }
 
 func (controller *RegistrarController) GetCertificate(writer http.ResponseWriter, req *http.Request) {
-
 	vars := mux.Vars(req)
 	typeStr, _ := vars["typeOfCertificate"]
 	num, err := strconv.Atoi(typeStr)

@@ -71,7 +71,6 @@ export class VakcinaAddComponent implements OnInit {
 
     this.healthcareService.PostVakcina(vakcina).subscribe({
       next: (data) => {
-        console.log('Uspeh');
         this.router.navigate(['/Vakcine']);
       },
       error: (error) => {

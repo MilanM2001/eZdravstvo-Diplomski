@@ -17,20 +17,59 @@
                         </div>
                     </div>
 
-                    <div *ngIf="hasChosen()">
+                    <div *ngIf="hasChosenType()">
 
-                        <h3 class="field-name">Tip Pregleda</h3>
-                        <mat-form-field class="date-pick" appearance="outline">
-                            <mat-date-range-input [rangePicker]="picker">
-                                <input matStartDate formControlName="pocetakPregleda" placeholder="Početak"
-                                    [ngClass]="{ 'is-invalid': submittedPregled && pregledGroup['pocetakPregleda'].errors }">
+                        <div class="form-outline mb-4">
+                            <h3 class="field-name">Datum Pregleda</h3>
+                            <input type="date" id="datumPregleda" class="form-control form-control-lg"
+                                formControlName="datumPregleda"
+                                [ngClass]="{ 'is-invalid': submittedPregled && pregledGroup['datumPregleda'].errors}" />
+                            <div *ngIf="submittedPregled && pregledGroup['datumPregleda'].errors"
+                                class="invalid-feedback">
+                                <div *ngIf="pregledGroup['datumPregleda'].errors['required']">Datum je obavezan.</div>
+                            </div>
+                        </div>
 
-                                <input matEndDate formControlName="zavrsetakPregleda" placeholder="Završetak"
-                                    [ngClass]="{ 'is-invalid': submittedPregled && pregledGroup['zavrsetakPregleda'].errors }">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker></mat-date-range-picker>
-                        </mat-form-field>
+                        <div *ngIf="hasChosenDate()" class="row">
+                            <div class="col-md-4">
+
+                                <h3 class="field-name-from-to">Od</h3>
+                                <mat-form-field appearance="outline">
+                                    <mat-select id="satiPocetak" class="form-control form-control-lg"
+                                        formControlName="satiPocetak" [(value)]="selectedFirstScrollNumber"
+                                        [ngClass]="{ 'is-invalid': submittedPregled && pregledGroup['satiPocetak'].errors}"
+                                        (selectionChange)="onFirstScrollSelect($event)">
+                                        <mat-option *ngFor="let number of firstScrollNumbers" [value]="number">{{
+                                            number + "h"
+                                            }}</mat-option>
+                                    </mat-select>
+                                    <div *ngIf="submittedPregled && pregledGroup['satiPocetak'].errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="pregledGroup['satiPocetak'].errors['required']">Obavezno polje.
+                                        </div>
+                                    </div>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4">
+                                <h3 class="field-name-from-to">Do</h3>
+                                <mat-form-field appearance="outline">
+                                    <mat-select id="satiKraj" class="form-control form-control-lg"
+                                        formControlName="satiKraj" [(value)]="selectedSecondScrollNumber"
+                                        [ngClass]="{ 'is-invalid': submittedPregled && pregledGroup['satiPocetak'].errors}"
+                                        (selectionChange)="onSecondScrollSelect($event)">
+                                        <mat-option *ngFor="let number of secondScrollNumbers" [value]="number">{{
+                                            number + "h"
+                                            }}</mat-option>
+                                    </mat-select>
+                                    <div *ngIf="submittedPregled && pregledGroup['satiKraj'].errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="pregledGroup['satiKraj'].errors['required']">Obavezno polje.
+                                        </div>
+                                    </div>
+                                </mat-form-field>
+                            </div>
+                        </div>
 
                         <form [formGroup]="vakcinaFormGroup">
                             <div class="form-outline mb-4" *ngIf="isVakcinacija()">
@@ -53,12 +92,10 @@
                             </button>
                         </h2>
 
-                        <!-- <h2 class="time-display">Početak: {{pregledFormGroup.value.startOfAppointment | date}}</h2>
-                        <h2 class="time-display">Kraj: {{pregledFormGroup.value.endOfAppointment | date}}</h2> -->
-
                         <div class="form-group form-check">
                             <button type="submit" class="btn btn-primary" (click)="onSubmit()">Dodaj</button>
                         </div>
+
                     </div>
 
                 </form>

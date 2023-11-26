@@ -1,45 +1,77 @@
 .pregled-card {
-max-width: 530px;
-margin-top: 30px;
-margin-left: auto;
-margin-right: auto;
+    max-width: 530px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.pregled-title {
-font-size: 22px;
-text-align: center;
-color:blue;
-margin-bottom: 20px;
+.pregled-title-zauzet {
+    font-size: 22px;
+    text-align: center;
+    color: red;
+    margin-bottom: 20px;
+}
+
+.pregled-title-slobodan {
+    font-size: 22px;
+    text-align: center;
+    color: green;
+    margin-bottom: 20px;
+}
+
+.vakcinacija-title-zauzeta {
+    font-size: 22px;
+    text-align: center;
+    color: red;
+    margin-bottom: 20px;
+}
+
+.vakcinacija-title-slobodna {
+    font-size: 22px;
+    text-align: center;
+    color: orange;
+    margin-bottom: 20px;
 }
 
 .pregled-lekar {
-text-align: center;
-font-size: 16px;
-margin-bottom: 15px;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
 }
 
 .pregled-gradjanin {
-text-align: center;
-font-size: 16px;
-margin-bottom: 15px;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
 }
 
-.pregled-pocetak {
-font-size: 17px;
-text-align: center;
+.pregled-vakcina {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
 }
 
-.pregled-kraj {
-font-size: 17px;
-text-align: center;
+.pregled-datum {
+    font-size: 17px;
+    text-align: center;
+}
+
+.pregled-od {
+    font-size: 17px;
+    text-align: center;
+}
+
+.pregled-do {
+    font-size: 17px;
+    text-align: center;
 }
 
 .btn-success {
-margin-top: 20px;
-margin-left: 180px;
+    margin-top: 20px;
+    margin-left: 180px;
 }
 
 .btn-danger {
-margin-top: 20px;
-margin-left: 180px;
+    margin-top: 20px;
+    margin-left: 180px;
 }

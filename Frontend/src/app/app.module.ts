@@ -14,6 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from '@angular/material/icon'
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -38,6 +40,16 @@ import { PreglediGradjaninComponent } from './components/eZdravstvo/pregled/preg
 import { VakcinaAddComponent } from './components/eZdravstvo/vakcina/vakcina-add/vakcina-add.component';
 import { VakcineComponent } from './components/eZdravstvo/vakcina/vakcine/vakcine.component';
 import { VakcinaViewComponent } from './components/eZdravstvo/vakcina/vakcina-view/vakcina-view.component';
+import { InvaliditetiAdminComponent } from './components/eAdmin/invaliditet/invaliditeti-admin/invaliditeti-admin.component';
+import { InvaliditetItemComponent } from './components/eAdmin/invaliditet/invaliditet-item/invaliditet-item.component';
+import { InvaliditetListComponent } from './components/eAdmin/invaliditet/invaliditet-list/invaliditet-list.component';
+import { InvaliditetViewComponent } from './components/eAdmin/invaliditet/invaliditet-view/invaliditet-view.component';
+import { InvaliditetAddComponent } from './components/eAdmin/invaliditet/invaliditet-add/invaliditet-add.component';
+import { AlergijaAddComponent } from './components/eAdmin/alergija/alergija-add/alergija-add.component';
+import { AlergijaItemComponent } from './components/eAdmin/alergija/alergija-item/alergija-item.component';
+import { AlergijaListComponent } from './components/eAdmin/alergija/alergija-list/alergija-list.component';
+import { AlergijaViewComponent } from './components/eAdmin/alergija/alergija-view/alergija-view.component';
+import { AlergijeAdminComponent } from './components/eAdmin/alergija/alergije-admin/alergije-admin.component';
 
 
 
@@ -68,6 +80,16 @@ import { VakcinaViewComponent } from './components/eZdravstvo/vakcina/vakcina-vi
     VakcinaAddComponent,
     VakcineComponent,
     VakcinaViewComponent,
+    InvaliditetiAdminComponent,
+    InvaliditetItemComponent,
+    InvaliditetListComponent,
+    InvaliditetViewComponent,
+    InvaliditetAddComponent,
+    AlergijaAddComponent,
+    AlergijaItemComponent,
+    AlergijaListComponent,
+    AlergijaViewComponent,
+    AlergijeAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,6 +106,8 @@ import { VakcinaViewComponent } from './components/eZdravstvo/vakcina/vakcina-vi
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

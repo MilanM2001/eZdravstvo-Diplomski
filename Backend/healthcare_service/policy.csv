@@ -10,17 +10,23 @@ p, Doctor, /getVakcinaID/*, GET
 p, Doctor, /postVakcina, POST
 p, Doctor, /deleteVakcinaID/*, DELETE
 p, Doctor, /putVakcina/*, PUT
-
-
-p, Regular, /getSviPregledi, GET
+p, Regular, /getSviSlobodniPregledi, GET
 p, Regular, /getPregledID/*, GET
+
+p, Admin, /getSveAlergije, GET
+p, Admin, /getAlergijaID/*, GET
+p, Admin, /postAlergija, POST
+p, Doctor, /getSveAlergije, GET
+p, Doctor, /getAlergijaID/*, GET
+
+p, Admin, /getSveInvaliditete, GET
+p, Admin, /getInvaliditetID/*, GET
+p, Admin, /postInvaliditet, POST
+p, Doctor, /getSveInvaliditete, GET
+p, Doctor, /getInvaliditetID/*, GET
 
 p, Doctor, /getMe, GET
 p, Regular, /getMe, GET
-
-p, Doctor, /addPersonToRegistry, POST
-
-
 
 p, NotLoggedIn, /getSviPregledi, GET
 p, NotLoggedIn, /getPregledID/*, GET

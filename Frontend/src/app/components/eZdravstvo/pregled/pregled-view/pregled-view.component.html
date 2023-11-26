@@ -1,21 +1,28 @@
 <mat-card class="pregled-card">
-  <mat-card-title *ngIf="isTaken()" class="pregled-title" [routerLink]="['/Pregled-View', pregled.id]">
-    Pregled
+  <mat-card-title *ngIf="isTaken() && !isVakcinacija()" class="pregled-title-zauzet"
+    [routerLink]="['/Pregled-View', pregled.id]">
+    Zauzet Pregled
   </mat-card-title>
-  <mat-card-title *ngIf="!isTaken()" class="pregled-title" [routerLink]="['/Pregled-View', pregled.id]">
+  <mat-card-title *ngIf="!isTaken() && !isVakcinacija()" class="pregled-title-slobodan"
+    [routerLink]="['/Pregled-View', pregled.id]">
     Slobodan Pregled
+  </mat-card-title>
+  <mat-card-title *ngIf="isTaken() && isVakcinacija()" class="vakcinacija-title-zauzeta"
+    [routerLink]="['/Pregled-View', pregled.id]">
+    Zauzeta Vakcinacija
+  </mat-card-title>
+  <mat-card-title *ngIf="!isTaken() && isVakcinacija()" class="vakcinacija-title-slobodna"
+    [routerLink]="['/Pregled-View', pregled.id]">
+    Slobodna Vakcinacija
   </mat-card-title>
   <mat-card-title class="pregled-lekar">Lekar:
     {{ pregled.lekar.ime + " " + pregled.lekar.prezime }}</mat-card-title>
   <mat-card-title *ngIf="isTaken()" class="pregled-gradjanin">Pacijent: {{ pregled.gradjanin.ime }}</mat-card-title>
-  <!-- <mat-card-title class="appointment-day">Dan: {{appointment.dayOfAppointment * 1000 | date: "shortDate"}}</mat-card-title> -->
+  <mat-card-title *ngIf="isVakcinacija()" class="pregled-vakcina">Vakcina: {{pregled.vakcina.naziv}}</mat-card-title>
   <mat-card-content>
-    <p class="pregled-pocetak">
-      Početak: {{ pregled.pocetakPregleda * 1000 | date : "longDate" }}
-    </p>
-    <p class="pregled-kraj">
-      Kraj: {{ pregled.zavrsetakPregleda * 1000 | date : "longDate" }}
-    </p>
+    <p class="pregled-datum">Datum: {{pregled.pocetakPregleda * 1000 | date: "longDate"}}</p>
+    <p class="pregled-od">Od: {{pregled.pocetakPregleda * 1000 | date: "shortTime"}}</p>
+    <p class="pregled-do">Do: {{pregled.zavrsetakPregleda * 1000 | date: "shortTime"}}</p>
   </mat-card-content>
   <div class="form-group form-check">
     <button *ngIf="!isMyPregled()" type="submit" class="btn btn-success" (click)="update()">

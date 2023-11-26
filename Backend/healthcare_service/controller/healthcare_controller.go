@@ -32,44 +32,40 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 		log.Fatal(err)
 	}
 
-	//Lekar
+	//Pregled
 	router.HandleFunc("/getSviPregledi", controller.GetSviPregledi).Methods("GET")
 	router.HandleFunc("/getMojiPreglediLekar", controller.GetMojiPreglediLekar).Methods("GET")
 	router.HandleFunc("/getMojiSlobodniPreglediLekar", controller.GetMojiSlobodniPreglediLekar).Methods("GET")
 	router.HandleFunc("/getMojiZauzetiPreglediLekar", controller.GetMojiZauzetiPreglediLekar).Methods("GET")
+	router.HandleFunc("/getSviSlobodniPregledi", controller.GetSviSlobodniPregledi).Methods("GET")
+	router.HandleFunc("/getPregledID/{id}", controller.GetPregledID).Methods("GET")
 	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
 	router.HandleFunc("/deletePregledID/{id}", controller.DeletePregledID).Methods("DELETE")
 
-	//Obican
-	router.HandleFunc("/getSviSlobodniPregledi", controller.GetSviSlobodniPregledi).Methods("GET")
-	router.HandleFunc("/getPregledID/{id}", controller.GetPregledID).Methods("GET")
-
+	//Vakcina
 	router.HandleFunc("/getSveVakcine", controller.GetSveVakcine).Methods("GET")
 	router.HandleFunc("/getVakcinaID/{id}", controller.GetVakcinaID).Methods("GET")
 	router.HandleFunc("/postVakcina", controller.PostVakcina).Methods("POST")
-	router.HandleFunc("/putVakcina", controller.PutVakcina).Methods("PUT")
-	router.HandleFunc("/deleteVakcinaID/{id}", controller.DeleteVakcinaID).Methods("DELETE")
 	router.HandleFunc("/putVakcina/{id}", controller.PutVakcina).Methods("PUT")
+	router.HandleFunc("/deleteVakcinaID/{id}", controller.DeleteVakcinaID).Methods("DELETE")
 
-	//router.HandleFunc("/setAppointment/{id}", controller.SetAppointment).Methods("PUT")
+	//Alergija
+	router.HandleFunc("/getSveAlergije", controller.GetSveAlergije).Methods("GET")
+	router.HandleFunc("/getAlergijaID/{id}", controller.GetAlergijaID).Methods("GET")
+	router.HandleFunc("/postAlergija", controller.PostAlergija).Methods("POST")
 
-	//router.HandleFunc("/allVaccinations", controller.GetAllVaccinations).Methods("GET")
-	//router.HandleFunc("/myVaccinationsDoctor", controller.GetAllMyVaccinationsDoctor).Methods("GET")
-	//router.HandleFunc("/myAvailableVaccinationsDoctor", controller.GetMyAvailableVaccinationsDoctor).Methods("GET")
-	//router.HandleFunc("/myTakenVaccinationsDoctor", controller.GetMyTakenVaccinationsDoctor).Methods("GET")
-	//router.HandleFunc("/allAvailableVaccinations", controller.GetAllAvailableVaccinations).Methods("GET")
-	//router.HandleFunc("/myTakenVaccinationsRegular", controller.GetMyTakenVaccinationsRegular).Methods("GET")
-	//router.HandleFunc("/getVaccinationByID/{id}", controller.GetVaccinationByID).Methods("GET")
-	//router.HandleFunc("/newVaccination", controller.CreateNewVaccination).Methods("POST")
-	//router.HandleFunc("/setVaccination/{id}", controller.SetVaccination).Methods("PUT")
-	//router.HandleFunc("/deleteVaccinationByID/{id}", controller.DeleteVaccinationByID).Methods("DELETE")
+	//Invaliditet
+	router.HandleFunc("/getSveInvaliditete", controller.GetSveInvaliditete).Methods("GET")
+	router.HandleFunc("/getInvaliditetID/{id}", controller.GetInvaliditetID).Methods("GET")
+	router.HandleFunc("/postInvaliditet", controller.PostInvaliditet).Methods("POST")
 
-	//router.HandleFunc("/addPersonToRegistry", controller.AddPersonToRegistry).Methods("POST")
 	router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
 
 	http.Handle("/", router)
 	log.Fatal(http.ListenAndServe(":8003", authorization.Authorizer(authEnforcer)(router)))
 }
+
+//Pregled ------------------------------------------------------------------------------------------------------------------
 
 func (controller *HealthcareController) GetSviPregledi(writer http.ResponseWriter, req *http.Request) {
 	pregledi, err := controller.service.GetSviPregledi()
@@ -191,6 +187,8 @@ func (controller *HealthcareController) DeletePregledID(writer http.ResponseWrit
 	writer.WriteHeader(http.StatusOK)
 }
 
+//Vakcina ------------------------------------------------------------------------------------------------------------------
+
 func (controller *HealthcareController) GetSveVakcine(writer http.ResponseWriter, req *http.Request) {
 	vakcine, err := controller.service.GetSveVakcine()
 	if err != nil {
@@ -279,6 +277,114 @@ func (controller *HealthcareController) DeleteVakcinaID(writer http.ResponseWrit
 		return
 	}
 
+	writer.WriteHeader(http.StatusOK)
+}
+
+//Alergija ------------------------------------------------------------------------------------------------------------------
+
+func (controller *HealthcareController) GetSveAlergije(writer http.ResponseWriter, req *http.Request) {
+	alergije, err := controller.service.GetSveAlergije()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(alergije, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetAlergijaID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	alergija, err := controller.service.GetAlergijaID(objectID)
+	if err != nil {
+		log.Println("Error finding Appointment By ID")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	jsonResponse(alergija, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) PostAlergija(writer http.ResponseWriter, req *http.Request) {
+	var alergija model.Alergija
+	err := json.NewDecoder(req.Body).Decode(&alergija)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("There is a problem in decoding JSON"))
+		log.Println(err)
+		return
+	}
+
+	value, err := controller.service.PostAlergija(&alergija)
+	if value == 1 {
+		writer.WriteHeader(http.StatusNotAcceptable)
+		writer.Write([]byte("Appointment already exists in that time"))
+		return
+	}
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(alergija, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+//Invaliditet ------------------------------------------------------------------------------------------------------------------
+
+func (controller *HealthcareController) GetSveInvaliditete(writer http.ResponseWriter, req *http.Request) {
+	invaliditeti, err := controller.service.GetSveInvaliditete()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(invaliditeti, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetInvaliditetID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	invaliditet, err := controller.service.GetInvaliditetID(objectID)
+	if err != nil {
+		log.Println("Error finding Appointment By ID")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	jsonResponse(invaliditet, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) PostInvaliditet(writer http.ResponseWriter, req *http.Request) {
+	var invaliditet model.Invaliditet
+	err := json.NewDecoder(req.Body).Decode(&invaliditet)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("There is a problem in decoding JSON"))
+		log.Println(err)
+		return
+	}
+
+	value, err := controller.service.PostInvaliditet(&invaliditet)
+	if value == 1 {
+		writer.WriteHeader(http.StatusNotAcceptable)
+		writer.Write([]byte("Appointment already exists in that time"))
+		return
+	}
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(invaliditet, writer)
 	writer.WriteHeader(http.StatusOK)
 }
 

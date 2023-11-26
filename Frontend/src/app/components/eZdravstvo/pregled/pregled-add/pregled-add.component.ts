@@ -24,9 +24,10 @@ export class PregledAddComponent implements OnInit {
   ) {}
 
   pregledFormGroup: FormGroup = new FormGroup({
-    pocetakPregleda: new FormControl(''),
-    zavrsetakPregleda: new FormControl(''),
     tipPregleda: new FormControl(''),
+    datumPregleda: new FormControl(''),
+    satiPocetak: new FormControl(''),
+    satiKraj: new FormControl('')
   });
 
   vakcinaFormGroup: FormGroup = new FormGroup({
@@ -42,9 +43,10 @@ export class PregledAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.pregledFormGroup = this.formBuilder.group({
-      pocetakPregleda: ['', [Validators.required]],
-      zavrsetakPregleda: ['', [Validators.required]],
       tipPregleda: ['', [Validators.required]],
+      datumPregleda: ['', [Validators.required]],
+      satiPocetak: ['', [Validators.required]],
+      satiKraj: ['', [Validators.required]],
     });
 
     this.vakcinaFormGroup = this.formBuilder.group({
@@ -69,42 +71,15 @@ export class PregledAddComponent implements OnInit {
     return this.vakcinaFormGroup.controls;
   }
 
-  removeError() {
-    this.alreadyExists = false;
-  }
-
-  isVakcinacija(): boolean {
-    if (this.pregledFormGroup.get('tipPregleda')?.value == 'Vakcinacija') {
-      return true;
-    }
-    return false;
-  }
-
-  hasChosen(): boolean {
-    if (
-      this.pregledFormGroup.get('tipPregleda')?.value == 'Vakcinacija' ||
-      this.pregledFormGroup.get('tipPregleda')?.value == 'Običan'
-    ) {
-      return true;
-    }
-    return false;
-  }
-
   onSubmit() {
     this.submittedPregled = true;
+    this.submittedVakcina = true;
 
     if (this.pregledFormGroup.invalid) {
       return;
     }
 
     let pregled: AddPregled = new AddPregled();
-
-    var PocetakPregleda: Date = new Date(
-      this.pregledFormGroup.get('pocetakPregleda')?.value
-    );
-    var ZavrsetakPregleda: Date = new Date(
-      this.pregledFormGroup.get('zavrsetakPregleda')?.value
-    );
 
     if (this.pregledFormGroup.get('tipPregleda')?.value == 'Običan') {
       pregled.tipPregleda = 'Obican';
@@ -123,8 +98,24 @@ export class PregledAddComponent implements OnInit {
       this.vakcinaID = ""
     }
 
-    pregled.pocetakPregleda = Number(PocetakPregleda.getTime()) / 1000;
-    pregled.zavrsetakPregleda = Number(ZavrsetakPregleda.getTime()) / 1000;
+    var datumPregleda: Date = this.pregledFormGroup.get('datumPregleda')?.value
+    var satiPocetak: number = this.pregledFormGroup.get('satiPocetak')?.value
+    var satiKraj: number = this.pregledFormGroup.get('satiKraj')?.value
+
+    var PocetakPregleda: Date = new Date(
+      datumPregleda
+    )
+
+    var ZavrsetakPregleda: Date = new Date(
+      datumPregleda
+    )
+
+    PocetakPregleda.setHours(satiPocetak)
+    ZavrsetakPregleda.setHours(satiKraj)
+    
+
+    pregled.pocetakPregleda = PocetakPregleda.getTime() / 1000
+    pregled.zavrsetakPregleda = ZavrsetakPregleda.getTime() / 1000
     pregled.vakcinaID = this.vakcinaID
 
     console.log(pregled);
@@ -140,5 +131,55 @@ export class PregledAddComponent implements OnInit {
         }
       },
     });
+  }
+
+    // firstScrollNumbers: number[] = Array.from({ length: 25 }, (_, i) => i);
+  firstScrollNumbers: number[] = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+  secondScrollNumbers: number[] = [];
+  
+  selectedFirstScrollNumber: number = 0
+  selectedSecondScrollNumber: number = 0
+
+  onFirstScrollSelect(event: any) {
+    this.selectedFirstScrollNumber = event.value;
+    this.secondScrollNumbers = this.generateNumbersAfterSelection(this.selectedFirstScrollNumber);
+    this.selectedSecondScrollNumber = 0;
+  }
+
+  onSecondScrollSelect(event: any) {
+    this.selectedSecondScrollNumber = event.value;
+  }
+
+  private generateNumbersAfterSelection(startValue: number): number[] {
+    return Array.from({ length: 24 - startValue }, (_, i) => startValue + i + 1);
+  }
+
+  removeError() {
+    this.alreadyExists = false;
+  }
+
+  isVakcinacija(): boolean {
+    if (this.pregledFormGroup.get('tipPregleda')?.value == 'Vakcinacija') {
+      return true;
+    }
+    return false;
+  }
+
+  hasChosenType(): boolean {
+    if (
+      this.pregledFormGroup.get('tipPregleda')?.value == 'Vakcinacija' ||
+      this.pregledFormGroup.get('tipPregleda')?.value == 'Običan'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  hasChosenDate(): boolean {
+    if (this.pregledFormGroup.get("datumPregleda")?.value == "") {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

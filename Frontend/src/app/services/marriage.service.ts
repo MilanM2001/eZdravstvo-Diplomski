@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {Marriage} from "../models/marriage";
 import * as http from "http";
 import {environment} from "../../environments/environment";
-import {StoreServiceService} from "./store-service.service";
+import {StoreService} from "./store-service.service";
 import { UserDied } from '../models/userDied.model';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class MarriageService {
 
   constructor(
     private http: HttpClient,
-    private storeService: StoreServiceService
+    private storeService: StoreService
   ) { }
 
   public CreateMarriage(marriage: Marriage): Observable<any> {

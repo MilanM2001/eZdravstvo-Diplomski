@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {StoreServiceService} from "../../../services/store-service.service";
+import {StoreService} from "../../../services/store-service.service";
 import {MarriageService} from "../../../services/marriage.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {jsPDF} from "jspdf"
@@ -12,7 +12,7 @@ import html2canvas from 'html2canvas';
 export class ViewMyRegistryComponent implements OnInit {
 
   constructor(
-    private storeService: StoreServiceService,
+    private storeService: StoreService,
     private registrarService: MarriageService,
     private _snackBar: MatSnackBar
   ) { }

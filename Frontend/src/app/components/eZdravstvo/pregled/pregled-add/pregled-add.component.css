@@ -23,18 +23,24 @@
     font-size: 20px;
 }
 
-.time-display {
-    text-align: center;
-}
-
 .btn-primary {
     margin-left: 290px;
+}
+
+.col-md-4 {
+    margin-left: 75px
 }
 
 .field-name {
     font-size: 20px;
     margin-bottom: 10px;
     text-align: center;
+}
+
+.field-name-from-to {
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-left: 90px;
 }
 
 .form-outline {
