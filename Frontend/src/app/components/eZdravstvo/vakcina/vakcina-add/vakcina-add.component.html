@@ -12,19 +12,10 @@
               <form [formGroup]="vakcinaFormGroup">
                 <div class="form-outline mb-4">
                   <h3 class="field-name">Naziv</h3>
-                  <input
-                    type="text"
-                    id="naziv"
-                    class="form-control form-control-lg"
-                    formControlName="naziv"
-                    [ngClass]="{
+                  <input type="text" id="naziv" class="form-control form-control-lg" formControlName="naziv" [ngClass]="{
                       'is-invalid': submitted && vakcinaGroup['naziv'].errors
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && vakcinaGroup['naziv'].errors"
-                    class="invalid-feedback"
-                  >
+                    }" />
+                  <div *ngIf="submitted && vakcinaGroup['naziv'].errors" class="invalid-feedback">
                     <div *ngIf="vakcinaGroup['naziv'].errors['required']">
                       Naziv je obavezan.
                     </div>
@@ -39,20 +30,12 @@
 
                 <div class="form-outline mb-4">
                   <h3 class="field-name">Kompanija</h3>
-                  <input
-                    type="text"
-                    id="kompanija"
-                    class="form-control form-control-lg"
-                    formControlName="kompanija"
+                  <input type="text" id="kompanija" class="form-control form-control-lg" formControlName="kompanija"
                     [ngClass]="{
                       'is-invalid':
                         submitted && vakcinaGroup['kompanija'].errors
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && vakcinaGroup['kompanija'].errors"
-                    class="invalid-feedback"
-                  >
+                    }" />
+                  <div *ngIf="submitted && vakcinaGroup['kompanija'].errors" class="invalid-feedback">
                     <div *ngIf="vakcinaGroup['kompanija'].errors['required']">
                       Kompanija je obavezna.
                     </div>
@@ -70,11 +53,8 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-block btn-lg gradient-custom-4 text-body"
-                    (click)="onSubmit()"
-                  >
+                  <button type="button" class="btn btn-primary btn-block btn-lg gradient-custom-4 text-body"
+                    (click)="onSubmit()">
                     Dodaj
                   </button>
                 </div>

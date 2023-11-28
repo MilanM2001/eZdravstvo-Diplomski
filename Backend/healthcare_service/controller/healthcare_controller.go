@@ -53,11 +53,16 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/getSveAlergije", controller.GetSveAlergije).Methods("GET")
 	router.HandleFunc("/getAlergijaID/{id}", controller.GetAlergijaID).Methods("GET")
 	router.HandleFunc("/postAlergija", controller.PostAlergija).Methods("POST")
+	router.HandleFunc("/deleteAlergijaID/{id}", controller.DeleteAlergijaID).Methods("DELETE")
 
 	//Invaliditet
 	router.HandleFunc("/getSveInvaliditete", controller.GetSveInvaliditete).Methods("GET")
 	router.HandleFunc("/getInvaliditetID/{id}", controller.GetInvaliditetID).Methods("GET")
 	router.HandleFunc("/postInvaliditet", controller.PostInvaliditet).Methods("POST")
+	router.HandleFunc("/deleteInvaliditetID/{id}", controller.DeleteInvaliditetID).Methods("DELETE")
+
+	//Karton
+	router.HandleFunc("/getSveKartone", controller.GetSveKartone).Methods("GET")
 
 	router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
 
@@ -334,6 +339,19 @@ func (controller *HealthcareController) PostAlergija(writer http.ResponseWriter,
 	writer.WriteHeader(http.StatusOK)
 }
 
+func (controller *HealthcareController) DeleteAlergijaID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	err = controller.service.DeleteAlergijaID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}
+
 //Invaliditet ------------------------------------------------------------------------------------------------------------------
 
 func (controller *HealthcareController) GetSveInvaliditete(writer http.ResponseWriter, req *http.Request) {
@@ -385,6 +403,33 @@ func (controller *HealthcareController) PostInvaliditet(writer http.ResponseWrit
 	}
 
 	jsonResponse(invaliditet, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) DeleteInvaliditetID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	err = controller.service.DeleteInvaliditetID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}
+
+//Karton ------------------------------------------------------------------------------------------------------------------
+
+func (controller *HealthcareController) GetSveKartone(writer http.ResponseWriter, req *http.Request) {
+	kartoni, err := controller.service.GetSveKartone()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(kartoni, writer)
 	writer.WriteHeader(http.StatusOK)
 }
 

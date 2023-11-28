@@ -1,1 +1,86 @@
-<p>invaliditet-add works!</p>
+<section class="vh-100 mt-5">
+    <div class="mask d-flex align-items-center h-80 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5 text-primary">
+                                Dodavanje Invaliditeta
+                            </h2>
+
+                            <form [formGroup]="invaliditetFormGroup">
+
+                                <div class="form-outline mb-4">
+                                    <h3 class="field-name">Naziv</h3>
+                                    <input type="text" id="naziv" class="form-control form-control-lg"
+                                        formControlName="naziv" [ngClass]="{
+                        'is-invalid': submitted && invaliditetGroup['naziv'].errors
+                      }" />
+                                    <div *ngIf="submitted && invaliditetGroup['naziv'].errors" class="invalid-feedback">
+                                        <div *ngIf="invaliditetGroup['naziv'].errors['required']">
+                                            Naziv je obavezan.
+                                        </div>
+                                        <div *ngIf="invaliditetGroup['naziv'].errors['minlength']">
+                                            Naziv mora biti bar 2 karaktera.
+                                        </div>
+                                        <div *ngIf="invaliditetGroup['naziv'].errors['maxlength']">
+                                            Naziv ne može biti duži od 20 karaktera.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <h3 class="field-name">Opis</h3>
+                                    <input type="text" id="opis" class="form-control form-control-lg"
+                                        formControlName="opis" [ngClass]="{
+                        'is-invalid': submitted && invaliditetGroup['opis'].errors
+                      }" />
+                                    <div *ngIf="submitted && invaliditetGroup['opis'].errors" class="invalid-feedback">
+                                        <div *ngIf="invaliditetGroup['opis'].errors['required']">
+                                            Opis je obavezan.
+                                        </div>
+                                        <div *ngIf="invaliditetGroup['opis'].errors['minlength']">
+                                            Opis mora biti bar 2 karaktera.
+                                        </div>
+                                        <div *ngIf="invaliditetGroup['opis'].errors['maxlength']">
+                                            Opis ne može biti duži od 20 karaktera.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <h3 class="field-name">Ozbiljnost</h3>
+                                    <select id="ozbiljnost" class="form-control form-control-lg"
+                                        formControlName="ozbiljnost"
+                                        [ngClass]="{ 'is-invalid': submitted && invaliditetGroup['ozbiljnost'].errors }">
+                                        <option *ngFor="let ozbiljnost of Ozbiljnosti" [value]="ozbiljnost">
+                                            {{ozbiljnost}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && invaliditetGroup['ozbiljnost'].errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="invaliditetGroup['ozbiljnost'].errors['required']">Ozbiljnost je
+                                            obavezna.</div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="alreadyExists">
+                                    <h1 class="vakcina-exists">Vakcina već postoji</h1>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="button"
+                                        class="btn btn-primary btn-block btn-lg gradient-custom-4 text-body"
+                                        (click)="onSubmit()">
+                                        Dodaj
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

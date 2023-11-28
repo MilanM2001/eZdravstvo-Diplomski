@@ -45,3 +45,31 @@ func (user *User) FromJSON(reader io.Reader) error {
 	d := json.NewDecoder(reader)
 	return d.Decode(user)
 }
+
+type Alergija struct {
+	ID         primitive.ObjectID `json:"id" bson:"_id"`
+	Naziv      string             `json:"naziv" bson:"naziv"`
+	Ozbiljnost Ozbiljnost         `json:"ozbiljnost" bson:"ozbiljnost"`
+}
+
+type Invaliditet struct {
+	ID         primitive.ObjectID `json:"id" bson:"_id"`
+	Naziv      string             `json:"naziv" bson:"naziv"`
+	Opis       string             `json:"opis" bson:"opis"`
+	Ozbiljnost Ozbiljnost         `json:"ozbiljnost" bson:"ozbiljnost"`
+}
+
+type Karton struct {
+	ID           primitive.ObjectID `json:"id" bson:"_id"`
+	JMBG         string             `json:"jmbg" bson:"jmbg"`
+	Alergije     []Alergija         `json:"alergije" bson:"alergije"`
+	Invaliditeti []Invaliditet      `json:"invaliditeti" bson:"invaliditeti"`
+}
+
+type Ozbiljnost string
+
+const (
+	Blaga    = "Blaga"
+	Umerena  = "Umerena"
+	Ozbiljna = "Ozbiljna"
+)

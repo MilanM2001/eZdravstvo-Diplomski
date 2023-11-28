@@ -32,7 +32,6 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	}
 
 	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
-	router.HandleFunc("/registryAdmin", controller.CreateNewBirthCertificate).Methods("POST")
 	router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
 	router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
 	router.HandleFunc("/marriage", controller.Marriage).Methods("POST")

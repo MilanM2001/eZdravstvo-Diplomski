@@ -1,0 +1,51 @@
+.btn-success {
+  float: right;
+  margin-right: 200px;
+  margin-top: 30px;
+}
+
+.welcome {
+  font-size: 35px;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 60px;
+  color: blue;
+}
+
+.btn-primary {
+  float: right;
+  margin-right: 200px;
+  margin-top: 30px;
+}
+
+.table {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heads {
+  font-size: 22px;
+  color: blue;
+}
+
+.bodies {
+  font-size: 19px;
+}
+
+.btn-warning {
+  float: right;
+  margin-right: 190px;
+  margin-top: 30px;
+}
+
+.delete-button {
+  width: 24px;
+  height: 30px;
+  font-size: 15px;
+  margin-top: -10px;
+}
+
+.delete-icon {
+  font-size: 25px;
+}

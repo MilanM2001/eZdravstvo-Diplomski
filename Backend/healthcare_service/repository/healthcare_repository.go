@@ -27,9 +27,15 @@ type HealthcareRepository interface {
 	GetAlergijaID(id primitive.ObjectID) (*model.Alergija, error)
 	GetAlergijaNaziv(naziv string) (*model.Alergija, error)
 	PostAlergija(alergija *model.Alergija) error
+	DeleteAlergijaID(id primitive.ObjectID) error
 
 	GetSveInvaliditete() ([]*model.Invaliditet, error)
 	GetInvaliditetID(id primitive.ObjectID) (*model.Invaliditet, error)
 	GetInvaliditetNaziv(naziv string) (*model.Invaliditet, error)
 	PostInvaliditet(*model.Invaliditet) error
+	DeleteInvaliditetID(id primitive.ObjectID) error
+
+	GetSveKartone() ([]*model.Karton, error)
+	GetKartoneJMBG(jmbg string) ([]*model.Karton, error)
+	PostKarton(karton model.Karton) error
 }

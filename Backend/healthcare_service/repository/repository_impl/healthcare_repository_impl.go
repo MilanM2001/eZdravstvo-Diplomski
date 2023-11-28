@@ -15,6 +15,7 @@ type HealthcareRepositoryImpl struct {
 	vakcina     *mongo.Collection
 	alergija    *mongo.Collection
 	invaliditet *mongo.Collection
+	karton      *mongo.Collection
 }
 
 const (
@@ -23,6 +24,7 @@ const (
 	COLLECTION_VAKCINA     = "vakcina"
 	COLLECTION_ALERGIJA    = "alergija"
 	COLLECTION_INVALIDITET = "invaliditet"
+	COLLECTION_KARTON      = "karton"
 )
 
 func NewAuthRepositoryImpl(client *mongo.Client) repository.HealthcareRepository {
@@ -30,12 +32,14 @@ func NewAuthRepositoryImpl(client *mongo.Client) repository.HealthcareRepository
 	vakcina := client.Database(DATABASE).Collection(COLLECTION_VAKCINA)
 	alergija := client.Database(DATABASE).Collection(COLLECTION_ALERGIJA)
 	invaliditet := client.Database(DATABASE).Collection(COLLECTION_INVALIDITET)
+	karton := client.Database(DATABASE).Collection(COLLECTION_KARTON)
 
 	return &HealthcareRepositoryImpl{
 		pregled:     pregled,
 		vakcina:     vakcina,
 		alergija:    alergija,
 		invaliditet: invaliditet,
+		karton:      karton,
 	}
 }
 
@@ -207,6 +211,16 @@ func (repository *HealthcareRepositoryImpl) PostAlergija(alergija *model.Alergij
 	return nil
 }
 
+func (repository *HealthcareRepositoryImpl) DeleteAlergijaID(id primitive.ObjectID) error {
+	filter := bson.M{"_id": id}
+	_, err := repository.alergija.DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (repository *HealthcareRepositoryImpl) filterAlergije(filter interface{}) ([]*model.Alergija, error) {
 	cursor, err := repository.alergija.Find(context.Background(), filter)
 	defer cursor.Close(context.TODO())
@@ -249,6 +263,16 @@ func (repository *HealthcareRepositoryImpl) PostInvaliditet(invaliditet *model.I
 	return nil
 }
 
+func (repository *HealthcareRepositoryImpl) DeleteInvaliditetID(id primitive.ObjectID) error {
+	filter := bson.M{"_id": id}
+	_, err := repository.invaliditet.DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (repository *HealthcareRepositoryImpl) filterInvaliditeti(filter interface{}) ([]*model.Invaliditet, error) {
 	cursor, err := repository.invaliditet.Find(context.Background(), filter)
 	defer cursor.Close(context.TODO())
@@ -263,6 +287,43 @@ func (repository *HealthcareRepositoryImpl) filterInvaliditeti(filter interface{
 func (repository *HealthcareRepositoryImpl) filterOneInvaliditet(filter interface{}) (invaliditet *model.Invaliditet, err error) {
 	result := repository.invaliditet.FindOne(context.Background(), filter)
 	err = result.Decode(&invaliditet)
+	return
+}
+
+//Karton ------------------------------------------------------------------------------------------------------------------
+
+func (repository *HealthcareRepositoryImpl) GetSveKartone() ([]*model.Karton, error) {
+	filter := bson.M{}
+	return repository.filterKartone(filter)
+}
+
+func (repository *HealthcareRepositoryImpl) GetKartoneJMBG(jmbg string) ([]*model.Karton, error) {
+	filter := bson.M{"jmbg": jmbg}
+	return repository.filterKartone(filter)
+}
+
+func (repository *HealthcareRepositoryImpl) PostKarton(karton model.Karton) error {
+	_, err := repository.karton.InsertOne(context.Background(), karton)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repository *HealthcareRepositoryImpl) filterKartone(filter interface{}) ([]*model.Karton, error) {
+	cursor, err := repository.karton.Find(context.Background(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return decodeKarton(cursor)
+}
+
+func (repository *HealthcareRepositoryImpl) filterOneKarton(filter interface{}) (karton *model.Karton, err error) {
+	result := repository.karton.FindOne(context.Background(), filter)
+	err = result.Decode(&karton)
 	return
 }
 
@@ -315,6 +376,19 @@ func decodeInvaliditet(cursor *mongo.Cursor) (invaliditeti []*model.Invaliditet,
 			return
 		}
 		invaliditeti = append(invaliditeti, &invaliditet)
+	}
+	err = cursor.Err()
+	return
+}
+
+func decodeKarton(cursor *mongo.Cursor) (kartoni []*model.Karton, err error) {
+	for cursor.Next(context.Background()) {
+		var karton model.Karton
+		err = cursor.Decode(&karton)
+		if err != nil {
+			return
+		}
+		kartoni = append(kartoni, &karton)
 	}
 	err = cursor.Err()
 	return

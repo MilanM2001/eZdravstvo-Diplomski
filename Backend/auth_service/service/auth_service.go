@@ -34,7 +34,6 @@ func (service *AuthService) IsJMBGUnique(jmbg string) bool {
 }
 
 func (service *AuthService) Register(credentials domain.Credentials) (int, error) {
-
 	dataToSend, err := json.Marshal(credentials)
 
 	response, err := service.natsConnection.Request(os.Getenv("CHECK_USER_JMBG"), dataToSend, 5*time.Second)
@@ -59,6 +58,24 @@ func (service *AuthService) Register(credentials domain.Credentials) (int, error
 			return 0, err
 		}
 		service.store.Register(credentials)
+
+		var karton domain.Karton
+		karton.JMBG = credentials.JMBG
+		karton.Alergije = []domain.Alergija{}
+		karton.Invaliditeti = []domain.Invaliditet{}
+
+		kartonToSend, err := json.Marshal(karton)
+		if err != nil {
+			log.Println("Error in Marshaling JSON!")
+			return 0, err
+		}
+
+		_, err = service.natsConnection.Request(os.Getenv("POST_KARTON"), kartonToSend, 5*time.Second)
+		if err != nil {
+			log.Println(err)
+			return 0, err
+		}
+
 		return 0, nil
 	} else {
 		return -2, nil

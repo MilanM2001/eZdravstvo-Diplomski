@@ -15,6 +15,10 @@ import { VakcinaAddComponent } from './components/eZdravstvo/vakcina/vakcina-add
 import { VakcineComponent } from './components/eZdravstvo/vakcina/vakcine/vakcine.component';
 import { VakcinaViewComponent } from './components/eZdravstvo/vakcina/vakcina-view/vakcina-view.component';
 import { PregledViewComponent } from './components/eZdravstvo/pregled/pregled-view/pregled-view.component';
+import { InvaliditetiAdminComponent } from './components/eAdmin/invaliditet/invaliditeti-admin/invaliditeti-admin.component';
+import { InvaliditetAddComponent } from './components/eAdmin/invaliditet/invaliditet-add/invaliditet-add.component';
+import { AlergijeAdminComponent } from './components/eAdmin/alergija/alergije-admin/alergije-admin.component';
+import { AlergijaAddComponent } from './components/eAdmin/alergija/alergija-add/alergija-add.component';
 
 const routes: Routes = [
   {
@@ -52,6 +56,22 @@ const routes: Routes = [
   {
     path: 'Vakcina-View/:id',
     component: VakcinaViewComponent,
+  },
+  {
+    path: 'Invaliditeti-Admin',
+    component: InvaliditetiAdminComponent
+  },
+  {
+    path: 'Invaliditet-Add',
+    component: InvaliditetAddComponent
+  },
+  {
+    path: 'Alergije-Admin',
+    component: AlergijeAdminComponent
+  },
+  {
+    path: 'Alergija-Add',
+    component: AlergijaAddComponent
   },
   {
     path: 'User-Died',

@@ -32,6 +32,7 @@ p, NotLoggedIn, /getSviPregledi, GET
 p, NotLoggedIn, /getPregledID/*, GET
 p, NotLoggedIn, /getSveVakcine, GET
 p, NotLoggedIn, /getVakcinaID/*, GET
+p, NotLoggedIn, /getSveKartone, GET
 
 
 

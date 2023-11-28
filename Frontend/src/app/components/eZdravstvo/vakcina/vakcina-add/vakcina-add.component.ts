@@ -16,38 +16,24 @@ import { HealthcareService } from 'src/app/services/healthcare.service';
   styleUrls: ['./vakcina-add.component.css'],
 })
 export class VakcinaAddComponent implements OnInit {
-  vakcinaFormGroup: FormGroup = new FormGroup({
-    naziv: new FormControl(''),
-    kompanija: new FormControl(''),
-  });
-
   constructor(
     private healthcareService: HealthcareService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {}
+  ) { }
+
+  vakcinaFormGroup: FormGroup = new FormGroup({
+    naziv: new FormControl(''),
+    kompanija: new FormControl(''),
+  });
 
   submitted = false;
   alreadyExists = false;
 
   ngOnInit(): void {
     this.vakcinaFormGroup = this.formBuilder.group({
-      naziv: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-        ],
-      ],
-      kompanija: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-        ],
-      ],
+      naziv: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      kompanija: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
     });
   }
 

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Alergija } from 'src/app/models/alergija.model';
+import { HealthcareService } from 'src/app/services/healthcare.service';
 
 @Component({
   selector: 'app-alergije-admin',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlergijeAdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(private healthcareService: HealthcareService) { }
+
+  alergije: Array<Alergija> = []
 
   ngOnInit(): void {
+    this.healthcareService.GetSveAlergije().subscribe({
+      next: (data) => {
+        this.alergije = data
+      },
+      error: (error) => {
+        console.error(error)
+      }
+    })
   }
 
 }

@@ -1,0 +1,24 @@
+.alergija-card {
+  max-width: 300px;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.naziv {
+  font-size: 22px;
+  text-align: center;
+  color: red;
+  margin-bottom: 20px;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc; /* Add a border between items */
+}
+
+.bodies {
+  font-size: 20px;
+}

@@ -8,13 +8,17 @@ import { Vakcina } from '../models/vakcina.model';
 import { AddVakcina } from '../dto/addVakcina';
 import { AddPregled } from '../dto/addPregled';
 import { Pregled } from '../models/pregled.model';
+import { Alergija } from '../models/alergija.model';
+import { AddAlergija } from '../dto/addAlergija';
+import { Invaliditet } from '../models/invaliditet.model';
+import { AddInvaliditet } from '../dto/addInvaliditet';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HealthcareService {
   private url = 'healthcare';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public GetPregledID(pregled_id: string): Observable<Pregled> {
     return this.http.get<Pregled>(
@@ -88,6 +92,32 @@ export class HealthcareService {
   public DeleteVakcinaID(id: string) {
     return this.http.delete(
       `${environment.baseApiUrl}/${this.url}/deleteVakcinaID/` + id
+    );
+  }
+
+  public GetSveAlergije(): Observable<Alergija[]> {
+    return this.http.get<Alergija[]>(
+      `${environment.baseApiUrl}/${this.url}/getSveAlergije`
+    );
+  }
+
+  public PostAlergija(alergija: AddAlergija): Observable<AddAlergija> {
+    return this.http.post<AddAlergija>(
+      `${environment.baseApiUrl}/${this.url}/postAlergija`,
+      alergija
+    );
+  }
+
+  public GetSveInvaliditete(): Observable<Invaliditet[]> {
+    return this.http.get<Invaliditet[]>(
+      `${environment.baseApiUrl}/${this.url}/getSveInvaliditete`
+    );
+  }
+
+  public PostInvaliditet(invaliditet: AddInvaliditet): Observable<AddInvaliditet> {
+    return this.http.post<AddInvaliditet>(
+      `${environment.baseApiUrl}/${this.url}/postInvaliditet`,
+      invaliditet
     );
   }
 

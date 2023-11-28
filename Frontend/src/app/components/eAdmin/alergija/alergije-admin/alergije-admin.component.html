@@ -1,1 +1,25 @@
-<p>alergije-admin works!</p>
+<h1 class="welcome">Alergije u sistemu</h1>
+<div id="htmlData">
+  <div class="table-view">
+    <table class="table w-50 text-center">
+      <thead class="heads">
+        <tr>
+          <th scope="col">Naziv</th>
+          <th scope="col">Ozbiljnost</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let alergija of alergije" class="bodies">
+        <tr>
+          <td>{{alergija.naziv}}</td>
+          <td>{{alergija.ozbiljnost}}</td>
+          <td>
+            <button class="delete-button" mat-icon-button color="warn">
+              <mat-icon class="delete-icon">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<button class="btn btn-success" routerLink="/Alergija-Add">Dodavanje Alergije</button>

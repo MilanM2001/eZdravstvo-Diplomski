@@ -272,6 +272,10 @@ func (service *HealthcareService) PostAlergija(alergija *model.Alergija) (int, e
 	return 0, nil
 }
 
+func (service *HealthcareService) DeleteAlergijaID(id primitive.ObjectID) error {
+	return service.repository.DeleteAlergijaID(id)
+}
+
 //Invaliditet ------------------------------------------------------------------------------------------------------------------
 
 func (service *HealthcareService) GetSveInvaliditete() ([]*model.Invaliditet, error) {
@@ -297,6 +301,16 @@ func (service *HealthcareService) PostInvaliditet(invaliditet *model.Invaliditet
 	}
 
 	return 0, nil
+}
+
+func (service *HealthcareService) DeleteInvaliditetID(id primitive.ObjectID) error {
+	return service.repository.DeleteInvaliditetID(id)
+}
+
+//Invaliditet ------------------------------------------------------------------------------------------------------------------
+
+func (service *HealthcareService) GetSveKartone() ([]*model.Karton, error) {
+	return service.repository.GetSveKartone()
 }
 
 func (service *HealthcareService) GetMe(jmbg string) (*model.User, error) {
@@ -379,4 +393,37 @@ func (service *HealthcareService) SubscribeToNats(natsConnection *nats.Conn) {
 
 	log.Printf("Subscribed to channel: %s", os.Getenv("GET_STANJE_BY_JMBG"))
 
+	_, err := natsConnection.QueueSubscribe(os.Getenv("POST_KARTON"), "queue-healthcare-group", func(message *nats.Msg) {
+		var karton model.Karton
+		err := json.Unmarshal(message.Data, &karton)
+		if err != nil {
+			log.Println("Error in unmarshal JSON!")
+			return
+		}
+
+		karton.ID = primitive.NewObjectID()
+		err = service.repository.PostKarton(karton)
+		if err != nil {
+			log.Println("Error in Nats")
+			return
+		}
+
+		dataToSend, err := json.Marshal(karton)
+		if err != nil {
+			log.Println("Error in marshaling JSON!")
+			return
+		}
+		reply := dataToSend
+		err = natsConnection.Publish(message.Reply, reply)
+		if err != nil {
+			log.Printf("Error in publish response: %s", err.Error())
+			return
+		}
+
+	})
+	if err != nil {
+		log.Println("Error in receiving message: %s", err.Error())
+	}
+
+	log.Printf("Subscribed to channel: %s", os.Getenv("POST_KARTON"))
 }

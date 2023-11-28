@@ -8,10 +8,11 @@ import { HealthcareService } from 'src/app/services/healthcare.service';
   styleUrls: ['./pregledi-lekar.component.css'],
 })
 export class PreglediLekarComponent implements OnInit {
-  pregledi: Array<Pregled> = [];
-  options = ['Slobodni', 'Zauzeti', 'Svi'];
 
   constructor(private healthcareService: HealthcareService) {}
+  
+  pregledi: Array<Pregled> = [];
+  options = ['Slobodni', 'Zauzeti', 'Svi'];
 
   ngOnInit(): void {
     this.healthcareService.GetMojiPreglediLekar().subscribe({
