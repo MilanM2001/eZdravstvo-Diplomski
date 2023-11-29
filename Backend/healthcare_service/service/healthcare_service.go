@@ -313,6 +313,10 @@ func (service *HealthcareService) GetSveKartone() ([]*model.Karton, error) {
 	return service.repository.GetSveKartone()
 }
 
+func (service *HealthcareService) GetKartonJMBG(jmbg string) (*model.Karton, error) {
+	return service.repository.GetKartonJMBG(jmbg)
+}
+
 func (service *HealthcareService) GetMe(jmbg string) (*model.User, error) {
 	dataToSend, err := json.Marshal(jmbg)
 	if err != nil {

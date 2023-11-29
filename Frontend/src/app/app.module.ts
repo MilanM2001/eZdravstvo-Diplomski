@@ -50,6 +50,10 @@ import { AlergijaItemComponent } from './components/eAdmin/alergija/alergija-ite
 import { AlergijaListComponent } from './components/eAdmin/alergija/alergija-list/alergija-list.component';
 import { AlergijaViewComponent } from './components/eAdmin/alergija/alergija-view/alergija-view.component';
 import { AlergijeAdminComponent } from './components/eAdmin/alergija/alergije-admin/alergije-admin.component';
+import { KartoniComponent } from './components/eZdravstvo/karton/kartoni/kartoni.component';
+import { KartonViewComponent } from './components/eZdravstvo/karton/karton-view/karton-view.component';
+import { KartonItemComponent } from './components/eZdravstvo/karton/karton-item/karton-item.component';
+import { KartonListComponent } from './components/eZdravstvo/karton/karton-list/karton-list.component';
 
 
 
@@ -90,6 +94,10 @@ import { AlergijeAdminComponent } from './components/eAdmin/alergija/alergije-ad
     AlergijaListComponent,
     AlergijaViewComponent,
     AlergijeAdminComponent,
+    KartoniComponent,
+    KartonViewComponent,
+    KartonItemComponent,
+    KartonListComponent,
   ],
   imports: [
     BrowserModule,

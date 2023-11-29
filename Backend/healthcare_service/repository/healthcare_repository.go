@@ -37,5 +37,6 @@ type HealthcareRepository interface {
 
 	GetSveKartone() ([]*model.Karton, error)
 	GetKartoneJMBG(jmbg string) ([]*model.Karton, error)
+	GetKartonJMBG(jmg string) (*model.Karton, error)
 	PostKarton(karton model.Karton) error
 }

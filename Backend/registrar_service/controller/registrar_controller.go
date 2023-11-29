@@ -31,6 +31,7 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 		log.Fatal(err)
 	}
 
+	router.HandleFunc("/allUsers", controller.GetAllUsers).Methods("GET")
 	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
 	router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
 	router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
@@ -40,6 +41,18 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	http.Handle("/", router)
 
 	log.Fatal(http.ListenAndServe(":8001", authorization.Authorizer(authEnforcer)(router)))
+}
+
+func (controller *RegistrarController) GetAllUsers(writer http.ResponseWriter, req *http.Request) {
+	users, err := controller.service.GetAllUsers()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(users, writer)
+	writer.WriteHeader(http.StatusOK)
 }
 
 func (controller *RegistrarController) CreateNewBirthCertificate(writer http.ResponseWriter, req *http.Request) {

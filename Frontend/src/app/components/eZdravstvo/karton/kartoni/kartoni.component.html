@@ -1,0 +1,19 @@
+<h1 class="welcome">Pretraga Kartona</h1>
+
+<form [formGroup]="searchFormGroup">
+
+    <div class="flex-container">
+        <div class="mb-3">
+            <label class="input-title">Unesite JMBG</label>
+            <input type="text" id="search_input" class="form-control" formControlName="search_input"
+                [ngClass]="{ 'is-invalid': submitted && searchGroup['search_input'].errors }"
+                (input)="onSearchInputChange()">
+            <div *ngIf="submitted && searchGroup['search_input'].errors" class="invalid-feedback">
+                <div *ngIf="searchGroup['search_input'].errors['required']">Enter something.</div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<app-karton-list [kartoni]="kartoni"></app-karton-list>

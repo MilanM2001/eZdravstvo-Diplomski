@@ -63,6 +63,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 
 	//Karton
 	router.HandleFunc("/getSveKartone", controller.GetSveKartone).Methods("GET")
+	router.HandleFunc("/getKartonJMBG/{jmbg}", controller.GetKartonJMBG).Methods("GET")
 
 	router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
 
@@ -431,6 +432,21 @@ func (controller *HealthcareController) GetSveKartone(writer http.ResponseWriter
 
 	jsonResponse(kartoni, writer)
 	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetKartonJMBG(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	jmbg, _ := vars["jmbg"]
+
+	karton, err := controller.service.GetKartonJMBG(jmbg)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Print(err)
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+	jsonResponse(karton, writer)
 }
 
 //func (controller *HealthcareController) SetAppointment(writer http.ResponseWriter, req *http.Request) {

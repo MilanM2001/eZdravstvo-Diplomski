@@ -2,29 +2,29 @@
   position: relative;
   z-index: 10;
   color: #fff;
-  }
-  
-  .app-navbar {
+}
+
+.app-navbar {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   color: white
-  }
-  
-  .app-navbar span {
+}
+
+.app-navbar span {
   text-transform: uppercase !important;
-  }
-  
-  .right {
+}
+
+.right {
   margin-left: auto;
   float: right;
-  }
-  
-  .app-angular-logo {
+}
+
+.app-angular-logo {
   margin: 0 4px 3px 0;
   height: 26px;
-  }
-  
-  .greeting-hamburger {
+}
+
+.greeting-hamburger {
   display: none;
-  }
+}

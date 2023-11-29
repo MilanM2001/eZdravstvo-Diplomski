@@ -302,6 +302,11 @@ func (repository *HealthcareRepositoryImpl) GetKartoneJMBG(jmbg string) ([]*mode
 	return repository.filterKartone(filter)
 }
 
+func (repository *HealthcareRepositoryImpl) GetKartonJMBG(jmbg string) (*model.Karton, error) {
+	filter := bson.M{"jmbg": jmbg}
+	return repository.filterOneKarton(filter)
+}
+
 func (repository *HealthcareRepositoryImpl) PostKarton(karton model.Karton) error {
 	_, err := repository.karton.InsertOne(context.Background(), karton)
 	if err != nil {

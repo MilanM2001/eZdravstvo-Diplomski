@@ -25,6 +25,9 @@ p, Admin, /postInvaliditet, POST
 p, Doctor, /getSveInvaliditete, GET
 p, Doctor, /getInvaliditetID/*, GET
 
+p, Doctor, /getSveKartone, GET
+p, Doctor, /getKartonJMBG/*, GET
+
 p, Doctor, /getMe, GET
 p, Regular, /getMe, GET
 
@@ -33,6 +36,7 @@ p, NotLoggedIn, /getPregledID/*, GET
 p, NotLoggedIn, /getSveVakcine, GET
 p, NotLoggedIn, /getVakcinaID/*, GET
 p, NotLoggedIn, /getSveKartone, GET
+p, NotLoggedIn, /getKartonJMBG/*, GET
 
 
 

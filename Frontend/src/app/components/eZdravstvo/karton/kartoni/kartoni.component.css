@@ -1,0 +1,25 @@
+.welcome {
+    font-size: 35px;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 60px;
+    color: blue;
+}
+
+.mb-3 {
+    width: 170px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-title {
+    color: blue;
+    margin-left: 35px;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center;
+}

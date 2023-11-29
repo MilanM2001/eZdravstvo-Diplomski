@@ -19,6 +19,7 @@ import { InvaliditetiAdminComponent } from './components/eAdmin/invaliditet/inva
 import { InvaliditetAddComponent } from './components/eAdmin/invaliditet/invaliditet-add/invaliditet-add.component';
 import { AlergijeAdminComponent } from './components/eAdmin/alergija/alergije-admin/alergije-admin.component';
 import { AlergijaAddComponent } from './components/eAdmin/alergija/alergija-add/alergija-add.component';
+import { KartoniComponent } from './components/eZdravstvo/karton/kartoni/kartoni.component';
 
 const routes: Routes = [
   {
@@ -74,6 +75,10 @@ const routes: Routes = [
     component: AlergijaAddComponent
   },
   {
+    path: 'Kartoni',
+    component: KartoniComponent
+  },
+  {
     path: 'User-Died',
     component: UserDiedComponent,
   },
@@ -103,4 +108,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

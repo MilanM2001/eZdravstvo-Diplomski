@@ -23,6 +23,10 @@ func NewRegistrarService(store repository.RegistrarRepository, natsConnection *n
 	}
 }
 
+func (service *RegistrarService) GetAllUsers() ([]*entity.User, error) {
+	return service.store.GetAllUsers()
+}
+
 func (service *RegistrarService) CreateNewBirthCertificate(user entity.User) (int, error) {
 
 	isExist := service.store.IsUserExist(user.JMBG)

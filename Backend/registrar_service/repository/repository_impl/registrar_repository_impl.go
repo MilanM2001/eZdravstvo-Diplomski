@@ -31,6 +31,11 @@ func NewRegistrarRepositoryImpl(client *mongo.Client) repository.RegistrarReposi
 	}
 }
 
+func (store *RegistrarRepositoryImpl) GetAllUsers() ([]*domain.User, error) {
+	filter := bson.M{}
+	return store.filter(filter)
+}
+
 func (store *RegistrarRepositoryImpl) CreateNewBirthCertificate(user domain.User) error {
 	if !store.IsUserExist(user.JMBG) {
 		_, err := store.user_registry.InsertOne(context.Background(), user)
@@ -64,6 +69,16 @@ func (store *RegistrarRepositoryImpl) filterOne(filter interface{}) (user *domai
 	result := store.user_registry.FindOne(context.TODO(), filter)
 	err = result.Decode(&user)
 	return
+}
+
+func (store *RegistrarRepositoryImpl) filter(filter interface{}) ([]*domain.User, error) {
+	cursor, err := store.user_registry.Find(context.Background(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+	return decodeUser(cursor)
 }
 
 func (store *RegistrarRepositoryImpl) FindOneUser(jmbg string) *domain.User {
@@ -143,4 +158,17 @@ func (store *RegistrarRepositoryImpl) GetChildren(jmbg string, pol domain.Pol) [
 	}
 
 	return children
+}
+
+func decodeUser(cursor *mongo.Cursor) (users []*domain.User, err error) {
+	for cursor.Next(context.Background()) {
+		var user domain.User
+		err = cursor.Decode(&user)
+		if err != nil {
+			return
+		}
+		users = append(users, &user)
+	}
+	err = cursor.Err()
+	return
 }

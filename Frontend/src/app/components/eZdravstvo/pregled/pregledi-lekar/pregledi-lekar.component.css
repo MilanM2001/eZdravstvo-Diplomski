@@ -1,3 +1,11 @@
+.welcome {
+    font-size: 35px;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 60px;
+    color: blue;
+}
+
 .btn-success {
     float: right;
     margin-right: 200px;
@@ -8,14 +16,6 @@
     float: right;
     margin-right: 10px;
     margin-top: 30px;
-}
-
-.welcome {
-    font-size: 35px;
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 60px;
-    color: blue;
 }
 
 .search {

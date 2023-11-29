@@ -12,6 +12,7 @@ import { Alergija } from '../models/alergija.model';
 import { AddAlergija } from '../dto/addAlergija';
 import { Invaliditet } from '../models/invaliditet.model';
 import { AddInvaliditet } from '../dto/addInvaliditet';
+import { Karton } from '../models/karton.model';
 
 @Injectable({
   providedIn: 'root',
@@ -118,6 +119,12 @@ export class HealthcareService {
     return this.http.post<AddInvaliditet>(
       `${environment.baseApiUrl}/${this.url}/postInvaliditet`,
       invaliditet
+    );
+  }
+
+  public GetSveKartone(): Observable<Karton[]> {
+    return this.http.get<Karton[]>(
+      `${environment.baseApiUrl}/${this.url}/getSveKartone`
     );
   }
 
