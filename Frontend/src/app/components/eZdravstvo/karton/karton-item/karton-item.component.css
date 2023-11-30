@@ -5,9 +5,19 @@
     margin-right: auto;
 }
 
-.karton-jmbg {
+.karton {
     font-size: 22px;
     text-align: center;
     color: blue;
     margin-bottom: 20px;
+}
+
+.karton-jmbg {
+    font-size: 17px;
+    text-align: center;
+}
+
+.karton-content {
+    text-align: center;
+    margin-top: 15px;
 }

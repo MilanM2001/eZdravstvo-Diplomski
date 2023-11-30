@@ -26,15 +26,6 @@ export class KartoniComponent implements OnInit {
     this.searchFormGroup = this.formBuilder.group({
       search_input: ['', [Validators.required]]
     })
-
-    this.healthcareService.GetSveKartone().subscribe({
-      next: (data) => {
-        this.kartoni = data
-      },
-      error: (error) => {
-        console.error(error)
-      }
-    })
   }
 
   onSearchInputChange() {
@@ -50,6 +41,16 @@ export class KartoniComponent implements OnInit {
   search() {
     let search_input = this.searchFormGroup.get("search_input")?.value;
     console.log(search_input);
+
+    this.healthcareService.GetKartoneJMBG(search_input).subscribe({
+      next: (data) => {
+        this.kartoni = data
+        console.log(this.kartoni)
+      },
+      error: (error) => {
+        console.error(error)
+      }
+    })
   }
 
   ngOnDestroy() {

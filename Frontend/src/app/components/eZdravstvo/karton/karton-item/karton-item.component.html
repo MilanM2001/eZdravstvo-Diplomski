@@ -1,8 +1,13 @@
 <mat-card class="karton-card">
-    <mat-card-title class="karton-jmbg">
-      {{karton.jmbg}}
-    </mat-card-title>
-    <mat-card-content>
-      
-    </mat-card-content>
-  </mat-card>
+  <mat-card-title class="karton">
+    Zdravstveni Karton
+  </mat-card-title>
+  <mat-card-title class="karton-jmbg">
+    JMBG: {{karton.jmbg}}
+  </mat-card-title>
+  <mat-card-content class="karton-content">
+    <button [routerLink]="['/Karton-View', karton.jmbg]" type="submit" class="btn btn-primary">
+      Pogledaj
+    </button>
+  </mat-card-content>
+</mat-card>

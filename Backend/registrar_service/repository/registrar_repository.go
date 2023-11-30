@@ -1,9 +1,12 @@
 package repository
 
-import domain "registrar_service/model/entity"
+import (
+	domain "registrar_service/model/entity"
+)
 
 type RegistrarRepository interface {
 	GetAllUsers() ([]*domain.User, error)
+	GetUserJMBG(jmbg string) (*domain.User, error)
 	CreateNewBirthCertificate(user domain.User) error
 	IsUserExist(jmbg string) bool
 	FindOneUser(jmbg string) *domain.User

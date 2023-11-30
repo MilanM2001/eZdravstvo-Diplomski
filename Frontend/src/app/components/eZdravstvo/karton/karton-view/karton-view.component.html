@@ -1,1 +1,15 @@
-<p>karton-view works!</p>
+<h1 class="welcome">Pregled Kartona</h1>
+<div class="container">
+    <mat-card>
+        <mat-card-title class="gradjanin-title">Građanin</mat-card-title>
+        <mat-card-content>
+            <div class="gradjanin-info">
+                <p><strong>Ime:</strong> {{ user.ime + " " + user.prezime }}</p>
+                <p><strong>JMBG:</strong> {{ user.jmbg }}</p>
+                <p><strong>Pol:</strong> {{ user.pol }}</p>
+                <p><strong>Datum rođenja:</strong> {{ user.datum_rodjenja | date: 'longDate' }}</p>
+                <p><strong>Mesto rođenja:</strong> {{ user.mesto_rodjenja }}</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

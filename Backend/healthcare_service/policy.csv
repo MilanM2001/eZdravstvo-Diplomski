@@ -26,6 +26,7 @@ p, Doctor, /getSveInvaliditete, GET
 p, Doctor, /getInvaliditetID/*, GET
 
 p, Doctor, /getSveKartone, GET
+p, Doctor, /getKartoneJMBG/*, GET
 p, Doctor, /getKartonJMBG/*, GET
 
 p, Doctor, /getMe, GET

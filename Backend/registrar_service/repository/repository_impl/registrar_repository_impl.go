@@ -36,6 +36,11 @@ func (store *RegistrarRepositoryImpl) GetAllUsers() ([]*domain.User, error) {
 	return store.filter(filter)
 }
 
+func (store *RegistrarRepositoryImpl) GetUserJMBG(jmbg string) (*domain.User, error) {
+	filter := bson.M{"JMBG": jmbg}
+	return store.filterOne(filter)
+}
+
 func (store *RegistrarRepositoryImpl) CreateNewBirthCertificate(user domain.User) error {
 	if !store.IsUserExist(user.JMBG) {
 		_, err := store.user_registry.InsertOne(context.Background(), user)

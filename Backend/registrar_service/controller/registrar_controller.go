@@ -32,6 +32,7 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	}
 
 	router.HandleFunc("/allUsers", controller.GetAllUsers).Methods("GET")
+	router.HandleFunc("/getUserJMBG/{jmbg}", controller.GetUserJMBG).Methods("GET")
 	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
 	router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
 	router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
@@ -45,6 +46,21 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 
 func (controller *RegistrarController) GetAllUsers(writer http.ResponseWriter, req *http.Request) {
 	users, err := controller.service.GetAllUsers()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(users, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *RegistrarController) GetUserJMBG(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	jmbg, _ := vars["jmbg"]
+
+	users, err := controller.service.GetUserJMBG(jmbg)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
@@ -148,7 +164,6 @@ func (controller *RegistrarController) UpdateCertificate(writer http.ResponseWri
 }
 
 func (controller *RegistrarController) GetChildren(writer http.ResponseWriter, req *http.Request) {
-
 	vars := mux.Vars(req)
 	jmbg, _ := vars["jmbg"]
 

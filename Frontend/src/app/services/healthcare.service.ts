@@ -128,6 +128,12 @@ export class HealthcareService {
     );
   }
 
+  public GetKartoneJMBG(jmbg: string): Observable<Karton[]> {
+    return this.http.get<Karton[]>(
+      `${environment.baseApiUrl}/${this.url}/getKartoneJMBG/` + jmbg
+    );
+  }
+
   public GetMe(): Observable<User> {
     return this.http.get<User>(`${environment.baseApiUrl}/${this.url}/getMe`);
   }

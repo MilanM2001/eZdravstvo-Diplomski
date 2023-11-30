@@ -113,7 +113,6 @@ export class PregledAddComponent implements OnInit {
     PocetakPregleda.setHours(satiPocetak)
     ZavrsetakPregleda.setHours(satiKraj)
     
-
     pregled.pocetakPregleda = PocetakPregleda.getTime() / 1000
     pregled.zavrsetakPregleda = ZavrsetakPregleda.getTime() / 1000
     pregled.vakcinaID = this.vakcinaID

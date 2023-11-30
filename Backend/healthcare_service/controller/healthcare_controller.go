@@ -63,6 +63,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 
 	//Karton
 	router.HandleFunc("/getSveKartone", controller.GetSveKartone).Methods("GET")
+	router.HandleFunc("/getKartoneJMBG/{jmbg}", controller.GetKartoneJMBG).Methods("GET")
 	router.HandleFunc("/getKartonJMBG/{jmbg}", controller.GetKartonJMBG).Methods("GET")
 
 	router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
@@ -424,6 +425,21 @@ func (controller *HealthcareController) DeleteInvaliditetID(writer http.Response
 
 func (controller *HealthcareController) GetSveKartone(writer http.ResponseWriter, req *http.Request) {
 	kartoni, err := controller.service.GetSveKartone()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(kartoni, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) GetKartoneJMBG(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	jmbg, _ := vars["jmbg"]
+
+	kartoni, err := controller.service.GetKartoneJMBG(jmbg)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)

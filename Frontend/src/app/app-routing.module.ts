@@ -20,6 +20,7 @@ import { InvaliditetAddComponent } from './components/eAdmin/invaliditet/invalid
 import { AlergijeAdminComponent } from './components/eAdmin/alergija/alergije-admin/alergije-admin.component';
 import { AlergijaAddComponent } from './components/eAdmin/alergija/alergija-add/alergija-add.component';
 import { KartoniComponent } from './components/eZdravstvo/karton/kartoni/kartoni.component';
+import { KartonViewComponent } from './components/eZdravstvo/karton/karton-view/karton-view.component';
 
 const routes: Routes = [
   {
@@ -77,6 +78,10 @@ const routes: Routes = [
   {
     path: 'Kartoni',
     component: KartoniComponent
+  },
+  {
+    path: 'Karton-View/:jmbg',
+    component: KartonViewComponent,
   },
   {
     path: 'User-Died',

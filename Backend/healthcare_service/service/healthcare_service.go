@@ -313,6 +313,10 @@ func (service *HealthcareService) GetSveKartone() ([]*model.Karton, error) {
 	return service.repository.GetSveKartone()
 }
 
+func (service *HealthcareService) GetKartoneJMBG(jmbg string) ([]*model.Karton, error) {
+	return service.repository.GetKartoneJMBG(jmbg)
+}
+
 func (service *HealthcareService) GetKartonJMBG(jmbg string) (*model.Karton, error) {
 	return service.repository.GetKartonJMBG(jmbg)
 }

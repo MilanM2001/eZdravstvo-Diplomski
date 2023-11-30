@@ -6,6 +6,7 @@ p, NotLoggedIn, /test, GET
 p, Registrar, /certificate/*, GET
 p, Regular, /certificate/*, GET
 p, Doctor, /certificate/*, GET
+p, Doctor, /getUserJMBG/*, GET
 p, Admin, /certificate/*, GET
 p, NotLoggedIn, /children/*, GET
 p, Regular, /isParent/*, GET

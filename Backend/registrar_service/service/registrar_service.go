@@ -27,6 +27,10 @@ func (service *RegistrarService) GetAllUsers() ([]*entity.User, error) {
 	return service.store.GetAllUsers()
 }
 
+func (service *RegistrarService) GetUserJMBG(jmbg string) (*entity.User, error) {
+	return service.store.GetUserJMBG(jmbg)
+}
+
 func (service *RegistrarService) CreateNewBirthCertificate(user entity.User) (int, error) {
 
 	isExist := service.store.IsUserExist(user.JMBG)

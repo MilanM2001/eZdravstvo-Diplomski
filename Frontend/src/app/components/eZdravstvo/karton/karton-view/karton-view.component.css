@@ -1,0 +1,21 @@
+.welcome {
+    font-size: 35px;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 60px;
+    color: blue;
+}
+
+.container {
+    width: 450px;
+}
+
+.gradjanin-title {
+    text-align: center;
+    color: blue;
+}
+
+.gradjanin-info {
+    text-align: left;
+
+}
