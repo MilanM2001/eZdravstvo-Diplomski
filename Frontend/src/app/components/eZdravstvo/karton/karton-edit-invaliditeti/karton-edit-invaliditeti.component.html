@@ -1,0 +1,35 @@
+<h1 class="welcome">Invaliditeti u kartonu</h1>
+
+<div class="alergije-change">
+  <mat-form-field appearance="outline" class="w-25">
+    <mat-label>Invaliditeti</mat-label>
+    <mat-select multiple [(ngModel)]="selectedInvaliditeti" (selectionChange)="onInvaliditetiSelectionChange($event)">
+      <mat-option *ngFor="let invaliditet of invaliditeti" [value]="invaliditet">
+        {{ invaliditet.naziv }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button type="submit" class="alergije-save-button" mat-raised-button color="primary"
+    (click)="submit()">Sačuvaj</button>
+</div>
+
+<div id="htmlData">
+  <div class="table-view">
+    <table class="table w-50 text-center">
+      <thead class="heads">
+        <tr>
+          <th scope="col">Naziv</th>
+          <th scope="col">Ozbiljnost</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let invaliditet of kartonInvaliditeti; let i = index" class="bodies">
+        <tr>
+          <td>{{invaliditet.naziv}}</td>
+          <td>{{invaliditet.ozbiljnost}}</td>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

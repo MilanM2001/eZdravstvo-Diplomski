@@ -8,58 +8,70 @@ import { HealthcareService } from 'src/app/services/healthcare.service';
 import { RegistrarService } from 'src/app/services/registrar.service';
 
 @Component({
-  selector: 'app-karton-view',
-  templateUrl: './karton-view.component.html',
-  styleUrls: ['./karton-view.component.css']
+  selector: 'app-karton-view-my',
+  templateUrl: './karton-view-my.component.html',
+  styleUrls: ['./karton-view-my.component.css']
 })
-export class KartonViewComponent implements OnInit {
+export class KartonViewMyComponent implements OnInit {
 
   constructor(private registrarService: RegistrarService,
     private healthcareService: HealthcareService,
     private route: ActivatedRoute) { }
 
-  jmbg = String(this.route.snapshot.paramMap.get('jmbg'));
   user: User = new User()
-  options = ['Pregledi', 'Vakcinacije', 'Alergije', 'Invaliditeti'];
+  options = ['Pregledi', 'Alergije', 'Invaliditeti'];
 
   pregledi: Pregled[] = []
   vakcinacije: Pregled[] = []
   alergije: Alergija[] = []
   invaliditeti: Invaliditet[] = []
+  search_value: string = ""
 
   ngOnInit(): void {
-    this.registrarService.GetUserJMBG(this.jmbg)
+    this.healthcareService.GetMe()
       .subscribe({
         next: (data) => {
           this.user = data
         },
         error: (error) => {
           console.error(error)
+        },
+        complete: () => {
+          this.healthcareService.GetKartonJMBG(this.user.jmbg)
+          .subscribe({
+            next: (data) => {
+              this.alergije = data.alergije
+              this.invaliditeti = data.invaliditeti
+            },
+            error: (error) => {
+              console.error(error)
+            }
+          })
         }
       })
+
+
   }
 
   search(search_option: string) {
-    // if (search_option == 'Pregledi') {
-    //   this.healthcareService.GetMojiPreglediGradjanin(this.jmbg).subscribe({
-    //     next: (data) => {
-    //       this.pregledi = data;
-    //     },
-    //     error: (error) => {
-    //       console.log(error);
-    //     },
-    //   });
-    // }
-    // if (search_option == 'Zauzeti') {
-    //   this.healthcareService.GetMojiZauzetiPreglediLekar().subscribe({
-    //     next: (data) => {
-    //       this.pregledi = data;
-    //     },
-    //     error: (error) => {
-    //       console.log(error);
-    //     },
-    //   });
-    // }
+    if (search_option == 'Pregledi') {
+      this.search_value = "Pregledi"
+      this.healthcareService.GetMojiPreglediGradjanin().subscribe({
+        next: (data) => {
+          this.pregledi = data;
+          console.log(this.pregledi)
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    }
+    if (search_option == 'Alergije') {
+      this.search_value = "Alergije"
+    }
+    if (search_option == 'Invaliditeti') {
+      this.search_value = "Invaliditeti"
+    }
     // if (search_option == 'Svi') {
     //   this.healthcareService.GetMojiPreglediLekar().subscribe({
     //     next: (data) => {

@@ -46,14 +46,14 @@ export class PregledViewComponent implements OnInit {
   }
 
   update() {
-    // this.healthcareService.SetAppointment(this.appointment_id).subscribe({
-    //   next: () => {
-    //     this.router.navigate(['/Appointments-Regular']);
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   },
-    // });
+    this.healthcareService.ZakaziPregled(this.pregled_id).subscribe({
+      next: () => {
+        this.router.navigate(['/Pregledi-Gradjanin']);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   delete() {

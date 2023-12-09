@@ -1,0 +1,71 @@
+<h1 class="welcome">Moj Karton</h1>
+
+<div class="container">
+    <mat-card>
+        <mat-card-content>
+            <div class="gradjanin-info">
+                <p><strong>Ime:</strong> {{ user.ime }}</p>
+                <p><strong>Prezime:</strong> {{ user.prezime }}</p>
+                <p><strong>JMBG:</strong> {{ user.jmbg }}</p>
+                <p><strong>Pol:</strong> {{ user.pol }}</p>
+                <p><strong>Datum rođenja:</strong> {{ user.datum_rodjenja | date: 'longDate' }}</p>
+                <p><strong>Mesto rođenja:</strong> {{ user.mesto_rodjenja }}</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div class="search">
+    <h3 class="search-h3">Informacije</h3>
+    <mat-form-field appearance="outline">
+        <mat-select (selectionChange)="search($event.value)">
+            <mat-option style="font-size: 15px; text-align: center" *ngFor="let option of options" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div *ngIf="search_value == 'Pregledi'">
+    <h3 class="my-title">Pregledi</h3>
+    <mat-card *ngFor="let pregled of pregledi" class="pregled-card">
+        <mat-card-title *ngIf="pregled.tipPregleda == 'Obican'" class="pregled-title">
+            Običan pregled
+        </mat-card-title>
+        <mat-card-title *ngIf="pregled.tipPregleda == 'Vakcinacija'" class="vakcinacija-title">
+            Vakcinacija
+        </mat-card-title>
+        <mat-card-title class="pregled-lekar">Lekar: {{pregled.lekar.ime + " " +
+            pregled.lekar.prezime}}</mat-card-title>
+        <mat-card-title class="pregled-gradjanin">Pacijent: {{pregled.gradjanin.ime + " " +
+            pregled.gradjanin.prezime}}</mat-card-title>
+        <mat-card-title *ngIf="pregled.vakcina" class="pregled-vakcina">Vakcina:
+            {{pregled.vakcina.naziv}}</mat-card-title>
+        <mat-card-content>
+            <p class="pregled-datum">Datum: {{pregled.pocetakPregleda * 1000 | date: "longDate"}}</p>
+            <p class="pregled-od">Od: {{pregled.pocetakPregleda * 1000 | date: "shortTime"}}</p>
+            <p class="pregled-do">Do: {{pregled.zavrsetakPregleda * 1000 | date: "shortTime"}}</p>
+        </mat-card-content>
+    </mat-card>
+    <h3 *ngIf="pregledi?.length == 0 || !pregledi" class="empty-list">Nema pregleda u kartonu</h3>
+</div>
+
+<div *ngIf="search_value == 'Alergije'">
+    <h3 class="my-title">Alergije</h3>
+    <mat-card *ngFor="let alergija of alergije" class="alergija-card">
+        <div class="list-item">
+            <div class="naziv">{{alergija.naziv}}</div>
+        </div>
+    </mat-card>
+    <h3 *ngIf="alergije?.length == 0 || !alergije" class="empty-list">Nema alergija u kartonu</h3>
+</div>
+
+<div *ngIf="search_value == 'Invaliditeti'">
+    <h3 class="my-title">Invaliditeti</h3>
+    <mat-card *ngFor="let invaliditet of invaliditeti" class="alergija-card">
+        <div class="list-item">
+            <div class="naziv">{{invaliditet.naziv}}</div>
+        </div>
+    </mat-card>
+    <h3 *ngIf="invaliditeti?.length == 0 || !invaliditeti" class="empty-list">Nema invaliditeta u kartonu</h3>
+</div>

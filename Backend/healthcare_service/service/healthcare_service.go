@@ -89,6 +89,26 @@ func (service *HealthcareService) GetMojiZauzetiPreglediLekar(jmbg string) ([]*m
 	return service.repository.GetMojiZauzetiPreglediLekar(doctorID)
 }
 
+func (service *HealthcareService) GetMojiPreglediGradjanin(jmbg string) ([]*model.Pregled, error) {
+	dataToSend, err := json.Marshal(jmbg)
+	if err != nil {
+		log.Println("Error Marshaling JMBG")
+	}
+
+	response, err := service.natsConnection.Request(os.Getenv("GET_USER_BY_JMBG"), dataToSend, 5*time.Second)
+
+	var gradjanin model.User
+	err = json.Unmarshal(response.Data, &gradjanin)
+	if err != nil {
+		log.Println("Error in Unmarshalling json")
+		return nil, err
+	}
+
+	gradjaninID := gradjanin.ID
+
+	return service.repository.GetMojiPreglediGradjanin(gradjaninID)
+}
+
 func (service *HealthcareService) GetSviSlobodniPregledi() ([]*model.Pregled, error) {
 	return service.repository.GetSviSlobodniPregledi()
 }
@@ -320,6 +340,26 @@ func (service *HealthcareService) GetKartoneJMBG(jmbg string) ([]*model.Karton, 
 func (service *HealthcareService) GetKartonJMBG(jmbg string) (*model.Karton, error) {
 	return service.repository.GetKartonJMBG(jmbg)
 }
+
+func (service *HealthcareService) PutKarton(karton *model.Karton, jmbg string) (int, error) {
+	updateKarton, err := service.repository.GetKartonJMBG(jmbg)
+	if err != nil {
+		log.Println("Error in trying to update Karton")
+		return 0, err
+	}
+
+	updateKarton = karton
+
+	err = service.repository.PutKarton(updateKarton)
+	if err != nil {
+		log.Println("Error in trying to save Karton")
+		return 0, err
+	}
+
+	return 0, nil
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
 
 func (service *HealthcareService) GetMe(jmbg string) (*model.User, error) {
 	dataToSend, err := json.Marshal(jmbg)

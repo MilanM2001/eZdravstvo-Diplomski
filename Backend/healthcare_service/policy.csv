@@ -12,6 +12,9 @@ p, Doctor, /deleteVakcinaID/*, DELETE
 p, Doctor, /putVakcina/*, PUT
 p, Regular, /getSviSlobodniPregledi, GET
 p, Regular, /getPregledID/*, GET
+p, Regular, /getMojiPreglediGradjanin, GET
+p, Regular, /zakaziPregled/*, PUT
+p, Regular, /getKartonJMBG/*, GET
 
 p, Admin, /getSveAlergije, GET
 p, Admin, /getAlergijaID/*, GET
@@ -28,6 +31,7 @@ p, Doctor, /getInvaliditetID/*, GET
 p, Doctor, /getSveKartone, GET
 p, Doctor, /getKartoneJMBG/*, GET
 p, Doctor, /getKartonJMBG/*, GET
+p, Doctor, /putKarton/*, PUT
 
 p, Doctor, /getMe, GET
 p, Regular, /getMe, GET

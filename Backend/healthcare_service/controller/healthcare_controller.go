@@ -37,9 +37,11 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/getMojiPreglediLekar", controller.GetMojiPreglediLekar).Methods("GET")
 	router.HandleFunc("/getMojiSlobodniPreglediLekar", controller.GetMojiSlobodniPreglediLekar).Methods("GET")
 	router.HandleFunc("/getMojiZauzetiPreglediLekar", controller.GetMojiZauzetiPreglediLekar).Methods("GET")
+	router.HandleFunc("/getMojiPreglediGradjanin", controller.GetMojiPreglediGradjanin).Methods("GET")
 	router.HandleFunc("/getSviSlobodniPregledi", controller.GetSviSlobodniPregledi).Methods("GET")
 	router.HandleFunc("/getPregledID/{id}", controller.GetPregledID).Methods("GET")
 	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
+	router.HandleFunc("/zakaziPregled/{id}", controller.ZakaziPregled).Methods("PUT")
 	router.HandleFunc("/deletePregledID/{id}", controller.DeletePregledID).Methods("DELETE")
 
 	//Vakcina
@@ -65,6 +67,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/getSveKartone", controller.GetSveKartone).Methods("GET")
 	router.HandleFunc("/getKartoneJMBG/{jmbg}", controller.GetKartoneJMBG).Methods("GET")
 	router.HandleFunc("/getKartonJMBG/{jmbg}", controller.GetKartonJMBG).Methods("GET")
+	router.HandleFunc("/putKarton/{jmbg}", controller.PutKarton).Methods("PUT")
 
 	router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
 
@@ -128,6 +131,20 @@ func (controller *HealthcareController) GetMojiZauzetiPreglediLekar(writer http.
 	writer.WriteHeader(http.StatusOK)
 }
 
+func (controller *HealthcareController) GetMojiPreglediGradjanin(writer http.ResponseWriter, req *http.Request) {
+	jmbg, err := extractJMBGFromClaims(writer, req)
+
+	pregledi, err := controller.service.GetMojiPreglediGradjanin(jmbg)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(pregledi, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
 func (controller *HealthcareController) GetSviSlobodniPregledi(writer http.ResponseWriter, req *http.Request) {
 	pregledi, err := controller.service.GetSviSlobodniPregledi()
 	if err != nil {
@@ -178,6 +195,21 @@ func (controller *HealthcareController) PostPregled(writer http.ResponseWriter, 
 	}
 
 	jsonResponse(pregled, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) ZakaziPregled(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+	jmbg, err := extractJMBGFromClaims(writer, req)
+
+	appointment, err := controller.service.PutPregled(objectID, jmbg)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	jsonResponse(appointment, writer)
 	writer.WriteHeader(http.StatusOK)
 }
 
@@ -463,6 +495,27 @@ func (controller *HealthcareController) GetKartonJMBG(writer http.ResponseWriter
 
 	writer.WriteHeader(http.StatusOK)
 	jsonResponse(karton, writer)
+}
+
+func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, req *http.Request) {
+	var karton model.Karton
+	err := json.NewDecoder(req.Body).Decode(&karton)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("There is a problem in decoding JSON"))
+		return
+	}
+	vars := mux.Vars(req)
+	jmbg, _ := vars["jmbg"]
+
+	_, err = controller.service.PutKarton(&karton, jmbg)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	jsonResponse(karton, writer)
+	writer.WriteHeader(http.StatusOK)
 }
 
 //func (controller *HealthcareController) SetAppointment(writer http.ResponseWriter, req *http.Request) {

@@ -21,6 +21,9 @@ import { AlergijeAdminComponent } from './components/eAdmin/alergija/alergije-ad
 import { AlergijaAddComponent } from './components/eAdmin/alergija/alergija-add/alergija-add.component';
 import { KartoniComponent } from './components/eZdravstvo/karton/kartoni/kartoni.component';
 import { KartonViewComponent } from './components/eZdravstvo/karton/karton-view/karton-view.component';
+import { KartonEditAlergijeComponent } from './components/eZdravstvo/karton/karton-edit-alergije/karton-edit-alergije.component';
+import { KartonEditInvaliditetiComponent } from './components/eZdravstvo/karton/karton-edit-invaliditeti/karton-edit-invaliditeti.component';
+import { KartonViewMyComponent } from './components/eZdravstvo/karton/karton-view-my/karton-view-my.component';
 
 const routes: Routes = [
   {
@@ -83,6 +86,20 @@ const routes: Routes = [
     path: 'Karton-View/:jmbg',
     component: KartonViewComponent,
   },
+  {
+    path: 'My-Karton',
+    component: KartonViewMyComponent
+  },
+  {
+    path: 'Karton-Edit-Alergije/:jmbg',
+    component: KartonEditAlergijeComponent
+  },
+  {
+    path: 'Karton-Edit-Invaliditeti/:jmbg',
+    component: KartonEditInvaliditetiComponent
+  },
+
+
   {
     path: 'User-Died',
     component: UserDiedComponent,

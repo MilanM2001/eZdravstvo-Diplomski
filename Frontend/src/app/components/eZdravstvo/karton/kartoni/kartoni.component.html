@@ -5,7 +5,7 @@
     <div class="flex-container">
         <div class="mb-3">
             <label class="input-title">Unesite JMBG</label>
-            <input type="text" id="search_input" class="form-control" formControlName="search_input"
+            <input type="text" id="search_input" class="form-control" formControlName="search_input" maxlength="13"
                 [ngClass]="{ 'is-invalid': submitted && searchGroup['search_input'].errors }"
                 (input)="onSearchInputChange()">
             <div *ngIf="submitted && searchGroup['search_input'].errors" class="invalid-feedback">

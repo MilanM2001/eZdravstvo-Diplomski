@@ -1,5 +1,5 @@
 <h1 class="welcome">Pregledi i vakcinacije</h1>
-<div *ngIf="pregledi.length == 0">
+<div *ngIf="pregledi?.length == 0 || pregledi == null">
 <h3 class="nema-pregleda">Nema slobodnih termina</h3>
 </div>
 <app-pregled-list [pregledi]="pregledi"></app-pregled-list>

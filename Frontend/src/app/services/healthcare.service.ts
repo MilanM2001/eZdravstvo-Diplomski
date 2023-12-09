@@ -51,10 +51,22 @@ export class HealthcareService {
     );
   }
 
+  public GetMojiPreglediGradjanin(): Observable<Pregled[]> {
+    return this.http.get<Pregled[]>(
+      `${environment.baseApiUrl}/${this.url}/getMojiPreglediGradjanin`
+    );
+  }
+
   public PostPregled(pregled: AddPregled): Observable<AddPregled> {
     return this.http.post<AddPregled>(
       `${environment.baseApiUrl}/${this.url}/postPregled`,
       pregled
+    );
+  }
+
+  public ZakaziPregled(id: string) {
+    return this.http.put<AddPregled>(
+      `${environment.baseApiUrl}/${this.url}/zakaziPregled/` + id, null
     );
   }
 
@@ -131,6 +143,19 @@ export class HealthcareService {
   public GetKartoneJMBG(jmbg: string): Observable<Karton[]> {
     return this.http.get<Karton[]>(
       `${environment.baseApiUrl}/${this.url}/getKartoneJMBG/` + jmbg
+    );
+  }
+
+  public GetKartonJMBG(jmbg: string): Observable<Karton> {
+    return this.http.get<Karton>(
+      `${environment.baseApiUrl}/${this.url}/getKartonJMBG/` + jmbg
+    );
+  }
+
+  public PutKarton(karton: Karton, jmbg: string): Observable<Karton> {
+    return this.http.put<Karton>(
+      `${environment.baseApiUrl}/${this.url}/putKarton/` + jmbg,
+      karton
     );
   }
 

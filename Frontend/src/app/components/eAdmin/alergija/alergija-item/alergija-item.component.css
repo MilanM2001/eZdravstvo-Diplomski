@@ -16,7 +16,7 @@
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  border-bottom: 1px solid #ccc; /* Add a border between items */
+  border-bottom: 1px solid #ccc;
 }
 
 .bodies {

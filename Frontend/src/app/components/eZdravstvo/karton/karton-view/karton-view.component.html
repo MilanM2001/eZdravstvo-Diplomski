@@ -1,7 +1,8 @@
 <h1 class="welcome">Pregled Kartona</h1>
+
 <div class="container">
     <mat-card>
-        <mat-card-title class="gradjanin-title">Građanin</mat-card-title>
+        <mat-card-title class="gradjanin-title">Informacije o građaninu</mat-card-title>
         <mat-card-content>
             <div class="gradjanin-info">
                 <p><strong>Ime:</strong> {{ user.ime + " " + user.prezime }}</p>
@@ -12,4 +13,21 @@
             </div>
         </mat-card-content>
     </mat-card>
+    <button [routerLink]="['/Karton-Edit-Alergije', this.jmbg]" type="submit" class="btn btn-warning">
+        Alergije
+    </button>
+    <button [routerLink]="['/Karton-Edit-Invaliditeti', this.jmbg]" type="submit" class="btn btn-warning">
+        Invaliditeti
+    </button>
+</div>
+
+<div class="search">
+    <h3 class="search-h3">Informacije</h3>
+    <mat-form-field appearance="outline">
+        <mat-select (selectionChange)="search($event.value)">
+            <mat-option style="font-size: 15px; text-align: center" *ngFor="let option of options" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>

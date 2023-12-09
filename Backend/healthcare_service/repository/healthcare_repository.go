@@ -10,6 +10,7 @@ type HealthcareRepository interface {
 	GetMojiPreglediLekar(id primitive.ObjectID) ([]*model.Pregled, error)
 	GetMojiSlobodniPreglediLekar(id primitive.ObjectID) ([]*model.Pregled, error)
 	GetMojiZauzetiPreglediLekar(id primitive.ObjectID) ([]*model.Pregled, error)
+	GetMojiPreglediGradjanin(id primitive.ObjectID) ([]*model.Pregled, error)
 	GetSviSlobodniPregledi() ([]*model.Pregled, error)
 	GetPregledID(id primitive.ObjectID) (*model.Pregled, error)
 	PostPregled(appointment *model.Pregled) error
@@ -39,4 +40,5 @@ type HealthcareRepository interface {
 	GetKartoneJMBG(jmbg string) ([]*model.Karton, error)
 	GetKartonJMBG(jmg string) (*model.Karton, error)
 	PostKarton(karton model.Karton) error
+	PutKarton(karton *model.Karton) error
 }

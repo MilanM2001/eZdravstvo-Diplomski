@@ -65,6 +65,11 @@ func (repository *HealthcareRepositoryImpl) GetMojiZauzetiPreglediLekar(id primi
 	return repository.filterPregledi(filter)
 }
 
+func (repository *HealthcareRepositoryImpl) GetMojiPreglediGradjanin(id primitive.ObjectID) ([]*model.Pregled, error) {
+	filter := bson.M{"gradjanin._id": id}
+	return repository.filterPregledi(filter)
+}
+
 func (repository *HealthcareRepositoryImpl) GetSviSlobodniPregledi() ([]*model.Pregled, error) {
 	filter := bson.M{"gradjanin": nil}
 	return repository.filterPregledi(filter)
@@ -152,7 +157,7 @@ func (repository *HealthcareRepositoryImpl) PutVakcina(vakcina *model.Vakcina) e
 	update := bson.D{{"$set", vakcina}}
 	_, err := repository.vakcina.UpdateOne(context.Background(), filter, update)
 	if err != nil {
-		log.Println("Updating Pregled Error MongoDB", err.Error())
+		log.Println("Updating Vakcina Error MongoDB", err.Error())
 		return err
 	}
 
@@ -312,6 +317,18 @@ func (repository *HealthcareRepositoryImpl) PostKarton(karton model.Karton) erro
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (repository *HealthcareRepositoryImpl) PutKarton(karton *model.Karton) error {
+	filter := bson.M{"_id": karton.ID}
+	update := bson.D{{"$set", karton}}
+	_, err := repository.karton.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		log.Println("Updating Karton Error MongoDB", err.Error())
+		return err
+	}
+
 	return nil
 }
 

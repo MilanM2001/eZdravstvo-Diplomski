@@ -54,6 +54,9 @@ import { KartoniComponent } from './components/eZdravstvo/karton/kartoni/kartoni
 import { KartonViewComponent } from './components/eZdravstvo/karton/karton-view/karton-view.component';
 import { KartonItemComponent } from './components/eZdravstvo/karton/karton-item/karton-item.component';
 import { KartonListComponent } from './components/eZdravstvo/karton/karton-list/karton-list.component';
+import { KartonEditAlergijeComponent } from './components/eZdravstvo/karton/karton-edit-alergije/karton-edit-alergije.component';
+import { KartonEditInvaliditetiComponent } from './components/eZdravstvo/karton/karton-edit-invaliditeti/karton-edit-invaliditeti.component';
+import { KartonViewMyComponent } from './components/eZdravstvo/karton/karton-view-my/karton-view-my.component';
 
 
 
@@ -98,6 +101,9 @@ import { KartonListComponent } from './components/eZdravstvo/karton/karton-list/
     KartonViewComponent,
     KartonItemComponent,
     KartonListComponent,
+    KartonEditAlergijeComponent,
+    KartonEditInvaliditetiComponent,
+    KartonViewMyComponent,
   ],
   imports: [
     BrowserModule,

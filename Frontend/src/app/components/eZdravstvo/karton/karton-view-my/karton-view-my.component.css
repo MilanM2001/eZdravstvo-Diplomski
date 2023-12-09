@@ -1,0 +1,121 @@
+.welcome {
+    font-size: 35px;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: blue;
+}
+
+.container {
+    width: 450px;
+}
+
+.gradjanin-info {
+    text-align: left;
+    font-size: 15px;
+}
+
+.btn-warning {
+    margin-top: 15px;
+    margin-right: 15px;
+}
+
+.search {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.my-title {
+    text-align: center;
+    color: blue;
+    font-size: 25px;
+}
+
+.empty-list {
+    text-align: center;
+    color: red;
+    font-size: 20px;
+}
+
+/* Pregled */
+
+.pregled-card {
+    max-width: 530px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pregled-title {
+    font-size: 22px;
+    text-align: center;
+    color: green;
+    margin-bottom: 20px;
+}
+
+.vakcinacija-title {
+    font-size: 22px;
+    text-align: center;
+    color: orange;
+    margin-bottom: 20px;
+}
+
+.pregled-lekar {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.pregled-gradjanin {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.pregled-vakcina {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.pregled-datum {
+    font-size: 17px;
+    text-align: center;
+}
+
+.pregled-od {
+    font-size: 17px;
+    text-align: center;
+}
+
+.pregled-do {
+    font-size: 17px;
+    text-align: center;
+}
+
+/* Alergije */
+
+.alergija-card {
+    max-width: 300px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.naziv {
+    font-size: 22px;
+    text-align: center;
+    color: red;
+    margin-bottom: 20px;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.bodies {
+    font-size: 20px;
+}
