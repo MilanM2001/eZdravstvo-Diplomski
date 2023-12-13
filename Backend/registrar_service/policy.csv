@@ -12,3 +12,5 @@ p, NotLoggedIn, /children/*, GET
 p, Regular, /isParent/*, GET
 p, NotLoggedIn, /registry, POST
 p, NotLoggedIn, /allUsers, GET
+
+p, Doctor, /doctorCreateUser, POST

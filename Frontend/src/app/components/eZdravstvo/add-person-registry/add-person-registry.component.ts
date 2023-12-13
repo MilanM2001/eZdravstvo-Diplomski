@@ -64,30 +64,20 @@ export class AddPersonRegistryComponent implements OnInit {
 
     var datum: Date = new Date(this.formGroup.get('datum_rodjenja')?.value)
 
-    user.ime = this.formGroup.get("ime")?.value
-    user.prezime = this.formGroup.get("prezime")?.value
-    user.ime_oca = this.formGroup.get("ime_oca")?.value
-    user.jmbg_oca = this.formGroup.get("jmbg_oca")?.value
-    user.ime_majke = this.formGroup.get("ime_majke")?.value
-    user.jmbg_majke = this.formGroup.get("jmbg_majke")?.value
-    user.datum_rodjenja = Number(datum.getTime()) / 1000
-    user.mesto_rodjenja = this.formGroup.get("mesto_rodjenja")?.value
-    user.jmbg = this.formGroup.get("jmbg")?.value
-    user.pol = this.formGroup.get("pol")?.value
-    user.drzava = this.formGroup.get("drzava")?.value
 
-    this.healthcareService.AddPersonToRegistry(user)
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/Appointments-Doctor'])
-        },
-        error: (error) => {
-          console.log(error)
-          if (error.status == 202) {
-            this.userAlreadyExists = true
-          }
-        }
-      })
+
+    // this.healthcareService.AddPersonToRegistry(user)
+    //   .subscribe({
+    //     next: () => {
+    //       this.router.navigate(['/Appointments-Doctor'])
+    //     },
+    //     error: (error) => {
+    //       console.log(error)
+    //       if (error.status == 202) {
+    //         this.userAlreadyExists = true
+    //       }
+    //     }
+    //   })
   }
 
   drzave = new Array("Srbija", "Austrija", "Hrvatska", "Bosna", "Makedonija", "Bugarska", "Rumunija", "Crna Gora")

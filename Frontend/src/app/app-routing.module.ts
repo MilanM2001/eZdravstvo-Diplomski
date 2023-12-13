@@ -24,6 +24,7 @@ import { KartonViewComponent } from './components/eZdravstvo/karton/karton-view/
 import { KartonEditAlergijeComponent } from './components/eZdravstvo/karton/karton-edit-alergije/karton-edit-alergije.component';
 import { KartonEditInvaliditetiComponent } from './components/eZdravstvo/karton/karton-edit-invaliditeti/karton-edit-invaliditeti.component';
 import { KartonViewMyComponent } from './components/eZdravstvo/karton/karton-view-my/karton-view-my.component';
+import { GradjaninAddDoctorComponent } from './components/eZdravstvo/gradjanin/gradjanin-add-doctor/gradjanin-add-doctor.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
     path: 'Register',
     component: RegisterComponent,
   },
+
   {
     path: 'Pregledi-Lekar',
     component: PreglediLekarComponent,
@@ -98,12 +100,12 @@ const routes: Routes = [
     path: 'Karton-Edit-Invaliditeti/:jmbg',
     component: KartonEditInvaliditetiComponent
   },
-
-
   {
-    path: 'User-Died',
-    component: UserDiedComponent,
+    path: 'Add-User-Doctor',
+    component: GradjaninAddDoctorComponent
   },
+
+
   {
     path: 'Welcome',
     component: WelcomeComponent,

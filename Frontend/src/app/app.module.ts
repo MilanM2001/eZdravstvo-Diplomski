@@ -57,6 +57,8 @@ import { KartonListComponent } from './components/eZdravstvo/karton/karton-list/
 import { KartonEditAlergijeComponent } from './components/eZdravstvo/karton/karton-edit-alergije/karton-edit-alergije.component';
 import { KartonEditInvaliditetiComponent } from './components/eZdravstvo/karton/karton-edit-invaliditeti/karton-edit-invaliditeti.component';
 import { KartonViewMyComponent } from './components/eZdravstvo/karton/karton-view-my/karton-view-my.component';
+import { GradjaninAddDoctorComponent } from './components/eZdravstvo/gradjanin/gradjanin-add-doctor/gradjanin-add-doctor.component';
+import { GradjaninAddRoditeljComponent } from './components/eZdravstvo/gradjanin/gradjanin-add-roditelj/gradjanin-add-roditelj.component';
 
 
 
@@ -104,6 +106,8 @@ import { KartonViewMyComponent } from './components/eZdravstvo/karton/karton-vie
     KartonEditAlergijeComponent,
     KartonEditInvaliditetiComponent,
     KartonViewMyComponent,
+    GradjaninAddDoctorComponent,
+    GradjaninAddRoditeljComponent,
   ],
   imports: [
     BrowserModule,

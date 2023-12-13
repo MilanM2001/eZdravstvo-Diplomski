@@ -72,16 +72,6 @@ export class KartonViewMyComponent implements OnInit {
     if (search_option == 'Invaliditeti') {
       this.search_value = "Invaliditeti"
     }
-    // if (search_option == 'Svi') {
-    //   this.healthcareService.GetMojiPreglediLekar().subscribe({
-    //     next: (data) => {
-    //       this.pregledi = data;
-    //     },
-    //     error: (error) => {
-    //       console.log(error);
-    //     },
-    //   });
-    // }
   }
 
 }

@@ -20,12 +20,13 @@ export class KartonViewComponent implements OnInit {
 
   jmbg = String(this.route.snapshot.paramMap.get('jmbg'));
   user: User = new User()
-  options = ['Pregledi', 'Vakcinacije', 'Alergije', 'Invaliditeti'];
+  options = ['Pregledi', 'Alergije', 'Invaliditeti'];
 
   pregledi: Pregled[] = []
   vakcinacije: Pregled[] = []
   alergije: Alergija[] = []
   invaliditeti: Invaliditet[] = []
+  search_value: string = ""
 
   ngOnInit(): void {
     this.registrarService.GetUserJMBG(this.jmbg)
@@ -37,39 +38,37 @@ export class KartonViewComponent implements OnInit {
           console.error(error)
         }
       })
+    this.healthcareService.GetKartonJMBG(this.jmbg)
+      .subscribe({
+        next: (data) => {
+          this.alergije = data.alergije
+          this.invaliditeti = data.invaliditeti
+        },
+        error: (error) => {
+          console.error(error)
+        }
+      })
   }
 
   search(search_option: string) {
-    // if (search_option == 'Pregledi') {
-    //   this.healthcareService.GetMojiPreglediGradjanin(this.jmbg).subscribe({
-    //     next: (data) => {
-    //       this.pregledi = data;
-    //     },
-    //     error: (error) => {
-    //       console.log(error);
-    //     },
-    //   });
-    // }
-    // if (search_option == 'Zauzeti') {
-    //   this.healthcareService.GetMojiZauzetiPreglediLekar().subscribe({
-    //     next: (data) => {
-    //       this.pregledi = data;
-    //     },
-    //     error: (error) => {
-    //       console.log(error);
-    //     },
-    //   });
-    // }
-    // if (search_option == 'Svi') {
-    //   this.healthcareService.GetMojiPreglediLekar().subscribe({
-    //     next: (data) => {
-    //       this.pregledi = data;
-    //     },
-    //     error: (error) => {
-    //       console.log(error);
-    //     },
-    //   });
-    // }
+    if (search_option == 'Pregledi') {
+      this.search_value = "Pregledi"
+      this.healthcareService.GetMojiPreglediGradjanin().subscribe({
+        next: (data) => {
+          this.pregledi = data;
+          console.log(this.pregledi)
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    }
+    if (search_option == 'Alergije') {
+      this.search_value = "Alergije"
+    }
+    if (search_option == 'Invaliditeti') {
+      this.search_value = "Invaliditeti"
+    }
   }
 
 }

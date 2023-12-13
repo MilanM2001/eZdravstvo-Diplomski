@@ -8,8 +8,8 @@
                 <p><strong>Prezime:</strong> {{ user.prezime }}</p>
                 <p><strong>JMBG:</strong> {{ user.jmbg }}</p>
                 <p><strong>Pol:</strong> {{ user.pol }}</p>
-                <p><strong>Datum rođenja:</strong> {{ user.datum_rodjenja | date: 'longDate' }}</p>
-                <p><strong>Mesto rođenja:</strong> {{ user.mesto_rodjenja }}</p>
+                <p><strong>Datum rođenja:</strong> {{ user.datumRodjenja | date: 'longDate' }}</p>
+                <p><strong>Mesto rođenja:</strong> {{ user.mestoRodjenja }}</p>
             </div>
         </mat-card-content>
     </mat-card>
@@ -52,8 +52,8 @@
 
 <div *ngIf="search_value == 'Alergije'">
     <h3 class="my-title">Alergije</h3>
-    <mat-card *ngFor="let alergija of alergije" class="alergija-card">
-        <div class="list-item">
+    <mat-card class="card-alergija-invaliditet">
+        <div *ngFor="let alergija of alergije" class="list-item">
             <div class="naziv">{{alergija.naziv}}</div>
         </div>
     </mat-card>
@@ -62,8 +62,8 @@
 
 <div *ngIf="search_value == 'Invaliditeti'">
     <h3 class="my-title">Invaliditeti</h3>
-    <mat-card *ngFor="let invaliditet of invaliditeti" class="alergija-card">
-        <div class="list-item">
+    <mat-card class="card-alergija-invaliditet">
+        <div *ngFor="let invaliditet of invaliditeti" class="list-item">
             <div class="naziv">{{invaliditet.naziv}}</div>
         </div>
     </mat-card>

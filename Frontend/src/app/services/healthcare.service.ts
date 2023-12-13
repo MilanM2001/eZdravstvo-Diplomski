@@ -159,6 +159,8 @@ export class HealthcareService {
     );
   }
 
+
+
   public GetMe(): Observable<User> {
     return this.http.get<User>(`${environment.baseApiUrl}/${this.url}/getMe`);
   }
@@ -184,10 +186,9 @@ export class HealthcareService {
     );
   }
 
-  public AddPersonToRegistry(user: User): Observable<User> {
+  public DoctorCreateUser(user: User): Observable<User> {
     return this.http.post<User>(
-      `${environment.baseApiUrl}/${this.url}/addPersonToRegistry`,
-      user
+      `${environment.baseApiUrl}/${this.url}/doctorCreateUser`, user
     );
   }
 }

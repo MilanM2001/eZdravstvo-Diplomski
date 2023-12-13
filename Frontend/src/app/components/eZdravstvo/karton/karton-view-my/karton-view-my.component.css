@@ -40,10 +40,12 @@
 /* Pregled */
 
 .pregled-card {
-    max-width: 530px;
+    max-width: 400px;
     margin-top: 30px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
+    border: 1.5px solid grey;
 }
 
 .pregled-title {
@@ -93,27 +95,26 @@
     text-align: center;
 }
 
-/* Alergije */
+/* Alergije i Invaliditeti */
 
-.alergija-card {
-    max-width: 300px;
-    margin-top: 30px;
+.card-alergija-invaliditet {
+    max-width: 240px;
     margin-left: auto;
     margin-right: auto;
+    border: 1.5px solid grey;
 }
 
 .naziv {
     font-size: 22px;
     text-align: center;
     color: red;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .list-item {
-    display: flex;
-    justify-content: space-between;
     padding: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 2px solid black;
 }
 
 .bodies {

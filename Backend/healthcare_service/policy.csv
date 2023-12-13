@@ -1,15 +1,29 @@
 p, Doctor, /getSviPregledi, GET
 p, Doctor, /getMojiPreglediLekar, GET
+p, Doctor, /getSviSlobodniPregledi, GET
 p, Doctor, /getMojiSlobodniPreglediLekar, GET
 p, Doctor, /getMojiZauzetiPreglediLekar, GET
 p, Doctor, /deletePregledID/*, DELETE
 p, Doctor, /getPregledID/*, GET
 p, Doctor, /postPregled, POST
+
 p, Doctor, /getSveVakcine, GET
 p, Doctor, /getVakcinaID/*, GET
 p, Doctor, /postVakcina, POST
 p, Doctor, /deleteVakcinaID/*, DELETE
 p, Doctor, /putVakcina/*, PUT
+
+p, Doctor, /getSveAlergije, GET
+p, Doctor, /getAlergijaID/*, GET
+
+p, Doctor, /getSveInvaliditete, GET
+p, Doctor, /getInvaliditetID/*, GET
+
+p, Doctor, /getSveKartone, GET
+p, Doctor, /getKartoneJMBG/*, GET
+p, Doctor, /getKartonJMBG/*, GET
+p, Doctor, /putKarton/*, PUT
+
 p, Regular, /getSviSlobodniPregledi, GET
 p, Regular, /getPregledID/*, GET
 p, Regular, /getMojiPreglediGradjanin, GET
@@ -19,22 +33,10 @@ p, Regular, /getKartonJMBG/*, GET
 p, Admin, /getSveAlergije, GET
 p, Admin, /getAlergijaID/*, GET
 p, Admin, /postAlergija, POST
-p, Doctor, /getSveAlergije, GET
-p, Doctor, /getAlergijaID/*, GET
 
 p, Admin, /getSveInvaliditete, GET
 p, Admin, /getInvaliditetID/*, GET
 p, Admin, /postInvaliditet, POST
-p, Doctor, /getSveInvaliditete, GET
-p, Doctor, /getInvaliditetID/*, GET
-
-p, Doctor, /getSveKartone, GET
-p, Doctor, /getKartoneJMBG/*, GET
-p, Doctor, /getKartonJMBG/*, GET
-p, Doctor, /putKarton/*, PUT
-
-p, Doctor, /getMe, GET
-p, Regular, /getMe, GET
 
 p, NotLoggedIn, /getSviPregledi, GET
 p, NotLoggedIn, /getPregledID/*, GET
@@ -43,5 +45,8 @@ p, NotLoggedIn, /getVakcinaID/*, GET
 p, NotLoggedIn, /getSveKartone, GET
 p, NotLoggedIn, /getKartonJMBG/*, GET
 
+p, Doctor, /getMe, GET
+p, Regular, /getMe, GET
+p, Admin, /getMe, GET
 
 

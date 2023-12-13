@@ -34,6 +34,7 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	router.HandleFunc("/allUsers", controller.GetAllUsers).Methods("GET")
 	router.HandleFunc("/getUserJMBG/{jmbg}", controller.GetUserJMBG).Methods("GET")
 	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
+	router.HandleFunc("/doctorCreateUser", controller.DoctorCreateUser).Methods("POST")
 	router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
 	router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
 	router.HandleFunc("/marriage", controller.Marriage).Methods("POST")
@@ -86,6 +87,33 @@ func (controller *RegistrarController) CreateNewBirthCertificate(writer http.Res
 		writer.Write([]byte("JMBG already exist in system!"))
 		return
 	}
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	jsonResponse(user, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *RegistrarController) DoctorCreateUser(writer http.ResponseWriter, req *http.Request) {
+	var user entity.User
+
+	err := json.NewDecoder(req.Body).Decode(&user)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("Problem to parsing JSON to entity!"))
+		return
+	}
+
+	value, err := controller.service.DoctorCreateUser(user)
+	if value == 1 {
+		writer.WriteHeader(http.StatusConflict)
+		writer.Write([]byte("JMBG Majke ne postoji u sistemu"))
+		return
+	}
+
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write([]byte(err.Error()))

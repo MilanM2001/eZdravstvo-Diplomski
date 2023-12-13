@@ -77,7 +77,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 
 //Pregled ------------------------------------------------------------------------------------------------------------------
 
-func (controller *HealthcareController) GetSviPregledi(writer http.ResponseWriter, req *http.Request) {
+func (controller *HealthcareController) GetSviPregledi(writer http.ResponseWriter, _ *http.Request) {
 	pregledi, err := controller.service.GetSviPregledi()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
@@ -145,7 +145,7 @@ func (controller *HealthcareController) GetMojiPreglediGradjanin(writer http.Res
 	writer.WriteHeader(http.StatusOK)
 }
 
-func (controller *HealthcareController) GetSviSlobodniPregledi(writer http.ResponseWriter, req *http.Request) {
+func (controller *HealthcareController) GetSviSlobodniPregledi(writer http.ResponseWriter, _ *http.Request) {
 	pregledi, err := controller.service.GetSviSlobodniPregledi()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
@@ -321,7 +321,7 @@ func (controller *HealthcareController) DeleteVakcinaID(writer http.ResponseWrit
 
 //Alergija ------------------------------------------------------------------------------------------------------------------
 
-func (controller *HealthcareController) GetSveAlergije(writer http.ResponseWriter, req *http.Request) {
+func (controller *HealthcareController) GetSveAlergije(writer http.ResponseWriter, _ *http.Request) {
 	alergije, err := controller.service.GetSveAlergije()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
@@ -388,7 +388,7 @@ func (controller *HealthcareController) DeleteAlergijaID(writer http.ResponseWri
 
 //Invaliditet ------------------------------------------------------------------------------------------------------------------
 
-func (controller *HealthcareController) GetSveInvaliditete(writer http.ResponseWriter, req *http.Request) {
+func (controller *HealthcareController) GetSveInvaliditete(writer http.ResponseWriter, _ *http.Request) {
 	invaliditeti, err := controller.service.GetSveInvaliditete()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
@@ -455,7 +455,7 @@ func (controller *HealthcareController) DeleteInvaliditetID(writer http.Response
 
 //Karton ------------------------------------------------------------------------------------------------------------------
 
-func (controller *HealthcareController) GetSveKartone(writer http.ResponseWriter, req *http.Request) {
+func (controller *HealthcareController) GetSveKartone(writer http.ResponseWriter, _ *http.Request) {
 	kartoni, err := controller.service.GetSveKartone()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
@@ -518,181 +518,6 @@ func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, re
 	writer.WriteHeader(http.StatusOK)
 }
 
-//func (controller *HealthcareController) SetAppointment(writer http.ResponseWriter, req *http.Request) {
-//	objectID, err := getIDFromReqAsPrimitive(writer, req)
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	appointment, err := controller.service.SetAppointment(objectID, jmbg)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte(err.Error()))
-//		return
-//	}
-//
-//	jsonResponse(appointment, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) DeleteAppointmentByID(writer http.ResponseWriter, req *http.Request) {
-//	objectID, err := getIDFromReqAsPrimitive(writer, req)
-//
-//	err = controller.service.DeleteAppointmentByID(objectID)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte(err.Error()))
-//		return
-//	}
-//
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetAllVaccinations(writer http.ResponseWriter, req *http.Request) {
-//	vaccinations, err := controller.service.GetAllVaccinations()
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		return
-//	}
-//
-//	jsonResponse(vaccinations, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetAllMyVaccinationsDoctor(writer http.ResponseWriter, req *http.Request) {
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	vaccinations, err := controller.service.GetMyVaccinationsDoctor(jmbg)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		log.Println(err)
-//		return
-//	}
-//
-//	jsonResponse(vaccinations, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetMyAvailableVaccinationsDoctor(writer http.ResponseWriter, req *http.Request) {
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	vaccinations, err := controller.service.GetMyAvailableVaccinationsDoctor(jmbg)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		log.Println(err)
-//		return
-//	}
-//
-//	jsonResponse(vaccinations, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetMyTakenVaccinationsDoctor(writer http.ResponseWriter, req *http.Request) {
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	vaccinations, err := controller.service.GetMyTakenVaccinationsDoctor(jmbg)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		log.Println(err)
-//		return
-//	}
-//
-//	jsonResponse(vaccinations, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetAllAvailableVaccinations(writer http.ResponseWriter, req *http.Request) {
-//	vaccinations, err := controller.service.GetAllAvailableVaccinations()
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		return
-//	}
-//
-//	jsonResponse(vaccinations, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetMyTakenVaccinationsRegular(writer http.ResponseWriter, req *http.Request) {
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	vaccinations, err := controller.service.GetMyTakenVaccinationsRegular(jmbg)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		log.Println(err)
-//		return
-//	}
-//
-//	jsonResponse(vaccinations, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) GetVaccinationByID(writer http.ResponseWriter, req *http.Request) {
-//	objectID, err := getIDFromReqAsPrimitive(writer, req)
-//
-//	vaccination, err := controller.service.GetVaccinationByID(objectID)
-//	if err != nil {
-//		log.Println("Error finding Appointment By ID")
-//		writer.WriteHeader(http.StatusBadRequest)
-//		return
-//	}
-//
-//	jsonResponse(vaccination, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) CreateNewVaccination(writer http.ResponseWriter, req *http.Request) {
-//	var vaccination model.Vaccination
-//	err := json.NewDecoder(req.Body).Decode(&vaccination)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte("There is a problem in decoding JSON"))
-//		return
-//	}
-//
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	value, err := controller.service.CreateNewVaccination(&vaccination, jmbg)
-//	if value == 1 {
-//		writer.WriteHeader(http.StatusNotAcceptable)
-//		writer.Write([]byte("Vaccination already exists in that time"))
-//		return
-//	}
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		return
-//	}
-//
-//	jsonResponse(vaccination, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) SetVaccination(writer http.ResponseWriter, req *http.Request) {
-//	objectID, err := getIDFromReqAsPrimitive(writer, req)
-//
-//	jmbg, err := extractJMBGFromClaims(writer, req)
-//
-//	vaccination, err := controller.service.SetVaccination(objectID, jmbg)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte(err.Error()))
-//		return
-//	}
-//
-//	jsonResponse(vaccination, writer)
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
-//func (controller *HealthcareController) DeleteVaccinationByID(writer http.ResponseWriter, req *http.Request) {
-//	objectID, err := getIDFromReqAsPrimitive(writer, req)
-//
-//	err = controller.service.DeleteVaccinationByID(objectID)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte(err.Error()))
-//		return
-//	}
-//
-//	writer.WriteHeader(http.StatusOK)
-//}
-//
 //func (controller *HealthcareController) GetAllZdravstvenaStanja(writer http.ResponseWriter, req *http.Request) {
 //	zdravstvenaStanja, err := controller.service.GetAllZdravstvenoStanje()
 //	if err != nil {
@@ -703,7 +528,7 @@ func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, re
 //	jsonResponse(zdravstvenaStanja, writer)
 //	writer.WriteHeader(http.StatusOK)
 //}
-//
+
 //func (controller *HealthcareController) GetZdravstvenoStanjeByID(writer http.ResponseWriter, req *http.Request) {
 //	objectID, err := getIDFromReqAsPrimitive(writer, req)
 //
@@ -717,7 +542,7 @@ func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, re
 //	jsonResponse(zdravstvenoStanje, writer)
 //	writer.WriteHeader(http.StatusOK)
 //}
-//
+
 //func (controller *HealthcareController) GetZdravstvenoStanjeByJMBG(writer http.ResponseWriter, req *http.Request) {
 //	vars := mux.Vars(req)
 //	jmbg := vars["jmbg"]
@@ -733,7 +558,7 @@ func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, re
 //	jsonResponse(zdravstvenoStanje, writer)
 //	writer.WriteHeader(http.StatusOK)
 //}
-//
+
 //func (controller *HealthcareController) GetMyZdravstvenoStanje(writer http.ResponseWriter, req *http.Request) {
 //	jmbg, err := extractJMBGFromClaims(writer, req)
 //
@@ -747,7 +572,7 @@ func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, re
 //	jsonResponse(zdravstvenoStanje, writer)
 //	writer.WriteHeader(http.StatusOK)
 //}
-//
+
 //func (controller *HealthcareController) CreateNewZdravstvenoStanje(writer http.ResponseWriter, req *http.Request) {
 //	var zdravstvenoStanje model.ZdravstvenoStanje
 //	err := json.NewDecoder(req.Body).Decode(&zdravstvenoStanje)
@@ -780,7 +605,7 @@ func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, re
 //	jsonResponse(zdravstvenoStanje, writer)
 //	writer.WriteHeader(http.StatusOK)
 //}
-//
+
 //func (controller *HealthcareController) DeleteZdravstvenoStanjeByJMBG(writer http.ResponseWriter, req *http.Request) {
 //	vars := mux.Vars(req)
 //	jmbg := vars["jmbg"]
@@ -794,7 +619,7 @@ func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, re
 //
 //	writer.WriteHeader(http.StatusOK)
 //}
-//
+
 func (controller *HealthcareController) GetMe(writer http.ResponseWriter, req *http.Request) {
 	jmbg, err := extractJMBGFromClaims(writer, req)
 

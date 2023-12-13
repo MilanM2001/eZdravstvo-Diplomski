@@ -28,3 +28,99 @@
     margin-top: 30px;
     text-align: center;
 }
+
+.my-title {
+    text-align: center;
+    color: blue;
+    font-size: 25px;
+}
+
+.empty-list {
+    text-align: center;
+    color: red;
+    font-size: 20px;
+}
+
+/* Pregled */
+
+.pregled-card {
+    max-width: 400px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1.5px solid grey;
+}
+
+.pregled-title {
+    font-size: 22px;
+    text-align: center;
+    color: green;
+    margin-bottom: 20px;
+}
+
+.vakcinacija-title {
+    font-size: 22px;
+    text-align: center;
+    color: orange;
+    margin-bottom: 20px;
+}
+
+.pregled-lekar {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.pregled-gradjanin {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.pregled-vakcina {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.pregled-datum {
+    font-size: 17px;
+    text-align: center;
+}
+
+.pregled-od {
+    font-size: 17px;
+    text-align: center;
+}
+
+.pregled-do {
+    font-size: 17px;
+    text-align: center;
+}
+
+/* Alergije i Invaliditeti */
+
+.card-alergija-invaliditet {
+    max-width: 240px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1.5px solid grey;
+}
+
+.naziv {
+    font-size: 22px;
+    text-align: center;
+    color: red;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.list-item {
+    padding: 10px;
+    border-bottom: 2px solid black;
+}
+
+.bodies {
+    font-size: 20px;
+}

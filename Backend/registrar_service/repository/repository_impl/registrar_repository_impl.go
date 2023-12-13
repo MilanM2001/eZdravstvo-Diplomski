@@ -37,7 +37,7 @@ func (store *RegistrarRepositoryImpl) GetAllUsers() ([]*domain.User, error) {
 }
 
 func (store *RegistrarRepositoryImpl) GetUserJMBG(jmbg string) (*domain.User, error) {
-	filter := bson.M{"JMBG": jmbg}
+	filter := bson.M{"jmbg": jmbg}
 	return store.filterOne(filter)
 }
 
@@ -54,9 +54,22 @@ func (store *RegistrarRepositoryImpl) CreateNewBirthCertificate(user domain.User
 	return fmt.Errorf("user already exists")
 }
 
+func (store *RegistrarRepositoryImpl) DoctorCreateUser(user domain.User) error {
+	if !store.IsUserExist(user.JMBG) {
+		_, err := store.user_registry.InsertOne(context.Background(), user)
+		if err != nil {
+			log.Println("Error in saving User")
+			return err
+		}
+		return nil
+	}
+
+	return fmt.Errorf("user already exists")
+}
+
 func (store *RegistrarRepositoryImpl) IsUserExist(jmbg string) bool {
 
-	user, err := store.filterOne(bson.M{"JMBG": jmbg})
+	user, err := store.filterOne(bson.M{"jmbg": jmbg})
 	if err != nil {
 		log.Println(err.Error())
 		return false
@@ -88,7 +101,7 @@ func (store *RegistrarRepositoryImpl) filter(filter interface{}) ([]*domain.User
 
 func (store *RegistrarRepositoryImpl) FindOneUser(jmbg string) *domain.User {
 
-	user, err := store.filterOne(bson.M{"JMBG": jmbg})
+	user, err := store.filterOne(bson.M{"jmbg": jmbg})
 	if err != nil {
 		log.Println(err.Error())
 		return nil
@@ -112,9 +125,12 @@ func (store *RegistrarRepositoryImpl) UpdateCertificate(user domain.User) error 
 
 	update := bson.M{
 		"$set": bson.M{
-			"Preminuo":   user.Preminuo,
-			"DatimSmrti": user.DatimSmrti,
-			"MestoSmrti": user.MestoSmrti,
+			//"Preminuo":   user.Preminuo,
+			//"DatimSmrti": user.DatimSmrti,
+			//"MestoSmrti": user.MestoSmrti,
+			"Preminuo":   "",
+			"DatimSmrti": "",
+			"MestoSmrti": "",
 		},
 	}
 

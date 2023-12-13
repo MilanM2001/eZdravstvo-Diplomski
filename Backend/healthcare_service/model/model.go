@@ -8,18 +8,13 @@ type User struct {
 	ID            primitive.ObjectID `json:"id" bson:"_id"`
 	Ime           string             `json:"ime" bson:"ime"`
 	Prezime       string             `json:"prezime" bson:"prezime"`
-	ImeOca        string             `json:"ime_oca" bson:"imeOca"`
-	JMBGOca       string             `json:"jmbg_oca" bson:"JMBGOca"`
-	ImeMajke      string             `json:"ime_majke" bson:"imeMajke"`
-	JMBGMajke     string             `json:"jmbg_majke" bson:"JMBGMajke"`
-	DatumRodjenja int64              `json:"datum_rodjenja" bson:"datumRodjenja"`
-	MestoRodjenja string             `json:"mesto_rodjenja" bson:"mestoRodjenja"`
-	JMBG          string             `json:"jmbg" bson:"JMBG" unique:"true"`
+	JMBGOca       string             `json:"jmbgOca" bson:"jmbgOca"`
+	JMBGMajke     string             `json:"jmbgMajke" bson:"jmbgMajke"`
+	JMBG          string             `json:"jmbg" bson:"jmbg" unique:"true"`
 	Pol           Pol                `json:"pol" bson:"pol"`
-	Preminuo      bool               `json:"preminuo" bson:"Preminuo"`
-	DatimSmrti    int64              `json:"datim_smrti" bson:"DatimSmrti"`
-	MestoSmrti    string             `json:"mesto_smrti" bson:"MestoSmrti"`
-	Drzava        string             `json:"drzava" bson:"Drzava"`
+	DatumSmrti    int64              `json:"datumSmrti" bson:"datumSmrti"`
+	DatumRodjenja int64              `json:"datumRodjenja" bson:"datumRodjenja"`
+	MestoRodjenja string             `json:"mestoRodjenja" bson:"mestoRodjenja"`
 }
 
 type Pregled struct {

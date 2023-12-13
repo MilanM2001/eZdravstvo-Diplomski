@@ -23,6 +23,11 @@
                 && this.storeService.getCustomRole()=='Doctor'" mat-button mat-ripple routerLink="/Kartoni">
                 <span>Kartoni</span>
             </button>
+            <button *ngIf="isLoggedIn()
+            && this.storeService.getServiceFromStore()=='eZdravstvo'
+            && this.storeService.getCustomRole()=='Doctor'" mat-button mat-ripple routerLink="/Add-User-Doctor">
+                <span>Dodavanje Novorođenog</span>
+            </button>
 
 
             <button *ngIf="isLoggedIn()

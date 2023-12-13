@@ -1,28 +1,15 @@
 package model
 
 import (
-	"encoding/json"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"io"
 	"time"
 )
 
-type User struct {
-	ID        primitive.ObjectID `bson:"_id" json:"id"`
-	Firstname string             `bson:"firstName" json:"firstName" validate:"onlyChar"`
-	Lastname  string             `bson:"lastName" json:"lastName" validate:"onlyChar"`
-	Age       int                `bson:"age" json:"age"`
-	Residence string             `bson:"residence" json:"residence" validate:"onlyCharAndSpace"`
-	JMBG      string             `bson:"jmbg" json:"jmbg" validate:"onlyCharAndNum,required"`
-	Password  string             `bson:"password" json:"password" validate:"onlyCharAndNum,required"`
-	UserType  UserType           `bson:"userType" json:"userType" validate:"onlyChar"`
-}
-
 type Credentials struct {
 	ID       primitive.ObjectID `bson:"_id" json:"id"`
-	JMBG     string             `bson:"jmbg" json:"jmbg" validate:"onlyCharAndNum,required"`
-	Password string             `bson:"password" json:"password" validate:"onlyCharAndNum,required"`
-	UserType UserType           `bson:"userType" json:"userType" validate:"onlyChar"`
+	JMBG     string             `bson:"jmbg" json:"jmbg"`
+	Password string             `bson:"password" json:"password"`
+	UserType UserType           `bson:"userType" json:"userType"`
 }
 
 type UserType string
@@ -39,11 +26,6 @@ type Claims struct {
 	JMBG      string             `json:"jmbg"`
 	Role      UserType           `json:"userType"`
 	ExpiresAt time.Time          `json:"expires_at"`
-}
-
-func (user *User) FromJSON(reader io.Reader) error {
-	d := json.NewDecoder(reader)
-	return d.Decode(user)
 }
 
 type Alergija struct {

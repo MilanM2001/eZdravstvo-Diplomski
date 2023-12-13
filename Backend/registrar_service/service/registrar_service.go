@@ -2,7 +2,6 @@ package service
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/nats-io/nats.go"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -32,16 +31,37 @@ func (service *RegistrarService) GetUserJMBG(jmbg string) (*entity.User, error) 
 }
 
 func (service *RegistrarService) CreateNewBirthCertificate(user entity.User) (int, error) {
-
 	isExist := service.store.IsUserExist(user.JMBG)
-	log.Println(isExist)
 	if isExist {
 		return 1, nil
 	}
 
 	user.ID = primitive.NewObjectID()
-	user.Preminuo = false
+	user.JMBGOca = ""
+	user.JMBGMajke = ""
 	err := service.store.CreateNewBirthCertificate(user)
+	if err != nil {
+		return 0, err
+	}
+	return 0, nil
+}
+
+func (service *RegistrarService) DoctorCreateUser(user entity.User) (int, error) {
+	isMotherExist := service.store.IsUserExist(user.JMBGMajke)
+	if !isMotherExist {
+		return 1, nil
+	}
+
+	user.ID = primitive.NewObjectID()
+	user.Ime = ""
+	user.Prezime = ""
+	user.JMBGOca = ""
+	user.JMBG = ""
+	user.DatumSmrti = 0
+
+	//JMBGMajke, Pol, DatumRodjenja i MestoRodjenja se unose
+
+	err := service.store.DoctorCreateUser(user)
 	if err != nil {
 		return 0, err
 	}
@@ -50,68 +70,68 @@ func (service *RegistrarService) CreateNewBirthCertificate(user entity.User) (in
 
 func (service *RegistrarService) FindOneCertificateByType(jmbg string, certificateType int) (*entity.BirthCertificate, *entity.ExtractFromTheDeathRegister, *entity.CertificateOfCitizenship) {
 
-	user := service.store.FindOneUser(jmbg)
-
-	if certificateType == 1 {
-
-		var certificate entity.BirthCertificate
-		certificate.Ime = user.Ime
-		certificate.Prezime = user.Prezime
-		certificate.ImeOca = user.ImeOca
-		certificate.JMBGOca = user.JMBGOca
-		certificate.ImeMajke = user.ImeMajke
-		certificate.JMBGMajke = user.JMBGMajke
-		certificate.DatumRodjenja = user.DatumRodjenja
-		certificate.MestoRodjenja = user.MestoRodjenja
-		certificate.JMBG = user.JMBG
-		certificate.Pol = user.Pol
-
-		//slanje nazad
-
-		return &certificate, nil, nil
-
-	} else if certificateType == 2 {
-
-		if user.Preminuo == true {
-			var certificate entity.ExtractFromTheDeathRegister
-			certificate.Ime = user.Ime
-			certificate.Prezime = user.Prezime
-			certificate.ImeOca = user.ImeOca
-			certificate.JMBGOca = user.JMBGOca
-			certificate.ImeMajke = user.ImeMajke
-			certificate.JMBGMajke = user.JMBGMajke
-			certificate.DatumRodjenja = user.DatumRodjenja
-			certificate.MestoRodjenja = user.MestoRodjenja
-			certificate.JMBG = user.JMBG
-			certificate.Pol = user.Pol
-			certificate.DatimSmrti = user.DatimSmrti
-			certificate.MestoSmrti = user.MestoSmrti
-
-			//slanje nazad
-
-			return nil, &certificate, nil
-
-		}
-
-	} else if certificateType == 3 {
-
-		var certificate entity.CertificateOfCitizenship
-		certificate.Ime = user.Ime
-		certificate.Prezime = user.Prezime
-		certificate.ImeOca = user.ImeOca
-		certificate.JMBGOca = user.JMBGOca
-		certificate.ImeMajke = user.ImeMajke
-		certificate.JMBGMajke = user.JMBGMajke
-		certificate.DatumRodjenja = user.DatumRodjenja
-		certificate.MestoRodjenja = user.MestoRodjenja
-		certificate.JMBG = user.JMBG
-		certificate.Pol = user.Pol
-		certificate.Drzava = user.Drzava
-
-		//slanje nazad
-
-		return nil, nil, &certificate
-	}
+	//user := service.store.FindOneUser(jmbg)
+	//
+	//if certificateType == 1 {
+	//
+	//	var certificate entity.BirthCertificate
+	//	certificate.Ime = user.Ime
+	//	certificate.Prezime = user.Prezime
+	//	certificate.ImeOca = user.ImeOca
+	//	certificate.JMBGOca = user.JMBGOca
+	//	certificate.ImeMajke = user.ImeMajke
+	//	certificate.JMBGMajke = user.JMBGMajke
+	//	certificate.DatumRodjenja = user.DatumRodjenja
+	//	certificate.MestoRodjenja = user.MestoRodjenja
+	//	certificate.JMBG = user.JMBG
+	//	certificate.Pol = user.Pol
+	//
+	//	//slanje nazad
+	//
+	//	return &certificate, nil, nil
+	//
+	//} else if certificateType == 2 {
+	//
+	//	if user.Preminuo == true {
+	//		var certificate entity.ExtractFromTheDeathRegister
+	//		certificate.Ime = user.Ime
+	//		certificate.Prezime = user.Prezime
+	//		certificate.ImeOca = user.ImeOca
+	//		certificate.JMBGOca = user.JMBGOca
+	//		certificate.ImeMajke = user.ImeMajke
+	//		certificate.JMBGMajke = user.JMBGMajke
+	//		certificate.DatumRodjenja = user.DatumRodjenja
+	//		certificate.MestoRodjenja = user.MestoRodjenja
+	//		certificate.JMBG = user.JMBG
+	//		certificate.Pol = user.Pol
+	//		certificate.DatimSmrti = user.DatimSmrti
+	//		certificate.MestoSmrti = user.MestoSmrti
+	//
+	//		//slanje nazad
+	//
+	//		return nil, &certificate, nil
+	//
+	//	}
+	//
+	//} else if certificateType == 3 {
+	//
+	//	var certificate entity.CertificateOfCitizenship
+	//	certificate.Ime = user.Ime
+	//	certificate.Prezime = user.Prezime
+	//	certificate.ImeOca = user.ImeOca
+	//	certificate.JMBGOca = user.JMBGOca
+	//	certificate.ImeMajke = user.ImeMajke
+	//	certificate.JMBGMajke = user.JMBGMajke
+	//	certificate.DatumRodjenja = user.DatumRodjenja
+	//	certificate.MestoRodjenja = user.MestoRodjenja
+	//	certificate.JMBG = user.JMBG
+	//	certificate.Pol = user.Pol
+	//	certificate.Drzava = user.Drzava
+	//
+	//	//slanje nazad
+	//
+	//	return nil, nil, &certificate
+	//}
 
 	return nil, nil, nil
 
@@ -119,21 +139,21 @@ func (service *RegistrarService) FindOneCertificateByType(jmbg string, certifica
 
 func (service *RegistrarService) UpdateCertificate(died entity.UserDied) error {
 
-	user := service.store.FindOneUser(died.JMBG)
-
-	if user == nil {
-		return fmt.Errorf("user not exist in database")
-	}
-
-	user.Preminuo = true
-	user.MestoSmrti = died.MestoSmrti
-	user.DatimSmrti = died.DatimSmrti
-
-	err := service.store.UpdateCertificate(*user)
-	if err != nil {
-		log.Printf("Error: %s", err.Error())
-		return err
-	}
+	//user := service.store.FindOneUser(died.JMBG)
+	//
+	//if user == nil {
+	//	return fmt.Errorf("user not exist in database")
+	//}
+	//
+	//user.Preminuo = true
+	//user.MestoSmrti = died.MestoSmrti
+	//user.DatimSmrti = died.DatimSmrti
+	//
+	//err := service.store.UpdateCertificate(*user)
+	//if err != nil {
+	//	log.Printf("Error: %s", err.Error())
+	//	return err
+	//}
 	return nil
 }
 

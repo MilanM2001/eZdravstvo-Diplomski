@@ -15,6 +15,12 @@ export class RegistrarService {
         private http: HttpClient
     ) { }
 
+    public DoctorCreateUser(user: User): Observable<User> {
+        return this.http.post<User>(
+            `${environment.baseApiUrl}/${this.url}/doctorCreateUser`, user
+        );
+    }
+
     public GetUserJMBG(jmbg: string): Observable<User> {
         return this.http.get<User>(
             `${environment.baseApiUrl}/${this.url}/getUserJMBG/` + jmbg
