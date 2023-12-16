@@ -68,6 +68,10 @@ func (service *RegistrarService) DoctorCreateUser(user entity.User) (int, error)
 	return 0, nil
 }
 
+func (service *RegistrarService) GetNewbornByMotherJMBG(jmbgMajke string) ([]*entity.User, error) {
+	return service.store.GetNewbornByMotherJMBG(jmbgMajke)
+}
+
 func (service *RegistrarService) FindOneCertificateByType(jmbg string, certificateType int) (*entity.BirthCertificate, *entity.ExtractFromTheDeathRegister, *entity.CertificateOfCitizenship) {
 
 	//user := service.store.FindOneUser(jmbg)

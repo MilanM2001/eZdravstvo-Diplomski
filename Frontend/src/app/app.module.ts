@@ -59,6 +59,7 @@ import { KartonEditInvaliditetiComponent } from './components/eZdravstvo/karton/
 import { KartonViewMyComponent } from './components/eZdravstvo/karton/karton-view-my/karton-view-my.component';
 import { GradjaninAddDoctorComponent } from './components/eZdravstvo/gradjanin/gradjanin-add-doctor/gradjanin-add-doctor.component';
 import { GradjaninAddRoditeljComponent } from './components/eZdravstvo/gradjanin/gradjanin-add-roditelj/gradjanin-add-roditelj.component';
+import { MyNovorodjeniComponent } from './components/eZdravstvo/gradjanin/my-novorodjeni/my-novorodjeni.component';
 
 
 
@@ -108,6 +109,7 @@ import { GradjaninAddRoditeljComponent } from './components/eZdravstvo/gradjanin
     KartonViewMyComponent,
     GradjaninAddDoctorComponent,
     GradjaninAddRoditeljComponent,
+    MyNovorodjeniComponent,
   ],
   imports: [
     BrowserModule,

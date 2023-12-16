@@ -41,6 +41,11 @@ func (store *RegistrarRepositoryImpl) GetUserJMBG(jmbg string) (*domain.User, er
 	return store.filterOne(filter)
 }
 
+func (store *RegistrarRepositoryImpl) GetNewbornByMotherJMBG(jmbgMajke string) ([]*domain.User, error) {
+	filter := bson.M{"jmbgMajke": jmbgMajke}
+	return store.filter(filter)
+}
+
 func (store *RegistrarRepositoryImpl) CreateNewBirthCertificate(user domain.User) error {
 	if !store.IsUserExist(user.JMBG) {
 		_, err := store.user_registry.InsertOne(context.Background(), user)

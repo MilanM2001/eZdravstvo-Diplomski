@@ -27,4 +27,10 @@ export class RegistrarService {
         );
     }
 
+    public GetNewbornsByMotherJMBG(jmbg: string): Observable<User[]> {
+        return this.http.get<User[]>(
+          `${environment.baseApiUrl}/${this.url}/getNewbornsByMotherJMBG/` + jmbg
+        );
+      }
+
 }

@@ -38,19 +38,17 @@ export class KartonViewMyComponent implements OnInit {
         },
         complete: () => {
           this.healthcareService.GetKartonJMBG(this.user.jmbg)
-          .subscribe({
-            next: (data) => {
-              this.alergije = data.alergije
-              this.invaliditeti = data.invaliditeti
-            },
-            error: (error) => {
-              console.error(error)
-            }
-          })
+            .subscribe({
+              next: (data) => {
+                this.alergije = data.alergije
+                this.invaliditeti = data.invaliditeti
+              },
+              error: (error) => {
+                console.error(error)
+              }
+            })
         }
       })
-
-
   }
 
   search(search_option: string) {

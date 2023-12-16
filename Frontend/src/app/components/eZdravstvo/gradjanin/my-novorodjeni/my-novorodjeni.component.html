@@ -1,0 +1,16 @@
+<h1 class="welcome">Novorođeni</h1>
+
+<mat-card *ngFor="let newborn of newborns" class="novorodjeni-card">
+    <mat-card-title class="novorodjeni-info">
+        Datum rođenja: {{newborn.datumRodjenja * 1000 | date: "longDate"}}
+    </mat-card-title>
+    <mat-card-title class="novorodjeni-info">
+        Pol: {{newborn.pol}}
+    </mat-card-title>
+    <mat-card-content class="novorodjeni-content">
+        <button [routerLink]="['/Add-User-Parent', newborn.id]" type="submit" class="btn btn-primary">
+            Pogledaj
+        </button>
+    </mat-card-content>
+</mat-card>
+<h3 *ngIf="newborns?.length == 0 || !newborns" class="empty-list">Nema alergija u kartonu</h3>
