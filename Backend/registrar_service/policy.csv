@@ -18,3 +18,4 @@ p, Regular, /getNewbornsByMotherJMBG/*, GET
 p, Doctor, /getNewbornsByMotherJMBG/*, GET
 p, Admin, /getNewbornsByMotherJMBG/*, GET
 p, Registrar, /getNewbornsByMotherJMBG/*, GET
+p, Regular, /getUserID/*, GET

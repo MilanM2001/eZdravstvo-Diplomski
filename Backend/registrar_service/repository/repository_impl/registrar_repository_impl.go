@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	domain "registrar_service/model/entity"
@@ -105,7 +106,6 @@ func (store *RegistrarRepositoryImpl) filter(filter interface{}) ([]*domain.User
 }
 
 func (store *RegistrarRepositoryImpl) FindOneUser(jmbg string) *domain.User {
-
 	user, err := store.filterOne(bson.M{"jmbg": jmbg})
 	if err != nil {
 		log.Println(err.Error())
@@ -113,7 +113,16 @@ func (store *RegistrarRepositoryImpl) FindOneUser(jmbg string) *domain.User {
 	}
 
 	return user
+}
 
+func (store *RegistrarRepositoryImpl) FindOneUserID(id primitive.ObjectID) (*domain.User, error) {
+	user, err := store.filterOne(bson.M{"_id": id})
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	return user, nil
 }
 
 func (store *RegistrarRepositoryImpl) CreateNewMarriage(marriage domain.ExcerptFromTheMarriageRegister) {

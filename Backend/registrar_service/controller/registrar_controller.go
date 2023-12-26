@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/casbin/casbin"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
 	"registrar_service/model/entity"
@@ -30,6 +31,7 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 
 	router.HandleFunc("/allUsers", controller.GetAllUsers).Methods("GET")
 	router.HandleFunc("/getUserJMBG/{jmbg}", controller.GetUserJMBG).Methods("GET")
+	router.HandleFunc("/getUserID/{id}", controller.GetUserID).Methods("GET")
 	router.HandleFunc("/getNewbornsByMotherJMBG/{jmbg}", controller.GetNewbornByMotherJMBG).Methods("GET")
 	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
 	router.HandleFunc("/doctorCreateUser", controller.DoctorCreateUser).Methods("POST")
@@ -60,6 +62,23 @@ func (controller *RegistrarController) GetUserJMBG(writer http.ResponseWriter, r
 	jmbg, _ := vars["jmbg"]
 
 	user, err := controller.service.GetUserJMBG(jmbg)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(user, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *RegistrarController) GetUserID(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	id, _ := vars["id"]
+
+	objectID, err := primitive.ObjectIDFromHex(id)
+
+	user, err := controller.service.FindOneUserID(objectID)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)

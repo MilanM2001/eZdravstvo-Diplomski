@@ -71,7 +71,10 @@ export class GradjaninAddDoctorComponent implements OnInit {
       })
   }
 
-  drzave = new Array("Srbija", "Austrija", "Hrvatska", "Bosna", "Makedonija", "Bugarska", "Rumunija", "Crna Gora")
+  mestaRodjenja = new Array("Beograd", "Kragujevac", "Jagodina", "Niš", "Pirot", "Toplica", "Leskovac",
+    "Vranje", "Zaječar", "Bor", "Smederevo", "Požarevac", "Mačva", "Kolubara", "Čačak", "Kraljevo",
+    "Kruševac", "Užice", "Novi Sad", "Sombor", "Subotica", "Vrbas", "Kikinda", "Zrenjanin", "Pančevo", "Vršac", "Ruma", "Sremska Mitrovica")
+
   polovi = new Array("Muski", "Zenski")
 
 }

@@ -30,6 +30,10 @@ func (service *RegistrarService) GetUserJMBG(jmbg string) (*entity.User, error) 
 	return service.store.GetUserJMBG(jmbg)
 }
 
+func (service *RegistrarService) FindOneUserID(id primitive.ObjectID) (*entity.User, error) {
+	return service.store.FindOneUserID(id)
+}
+
 func (service *RegistrarService) CreateNewBirthCertificate(user entity.User) (int, error) {
 	isExist := service.store.IsUserExist(user.JMBG)
 	if isExist {

@@ -14,28 +14,26 @@ export class HeaderComponent {
   constructor(
     private router: Router,
     public storeService: StoreService,
-    public healthcareService: HealthcareService
+    public healthcareService: HealthcareService,
+    private storeService2: StoreService
   ) { }
 
   user: User = new User()
+  isMother = false
 
   ngOnInit(): void {
     this.healthcareService.GetMe()
       .subscribe({
         next: (data) => {
           this.user = data
+          if (data.pol == "Zenski") {
+            this.isMother = true
+          }
         },
         error: (error) => {
           console.error(error)
         }
       })
-  }
-
-  isMother(): boolean {
-    if (this.user.pol == "Zenski") {
-      return true
-    }
-    return false
   }
 
   isLoggedIn(): boolean {

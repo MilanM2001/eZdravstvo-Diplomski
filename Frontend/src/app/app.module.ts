@@ -17,13 +17,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from '@angular/material/icon'
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MarriageComponent } from './components/eMaticar/marriage/marriage.component';
 import { ChooseServiceComponent } from './components/auth/choose-service/choose-service.component';
-import { RegularOrAdminComponent } from './components/auth/regular-or-admin/regular-or-admin.component'; 
-import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { AddPersonRegistryComponent } from './components/eZdravstvo/add-person-registry/add-person-registry.component'; 
+import { RegularOrAdminComponent } from './components/auth/regular-or-admin/regular-or-admin.component';
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ViewMyRegistryComponent } from './components/eMaticar/view-my-registry/view-my-registry.component';
 import { ZdravstvenoStanjeItemComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-item/zdravstveno-stanje-item.component';
 import { ZdravstvenoStanjeListComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-list/zdravstveno-stanje-list.component';
@@ -73,7 +72,6 @@ import { MyNovorodjeniComponent } from './components/eZdravstvo/gradjanin/my-nov
     MarriageComponent,
     ChooseServiceComponent,
     RegularOrAdminComponent,
-    AddPersonRegistryComponent,
     ViewMyRegistryComponent,
     ZdravstvenoStanjeItemComponent,
     ZdravstvenoStanjeListComponent,
@@ -127,7 +125,7 @@ import { MyNovorodjeniComponent } from './components/eZdravstvo/gradjanin/my-nov
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatInputModule,
-    MatFormFieldModule,
+    MatFormFieldModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

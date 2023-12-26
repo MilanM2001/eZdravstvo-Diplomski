@@ -27,10 +27,16 @@ export class RegistrarService {
         );
     }
 
+    public GetUserID(id: string): Observable<User> {
+        return this.http.get<User>(
+            `${environment.baseApiUrl}/${this.url}/getUserID/` + id
+        );
+    }
+
     public GetNewbornsByMotherJMBG(jmbg: string): Observable<User[]> {
         return this.http.get<User[]>(
-          `${environment.baseApiUrl}/${this.url}/getNewbornsByMotherJMBG/` + jmbg
+            `${environment.baseApiUrl}/${this.url}/getNewbornsByMotherJMBG/` + jmbg
         );
-      }
+    }
 
 }

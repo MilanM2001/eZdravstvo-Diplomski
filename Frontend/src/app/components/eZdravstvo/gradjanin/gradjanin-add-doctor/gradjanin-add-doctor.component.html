@@ -30,14 +30,17 @@
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input type="text" id="mestoRodjenja" class="form-control form-control-lg"
+                                    <select id="mestoRodjenja" class="form-control form-control-lg"
                                         formControlName="mestoRodjenja"
-                                        [ngClass]="{ 'is-invalid': submitted && group['mestoRodjenja'].errors }" />
+                                        [ngClass]="{ 'is-invalid': submitted && group['mestoRodjenja'].errors }">
+                                        <option [value]="mestoRodjenja" *ngFor="let mestoRodjenja of mestaRodjenja">
+                                            {{mestoRodjenja}}</option>
+                                    </select>
                                     <div *ngIf="submitted && group['mestoRodjenja'].errors" class="invalid-feedback">
                                         <div *ngIf="group['mestoRodjenja'].errors['required']">Mesto rođenja je
                                             obavezno.</div>
                                     </div>
-                                    <label class="form-label" for="mestoRodjenja">Mesto rođenja</label>
+                                    <label class="form-mestoRodjenja" for="pol">Mesto rođenja</label>
                                 </div>
 
                                 <div class="form-outline mb-4">
