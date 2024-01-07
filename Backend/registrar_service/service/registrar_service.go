@@ -50,7 +50,7 @@ func (service *RegistrarService) CreateNewBirthCertificate(user entity.User) (in
 	return 0, nil
 }
 
-func (service *RegistrarService) DoctorCreateUser(user entity.User) (int, error) {
+func (service *RegistrarService) DoctorCreateUser(user *entity.User) (int, error) {
 	isMotherExist := service.store.IsUserExist(user.JMBGMajke)
 	if !isMotherExist {
 		return 1, nil
@@ -74,6 +74,10 @@ func (service *RegistrarService) DoctorCreateUser(user entity.User) (int, error)
 
 func (service *RegistrarService) GetNewbornByMotherJMBG(jmbgMajke string) ([]*entity.User, error) {
 	return service.store.GetNewbornByMotherJMBG(jmbgMajke)
+}
+
+func (service *RegistrarService) DeleteUserID(id primitive.ObjectID) error {
+	return service.store.DeleteUserID(id)
 }
 
 func (service *RegistrarService) FindOneCertificateByType(jmbg string, certificateType int) (*entity.BirthCertificate, *entity.ExtractFromTheDeathRegister, *entity.CertificateOfCitizenship) {

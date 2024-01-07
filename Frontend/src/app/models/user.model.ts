@@ -1,5 +1,5 @@
 export class User {
-    id: number = 0;
+    id: string = "";
     ime: string = "";
     prezime: string = "";
     jmbgOca: string = "";

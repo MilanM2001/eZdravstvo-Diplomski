@@ -60,17 +60,24 @@ func (store *RegistrarRepositoryImpl) CreateNewBirthCertificate(user domain.User
 	return fmt.Errorf("user already exists")
 }
 
-func (store *RegistrarRepositoryImpl) DoctorCreateUser(user domain.User) error {
-	if !store.IsUserExist(user.JMBG) {
-		_, err := store.user_registry.InsertOne(context.Background(), user)
-		if err != nil {
-			log.Println("Error in saving User")
-			return err
-		}
-		return nil
+func (store *RegistrarRepositoryImpl) DoctorCreateUser(user *domain.User) error {
+	_, err := store.user_registry.InsertOne(context.Background(), user)
+	if err != nil {
+		log.Println("Error in saving User")
+		return err
 	}
 
 	return fmt.Errorf("user already exists")
+}
+
+func (store *RegistrarRepositoryImpl) DeleteUserID(id primitive.ObjectID) error {
+	filter := bson.M{"_id": id}
+	_, err := store.user_registry.DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (store *RegistrarRepositoryImpl) IsUserExist(jmbg string) bool {

@@ -3,6 +3,7 @@ package controller
 import (
 	"authorization"
 	"encoding/json"
+	"fmt"
 	"github.com/casbin/casbin"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -35,6 +36,7 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	router.HandleFunc("/getNewbornsByMotherJMBG/{jmbg}", controller.GetNewbornByMotherJMBG).Methods("GET")
 	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
 	router.HandleFunc("/doctorCreateUser", controller.DoctorCreateUser).Methods("POST")
+	router.HandleFunc("/deleteUserID/{id}", controller.DeleteUserID).Methods("DELETE")
 	//router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
 	//router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
 	//router.HandleFunc("/marriage", controller.Marriage).Methods("POST")
@@ -116,24 +118,22 @@ func (controller *RegistrarController) CreateNewBirthCertificate(writer http.Res
 
 func (controller *RegistrarController) DoctorCreateUser(writer http.ResponseWriter, req *http.Request) {
 	var user entity.User
-
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil {
+		fmt.Printf("Error decoding JSON: %s\n", err)
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write([]byte("Problem to parsing JSON to entity!"))
 		return
 	}
 
-	value, err := controller.service.DoctorCreateUser(user)
-	if value == 1 {
-		writer.WriteHeader(http.StatusConflict)
-		writer.Write([]byte("JMBG Majke ne postoji u sistemu"))
-		return
-	}
-
+	value, err := controller.service.DoctorCreateUser(&user)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write([]byte(err.Error()))
+		return
+	} else if value == 1 {
+		writer.WriteHeader(http.StatusConflict)
+		writer.Write([]byte("JMBG Majke ne postoji u sistemu"))
 		return
 	}
 
@@ -153,6 +153,27 @@ func (controller *RegistrarController) GetNewbornByMotherJMBG(writer http.Respon
 	}
 
 	jsonResponse(newborns, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *RegistrarController) DeleteUserID(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	id, _ := vars["id"]
+
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println("Convert to Primitive error")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	err = controller.service.DeleteUserID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
 	writer.WriteHeader(http.StatusOK)
 }
 

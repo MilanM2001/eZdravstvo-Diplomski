@@ -2,7 +2,6 @@ p, Registrar, /registry, POST
 p, Registrar, /marriage, POST
 p, Registrar, /died, POST
 p, Doctor, /died, POST
-p, NotLoggedIn, /test, GET
 p, Registrar, /certificate/*, GET
 p, Regular, /certificate/*, GET
 p, Doctor, /certificate/*, GET
@@ -10,8 +9,6 @@ p, Doctor, /getUserJMBG/*, GET
 p, Admin, /certificate/*, GET
 p, NotLoggedIn, /children/*, GET
 p, Regular, /isParent/*, GET
-p, NotLoggedIn, /registry, POST
-p, NotLoggedIn, /allUsers, GET
 
 p, Doctor, /doctorCreateUser, POST
 p, Regular, /getNewbornsByMotherJMBG/*, GET
@@ -19,3 +16,7 @@ p, Doctor, /getNewbornsByMotherJMBG/*, GET
 p, Admin, /getNewbornsByMotherJMBG/*, GET
 p, Registrar, /getNewbornsByMotherJMBG/*, GET
 p, Regular, /getUserID/*, GET
+
+p, NotLoggedIn, /deleteUserID/*, DELETE
+p, NotLoggedIn, /registry, POST
+p, NotLoggedIn, /allUsers, GET
