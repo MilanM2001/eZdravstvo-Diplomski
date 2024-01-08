@@ -36,6 +36,7 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	router.HandleFunc("/getNewbornsByMotherJMBG/{jmbg}", controller.GetNewbornByMotherJMBG).Methods("GET")
 	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
 	router.HandleFunc("/doctorCreateUser", controller.DoctorCreateUser).Methods("POST")
+	router.HandleFunc("/parentCreateUser", controller.ParentCreateUser).Methods("POST")
 	router.HandleFunc("/deleteUserID/{id}", controller.DeleteUserID).Methods("DELETE")
 	//router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
 	//router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
@@ -134,6 +135,31 @@ func (controller *RegistrarController) DoctorCreateUser(writer http.ResponseWrit
 	} else if value == 1 {
 		writer.WriteHeader(http.StatusConflict)
 		writer.Write([]byte("JMBG Majke ne postoji u sistemu"))
+		return
+	}
+
+	jsonResponse(user, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *RegistrarController) ParentCreateUser(writer http.ResponseWriter, req *http.Request) {
+	var user entity.User
+	err := json.NewDecoder(req.Body).Decode(&user)
+	if err != nil {
+		fmt.Printf("Error decoding JSON: %s\n", err)
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("Problem to parsing JSON to entity!"))
+		return
+	}
+
+	value, err := controller.service.ParentCreateUser(&user)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	} else if value == 1 {
+		writer.WriteHeader(http.StatusConflict)
+		writer.Write([]byte("JMBG Oca ne postoji u sistemu"))
 		return
 	}
 

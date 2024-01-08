@@ -53,10 +53,16 @@ export class GradjaninAddRoditeljComponent implements OnInit {
     return this.formGroup.controls;
   }
 
-  getRandomNumber(): string {
-    const randomNumber = Math.floor(Math.random() * 500)
+  getRandomNumber(pol: string) {
+    let formattedNumber = "";
 
-    const formattedNumber = randomNumber.toString().padStart(3, '0');
+    if (pol === "Muski") {
+      const randomNumber = Math.floor(Math.random() * 500); // 0 to 499
+      formattedNumber = randomNumber.toString().padStart(3, '0');
+    } else if (pol === "Zenski") {
+      const randomNumber = Math.floor(Math.random() * 500) + 500; // 500 to 999
+      formattedNumber = randomNumber.toString();
+    }
 
     return formattedNumber;
   }
@@ -81,11 +87,24 @@ export class GradjaninAddRoditeljComponent implements OnInit {
       dateOfBirth.getFullYear().toString().slice(-3);
 
     let mestoRodjenja = this.mestaRodjenja[this.user.mestoRodjenja]
-    let randomNum = this.getRandomNumber()
+    let randomNum = this.getRandomNumber(this.user.pol)
+    let kontrolnaCifra = String(Math.floor(Math.random() * 9) + 1);
 
-    jmbg = formattedDate + mestoRodjenja + randomNum
+    jmbg = formattedDate + mestoRodjenja + randomNum + kontrolnaCifra
     this.user.jmbg = jmbg
-    console.log(this.user)
+
+    this.registrarService.ParentCreateUser(this.user)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/My-Novorodjeni'])
+        },
+        error: (error) => {
+          console.log(error)
+          if (error.status == 409) {
+            this.fatherNotExist = true
+          }
+        }
+      })
 
   }
 

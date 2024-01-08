@@ -332,6 +332,16 @@ func (repository *HealthcareRepositoryImpl) PutKarton(karton *model.Karton) erro
 	return nil
 }
 
+func (repository *HealthcareRepositoryImpl) DeleteKartonID(id primitive.ObjectID) error {
+	filter := bson.M{"_id": id}
+	_, err := repository.karton.DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (repository *HealthcareRepositoryImpl) filterKartone(filter interface{}) ([]*model.Karton, error) {
 	cursor, err := repository.karton.Find(context.Background(), filter)
 	defer cursor.Close(context.TODO())

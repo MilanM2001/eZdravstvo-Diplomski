@@ -67,7 +67,18 @@ func (store *RegistrarRepositoryImpl) DoctorCreateUser(user *domain.User) error 
 		return err
 	}
 
-	return fmt.Errorf("user already exists")
+	return nil
+}
+func (store *RegistrarRepositoryImpl) ParentCreateUser(user *domain.User) error {
+	filter := bson.M{"_id": user.ID}
+	update := bson.D{{"$set", user}}
+	_, err := store.user_registry.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		log.Println("Updating User Error MongoDB", err.Error())
+		return err
+	}
+
+	return nil
 }
 
 func (store *RegistrarRepositoryImpl) DeleteUserID(id primitive.ObjectID) error {

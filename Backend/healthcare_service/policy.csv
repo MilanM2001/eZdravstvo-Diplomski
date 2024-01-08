@@ -44,6 +44,7 @@ p, NotLoggedIn, /getSveVakcine, GET
 p, NotLoggedIn, /getVakcinaID/*, GET
 p, NotLoggedIn, /getSveKartone, GET
 p, NotLoggedIn, /getKartonJMBG/*, GET
+p, NotLoggedIn, /deleteKartonID/*, DELETE
 
 p, Doctor, /getMe, GET
 p, Regular, /getMe, GET

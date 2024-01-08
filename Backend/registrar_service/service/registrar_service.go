@@ -72,6 +72,19 @@ func (service *RegistrarService) DoctorCreateUser(user *entity.User) (int, error
 	return 0, nil
 }
 
+func (service *RegistrarService) ParentCreateUser(user *entity.User) (int, error) {
+	isFatherExist := service.store.IsUserExist(user.JMBGOca)
+	if !isFatherExist {
+		return 1, nil
+	}
+
+	err := service.store.ParentCreateUser(user)
+	if err != nil {
+		return 0, err
+	}
+	return 0, nil
+}
+
 func (service *RegistrarService) GetNewbornByMotherJMBG(jmbgMajke string) ([]*entity.User, error) {
 	return service.store.GetNewbornByMotherJMBG(jmbgMajke)
 }

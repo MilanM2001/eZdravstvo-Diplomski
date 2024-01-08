@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/casbin/casbin"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
 )
@@ -31,6 +32,7 @@ func (controller *AuthController) Init(router *mux.Router) {
 	router.HandleFunc("/allCredentials", controller.GetAllCredentials).Methods("GET")
 	router.HandleFunc("/registration", controller.Register).Methods("POST")
 	router.HandleFunc("/login", controller.Login).Methods("POST")
+	router.HandleFunc("/deleteCredentialsID/{id}", controller.DeleteCredentialsID).Methods("DELETE")
 
 	http.Handle("/", router)
 	log.Fatal(http.ListenAndServe(":8002", authorization.Authorizer(authEnforcer)(router)))
@@ -101,4 +103,25 @@ func (controller *AuthController) Login(response http.ResponseWriter, request *h
 
 	response.WriteHeader(http.StatusOK)
 	response.Write([]byte(token))
+}
+
+func (controller *AuthController) DeleteCredentialsID(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	id, _ := vars["id"]
+
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println("Convert to Primitive error")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	err = controller.service.DeleteCredentialsID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
 }

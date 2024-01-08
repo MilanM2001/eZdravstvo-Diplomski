@@ -11,6 +11,7 @@ p, NotLoggedIn, /children/*, GET
 p, Regular, /isParent/*, GET
 
 p, Doctor, /doctorCreateUser, POST
+p, Regular, /parentCreateUser, POST
 p, Regular, /getNewbornsByMotherJMBG/*, GET
 p, Doctor, /getNewbornsByMotherJMBG/*, GET
 p, Admin, /getNewbornsByMotherJMBG/*, GET

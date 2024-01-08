@@ -3,5 +3,7 @@ p, NotLoggedIn, /login, POST
 p, Regular, /test, GET
 p, NotLoggedIn, /allCredentials, GET
 
+p, NotLoggedIn, /deleteCredentialsID/*, DELETE
+
 
 

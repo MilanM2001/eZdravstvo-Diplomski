@@ -68,6 +68,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/getKartoneJMBG/{jmbg}", controller.GetKartoneJMBG).Methods("GET")
 	router.HandleFunc("/getKartonJMBG/{jmbg}", controller.GetKartonJMBG).Methods("GET")
 	router.HandleFunc("/putKarton/{jmbg}", controller.PutKarton).Methods("PUT")
+	router.HandleFunc("/deleteKartonID/{id}", controller.DeleteKartonID).Methods("DELETE")
 
 	router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
 
@@ -285,6 +286,7 @@ func (controller *HealthcareController) PutVakcina(writer http.ResponseWriter, r
 		writer.Write([]byte("There is a problem in decoding JSON"))
 		return
 	}
+
 	objectID, err := getIDFromReqAsPrimitive(writer, req)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
@@ -515,6 +517,19 @@ func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, re
 	}
 
 	jsonResponse(karton, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) DeleteKartonID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	err = controller.service.DeleteKartonID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
 	writer.WriteHeader(http.StatusOK)
 }
 

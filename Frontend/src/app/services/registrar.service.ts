@@ -21,6 +21,12 @@ export class RegistrarService {
         );
     }
 
+    public ParentCreateUser(user: User): Observable<User> {
+        return this.http.post<User>(
+            `${environment.baseApiUrl}/${this.url}/parentCreateUser`, user
+        );
+    }
+
     public GetUserJMBG(jmbg: string): Observable<User> {
         return this.http.get<User>(
             `${environment.baseApiUrl}/${this.url}/getUserJMBG/` + jmbg

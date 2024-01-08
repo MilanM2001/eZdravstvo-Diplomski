@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 )
@@ -61,6 +62,16 @@ func (store *AuthRepositoryImpl) GetCredentials(jmbg string) (*domain.Credential
 	}
 	return credentials, nil
 
+}
+
+func (store *AuthRepositoryImpl) DeleteCredentialsID(id primitive.ObjectID) error {
+	filter := bson.M{"_id": id}
+	_, err := store.auth.DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (store *AuthRepositoryImpl) filterOne(filter interface{}) (credentials *domain.Credentials, err error) {

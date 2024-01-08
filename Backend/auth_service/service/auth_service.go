@@ -104,6 +104,10 @@ func (service *AuthService) Login(jmbg string, password string) (string, int) {
 	return tokenString, 0
 }
 
+func (service *AuthService) DeleteCredentialsID(id primitive.ObjectID) error {
+	return service.store.DeleteCredentialsID(id)
+}
+
 func GenerateJWT(credentials *domain.Credentials) (string, error) {
 	key := []byte(os.Getenv("SECRET_KEY"))
 	signer, err := jwt.NewSignerHS(jwt.HS256, key)

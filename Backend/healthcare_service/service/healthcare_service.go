@@ -359,6 +359,10 @@ func (service *HealthcareService) PutKarton(karton *model.Karton, jmbg string) (
 	return 0, nil
 }
 
+func (service *HealthcareService) DeleteKartonID(id primitive.ObjectID) error {
+	return service.repository.DeleteKartonID(id)
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 func (service *HealthcareService) GetMe(jmbg string) (*model.User, error) {
