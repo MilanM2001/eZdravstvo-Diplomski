@@ -51,7 +51,10 @@
                                 </div>
 
                                 <div *ngIf="fatherNotExist">
-                                    <h1 class="user-exists">JMBG oca nije pronađen u sistemu</h1>
+                                    <h1 class="user-exists">JMBG nije pronađen u sistemu</h1>
+                                </div>
+                                <div *ngIf="isFemale">
+                                    <h1 class="is-female">JMBG ne pripada muškoj osobi</h1>
                                 </div>
 
                                 <div class="d-flex justify-content-center">

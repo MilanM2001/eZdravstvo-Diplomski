@@ -43,7 +43,7 @@ func (store *RegistrarRepositoryImpl) GetUserJMBG(jmbg string) (*domain.User, er
 }
 
 func (store *RegistrarRepositoryImpl) GetNewbornByMotherJMBG(jmbgMajke string) ([]*domain.User, error) {
-	filter := bson.M{"jmbgMajke": jmbgMajke}
+	filter := bson.M{"jmbgMajke": jmbgMajke, "ime": "", "prezime": ""}
 	return store.filter(filter)
 }
 

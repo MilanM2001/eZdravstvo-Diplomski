@@ -20,6 +20,7 @@ export class GradjaninAddDoctorComponent implements OnInit {
 
   submitted = false
   motherNotExist = false
+  isMale = false
 
   formGroup: FormGroup = new FormGroup({
     jmbgMajke: new FormControl(''),
@@ -66,6 +67,10 @@ export class GradjaninAddDoctorComponent implements OnInit {
           console.log(error)
           if (error.status == 409) {
             this.motherNotExist = true
+            this.isMale = false
+          } else if (error.status == 403) {
+            this.isMale = true
+            this.motherNotExist = false
           }
         }
       })

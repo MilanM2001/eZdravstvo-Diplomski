@@ -23,6 +23,7 @@ export class GradjaninAddRoditeljComponent implements OnInit {
 
   submitted = false
   fatherNotExist = false
+  isFemale = false
 
   formGroup: FormGroup = new FormGroup({
     ime: new FormControl(''),
@@ -102,6 +103,10 @@ export class GradjaninAddRoditeljComponent implements OnInit {
           console.log(error)
           if (error.status == 409) {
             this.fatherNotExist = true
+            this.isFemale = false
+          } else if (error.status == 403) {
+            this.isFemale = true
+            this.fatherNotExist = false
           }
         }
       })

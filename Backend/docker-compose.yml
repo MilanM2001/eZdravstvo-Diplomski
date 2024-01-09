@@ -36,6 +36,7 @@ services:
       CHECK_USER_JMBG: ${CHECK_USER_JMBG}
       GET_USER_BY_JMBG: ${GET_USER_BY_JMBG}
       CREATE_USER: ${CREATE_USER}
+      DELETE_KARTON: ${DELETE_KARTON}
     networks:
       - network
     depends_on:
@@ -85,6 +86,7 @@ services:
       GET_USER_BY_JMBG: ${GET_USER_BY_JMBG}
       CREATE_USER: ${CREATE_USER}
       POST_KARTON: ${POST_KARTON}
+      DELETE_KARTON: ${DELETE_KARTON}
       GET_STANJE_BY_JMBG: ${GET_STANJE_BY_JMBG}
       NATS_URI: ${NATS_URI}
     networks:

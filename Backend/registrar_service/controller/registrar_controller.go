@@ -24,7 +24,6 @@ func NewRegistrarController(service *service.RegistrarService) *RegistrarControl
 }
 
 func (controller *RegistrarController) Init(router *mux.Router) {
-
 	authEnforcer, err := casbin.NewEnforcerSafe("./auth_model.conf", "./policy.csv")
 	if err != nil {
 		log.Fatal(err)
@@ -136,6 +135,10 @@ func (controller *RegistrarController) DoctorCreateUser(writer http.ResponseWrit
 		writer.WriteHeader(http.StatusConflict)
 		writer.Write([]byte("JMBG Majke ne postoji u sistemu"))
 		return
+	} else if value == 2 {
+		writer.WriteHeader(http.StatusForbidden)
+		writer.Write([]byte("JMBG ne pripada zenskoj osobi"))
+		return
 	}
 
 	jsonResponse(user, writer)
@@ -160,6 +163,10 @@ func (controller *RegistrarController) ParentCreateUser(writer http.ResponseWrit
 	} else if value == 1 {
 		writer.WriteHeader(http.StatusConflict)
 		writer.Write([]byte("JMBG Oca ne postoji u sistemu"))
+		return
+	} else if value == 2 {
+		writer.WriteHeader(http.StatusForbidden)
+		writer.Write([]byte("JMBG ne pripada muskoj osobi"))
 		return
 	}
 

@@ -363,6 +363,10 @@ func (service *HealthcareService) DeleteKartonID(id primitive.ObjectID) error {
 	return service.repository.DeleteKartonID(id)
 }
 
+func (service *HealthcareService) DeleteKartonJMBG(jmbg string) error {
+	return service.repository.DeleteKartonJMBG(jmbg)
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 func (service *HealthcareService) GetMe(jmbg string) (*model.User, error) {
@@ -465,6 +469,7 @@ func (service *HealthcareService) SubscribeToNats(natsConnection *nats.Conn) {
 			log.Println("Error in marshaling JSON!")
 			return
 		}
+
 		reply := dataToSend
 		err = natsConnection.Publish(message.Reply, reply)
 		if err != nil {
@@ -474,8 +479,42 @@ func (service *HealthcareService) SubscribeToNats(natsConnection *nats.Conn) {
 
 	})
 	if err != nil {
-		log.Println("Error in receiving message: %s", err.Error())
+		log.Printf("Error in receiving message: %s", err.Error())
 	}
 
 	log.Printf("Subscribed to channel: %s", os.Getenv("POST_KARTON"))
+
+	_, err = natsConnection.QueueSubscribe(os.Getenv("DELETE_KARTON"), "queue-healthcare-group", func(message *nats.Msg) {
+		var jmbg string
+		err := json.Unmarshal(message.Data, &jmbg)
+		if err != nil {
+			log.Println("Error in unmarshal JSON")
+			return
+		}
+
+		err = service.DeleteKartonJMBG(jmbg)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		dataToSend, err := json.Marshal(jmbg)
+		if err != nil {
+			log.Println("Error in marshaling JSON!")
+			return
+		}
+
+		reply := dataToSend
+		err = natsConnection.Publish(message.Reply, reply)
+		if err != nil {
+			log.Printf("Error in publishing response: %s", err.Error())
+			return
+		}
+
+	})
+	if err != nil {
+		log.Printf("Error in receiving message: %s", err.Error())
+	}
+
+	log.Printf("Subscribed to channel: %s", os.Getenv("DELETE_KARTON"))
 }
