@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {}
+  ) { }
 
   loginFormGroup: FormGroup = new FormGroup({
     jmbg: new FormControl(''),
@@ -73,6 +73,7 @@ export class LoginComponent implements OnInit {
             localStorage.clear();
           } else if (response == "Password doesn't match!") {
             localStorage.clear();
+            this.notFound = true
           } else {
             localStorage.setItem('authToken', response);
             this.router.navigate(['/choose-service']).then();
@@ -86,7 +87,7 @@ export class LoginComponent implements OnInit {
         if ((error.status = 403)) {
           this.notFound = true;
         }
-      },
+      }
     });
   }
 }

@@ -363,6 +363,10 @@ func (service *HealthcareService) DeleteKartonID(id primitive.ObjectID) error {
 	return service.repository.DeleteKartonID(id)
 }
 
+func (service *HealthcareService) DeleteAllKarton() error {
+	return service.repository.DeleteAllKarton()
+}
+
 func (service *HealthcareService) DeleteKartonJMBG(jmbg string) error {
 	return service.repository.DeleteKartonJMBG(jmbg)
 }

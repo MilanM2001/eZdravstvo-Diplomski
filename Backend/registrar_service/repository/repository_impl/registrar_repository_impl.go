@@ -91,6 +91,16 @@ func (store *RegistrarRepositoryImpl) DeleteUserID(id primitive.ObjectID) error 
 	return nil
 }
 
+func (store *RegistrarRepositoryImpl) DeleteAllUsers() error {
+	filter := bson.D{}
+	_, err := store.user_registry.DeleteMany(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (store *RegistrarRepositoryImpl) IsUserExist(jmbg string) bool {
 
 	user, err := store.filterOne(bson.M{"jmbg": jmbg})

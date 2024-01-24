@@ -43,4 +43,5 @@ type HealthcareRepository interface {
 	PutKarton(karton *model.Karton) error
 	DeleteKartonID(id primitive.ObjectID) error
 	DeleteKartonJMBG(jmbg string) error
+	DeleteAllKarton() error
 }

@@ -69,6 +69,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/getKartonJMBG/{jmbg}", controller.GetKartonJMBG).Methods("GET")
 	router.HandleFunc("/putKarton/{jmbg}", controller.PutKarton).Methods("PUT")
 	router.HandleFunc("/deleteKartonID/{id}", controller.DeleteKartonID).Methods("DELETE")
+	router.HandleFunc("/deleteAllKarton", controller.DeleteAllKarton).Methods("DELETE")
 
 	router.HandleFunc("/getMe", controller.GetMe).Methods("GET")
 
@@ -524,6 +525,17 @@ func (controller *HealthcareController) DeleteKartonID(writer http.ResponseWrite
 	objectID, err := getIDFromReqAsPrimitive(writer, req)
 
 	err = controller.service.DeleteKartonID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) DeleteAllKarton(writer http.ResponseWriter, req *http.Request) {
+	err := controller.service.DeleteAllKarton()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write([]byte(err.Error()))

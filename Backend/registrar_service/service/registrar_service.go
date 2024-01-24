@@ -8,7 +8,6 @@ import (
 	"os"
 	"registrar_service/model/entity"
 	"registrar_service/repository"
-	"time"
 )
 
 type RegistrarService struct {
@@ -95,24 +94,35 @@ func (service *RegistrarService) GetNewbornByMotherJMBG(jmbgMajke string) ([]*en
 }
 
 func (service *RegistrarService) DeleteUserID(id primitive.ObjectID) error {
-	user, err := service.store.FindOneUserID(id)
+	_, err := service.store.FindOneUserID(id)
 	if err != nil {
 		return err
 	}
-	jmbg := user.JMBG
-	jmbgToSend, err := json.Marshal(jmbg)
-	if err != nil {
-		log.Println("Error in Marshaling JSON")
-		return err
-	}
+	//jmbg := user.JMBG
 
-	_, err = service.natsConnection.Request(os.Getenv("DELETE_KARTON"), jmbgToSend, 5*time.Second)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
+	//jmbgToSend, err := json.Marshal(jmbg)
+	//if err != nil {
+	//	log.Println("Error in Marshaling JSON")
+	//	return err
+	//}
+
+	//_, err = service.natsConnection.Request(os.Getenv("DELETE_KARTON"), jmbgToSend, 5*time.Second)
+	//if err != nil {
+	//	log.Println(err)
+	//	return err
+	//}
+	//
+	//_, err = service.natsConnection.Request(os.Getenv("DELETE_CREDENTIALS"), jmbgToSend, 5*time.Second)
+	//if err != nil {
+	//	log.Println(err)
+	//	return err
+	//}
 
 	return service.store.DeleteUserID(id)
+}
+
+func (service *RegistrarService) DeleteAllUsers() error {
+	return service.store.DeleteAllUsers()
 }
 
 func (service *RegistrarService) FindOneCertificateByType(jmbg string, certificateType int) (*entity.BirthCertificate, *entity.ExtractFromTheDeathRegister, *entity.CertificateOfCitizenship) {

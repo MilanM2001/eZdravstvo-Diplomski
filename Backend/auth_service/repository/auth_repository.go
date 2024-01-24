@@ -11,4 +11,6 @@ type AuthRepository interface {
 	GetCredentials(jmbg string) (*domain.Credentials, error)
 	GetAllCredentials() ([]*domain.Credentials, error)
 	DeleteCredentialsID(id primitive.ObjectID) error
+	DeleteCredentialsJMBG(jmbg string) error
+	DeleteAllCredentials() error
 }

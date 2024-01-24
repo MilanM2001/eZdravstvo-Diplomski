@@ -342,6 +342,16 @@ func (repository *HealthcareRepositoryImpl) DeleteKartonID(id primitive.ObjectID
 	return nil
 }
 
+func (repository *HealthcareRepositoryImpl) DeleteAllKarton() error {
+	filter := bson.D{}
+	_, err := repository.karton.DeleteMany(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (repository *HealthcareRepositoryImpl) DeleteKartonJMBG(jmbg string) error {
 	filter := bson.M{"jmbg": jmbg}
 	_, err := repository.karton.DeleteOne(context.Background(), filter)

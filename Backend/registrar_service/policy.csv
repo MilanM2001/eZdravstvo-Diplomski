@@ -21,3 +21,4 @@ p, Regular, /getUserID/*, GET
 p, NotLoggedIn, /deleteUserID/*, DELETE
 p, NotLoggedIn, /registry, POST
 p, NotLoggedIn, /allUsers, GET
+p, NotLoggedIn, /deleteAllUsers, DELETE

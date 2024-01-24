@@ -72,4 +72,11 @@ export class KartonViewMyComponent implements OnInit {
     }
   }
 
+  isMother(): boolean {
+    if (this.user.pol == "Zenski") {
+      return true
+    }
+    return false
+  }
+
 }

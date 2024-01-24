@@ -33,6 +33,7 @@ func (controller *AuthController) Init(router *mux.Router) {
 	router.HandleFunc("/registration", controller.Register).Methods("POST")
 	router.HandleFunc("/login", controller.Login).Methods("POST")
 	router.HandleFunc("/deleteCredentialsID/{id}", controller.DeleteCredentialsID).Methods("DELETE")
+	router.HandleFunc("/deleteAllCredentials", controller.DeleteAllCredentials).Methods("DELETE")
 
 	http.Handle("/", router)
 	log.Fatal(http.ListenAndServe(":8002", authorization.Authorizer(authEnforcer)(router)))
@@ -117,6 +118,17 @@ func (controller *AuthController) DeleteCredentialsID(writer http.ResponseWriter
 	}
 
 	err = controller.service.DeleteCredentialsID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *AuthController) DeleteAllCredentials(writer http.ResponseWriter, req *http.Request) {
+	err := controller.service.DeleteAllCredentials()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write([]byte(err.Error()))

@@ -19,4 +19,5 @@ type RegistrarRepository interface {
 	UpdateCertificate(user domain.User) error
 	GetChildren(jmbg string, pol domain.Pol) []domain.User
 	DeleteUserID(id primitive.ObjectID) error
+	DeleteAllUsers() error
 }

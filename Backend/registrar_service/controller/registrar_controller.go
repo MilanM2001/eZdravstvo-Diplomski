@@ -37,6 +37,7 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	router.HandleFunc("/doctorCreateUser", controller.DoctorCreateUser).Methods("POST")
 	router.HandleFunc("/parentCreateUser", controller.ParentCreateUser).Methods("POST")
 	router.HandleFunc("/deleteUserID/{id}", controller.DeleteUserID).Methods("DELETE")
+	router.HandleFunc("/deleteAllUsers", controller.DeleteAllUsers).Methods("DELETE")
 	//router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
 	//router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
 	//router.HandleFunc("/marriage", controller.Marriage).Methods("POST")
@@ -201,6 +202,17 @@ func (controller *RegistrarController) DeleteUserID(writer http.ResponseWriter, 
 	}
 
 	err = controller.service.DeleteUserID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *RegistrarController) DeleteAllUsers(writer http.ResponseWriter, req *http.Request) {
+	err := controller.service.DeleteAllUsers()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write([]byte(err.Error()))

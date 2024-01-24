@@ -21,6 +21,7 @@ export class GradjaninAddDoctorComponent implements OnInit {
   submitted = false
   motherNotExist = false
   isMale = false
+  today: string = new Date().toISOString().split('T')[0];
 
   formGroup: FormGroup = new FormGroup({
     jmbgMajke: new FormControl(''),

@@ -22,7 +22,7 @@
                         <div class="form-outline mb-4">
                             <h3 class="field-name">Datum Pregleda</h3>
                             <input type="date" id="datumPregleda" class="form-control form-control-lg"
-                                formControlName="datumPregleda"
+                                formControlName="datumPregleda" min="{{ today | date:'yyyy-MM-dd' }}"
                                 [ngClass]="{ 'is-invalid': submittedPregled && pregledGroup['datumPregleda'].errors}" />
                             <div *ngIf="submittedPregled && pregledGroup['datumPregleda'].errors"
                                 class="invalid-feedback">
@@ -69,6 +69,7 @@
                                     </div>
                                 </mat-form-field>
                             </div>
+                            
                         </div>
 
                         <form [formGroup]="vakcinaFormGroup">

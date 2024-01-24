@@ -40,6 +40,7 @@ export class PregledAddComponent implements OnInit {
   vakcine: Vakcina[] = [];
   vakcinaID: string = '';
   tipoviPregleda = new Array('Običan', 'Vakcinacija');
+  today: string = new Date().toISOString().split('T')[0];
 
   ngOnInit(): void {
     this.pregledFormGroup = this.formBuilder.group({

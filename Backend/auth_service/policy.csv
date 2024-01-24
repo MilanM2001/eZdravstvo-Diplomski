@@ -4,6 +4,7 @@ p, Regular, /test, GET
 p, NotLoggedIn, /allCredentials, GET
 
 p, NotLoggedIn, /deleteCredentialsID/*, DELETE
+p, NotLoggedIn, /deleteAllCredentials, DELETE
 
 
 

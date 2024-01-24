@@ -21,7 +21,7 @@
 
                                 <div class="form-outline mb-4">
                                     <input type="date" id="datumRodjenja" class="form-control form-control-lg"
-                                        formControlName="datumRodjenja"
+                                        formControlName="datumRodjenja" max="{{ today | date:'yyyy-MM-dd' }}"
                                         [ngClass]="{ 'is-invalid': submitted && group['datumRodjenja'].errors }" />
                                     <div *ngIf="submitted && group['datumRodjenja'].errors" class="invalid-feedback">
                                         <div *ngIf="group['datumRodjenja'].errors['required']">Datum je obavezan.</div>

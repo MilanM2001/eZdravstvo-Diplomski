@@ -28,7 +28,7 @@
     <button *ngIf="!isMyPregled()" type="submit" class="btn btn-success" (click)="update()">
       Rezerviši
     </button>
-    <button *ngIf="isMyPregled()" type="submit" class="btn btn-danger" (click)="delete()">
+    <button *ngIf="isMyPregled() && !isTaken()" type="submit" class="btn btn-danger" (click)="delete()">
       Ukloni
     </button>
   </div>

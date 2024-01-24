@@ -74,6 +74,26 @@ func (store *AuthRepositoryImpl) DeleteCredentialsID(id primitive.ObjectID) erro
 	return nil
 }
 
+func (store *AuthRepositoryImpl) DeleteAllCredentials() error {
+	filter := bson.D{}
+	_, err := store.auth.DeleteMany(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (store *AuthRepositoryImpl) DeleteCredentialsJMBG(jmbg string) error {
+	filter := bson.M{"jmbg": jmbg}
+	_, err := store.auth.DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (store *AuthRepositoryImpl) filterOne(filter interface{}) (credentials *domain.Credentials, err error) {
 	result := store.auth.FindOne(context.TODO(), filter)
 	err = result.Decode(&credentials)
