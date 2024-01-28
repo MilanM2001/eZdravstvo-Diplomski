@@ -10,7 +10,6 @@ type User struct {
 	JMBGMajke     string             `json:"jmbgMajke" bson:"jmbgMajke"`
 	JMBG          string             `json:"jmbg" bson:"jmbg" unique:"true"`
 	Pol           Pol                `json:"pol" bson:"pol"`
-	DatumSmrti    int64              `json:"datumSmrti" bson:"datumSmrti"`
 	DatumRodjenja int64              `json:"datumRodjenja" bson:"datumRodjenja"`
 	MestoRodjenja string             `json:"mestoRodjenja" bson:"mestoRodjenja"`
 }
@@ -29,6 +28,13 @@ type Credentials struct {
 	UserType UserType           `bson:"userType" json:"userType" validate:"onlyChar"`
 }
 
+type PotvrdaSmrti struct {
+	ID         primitive.ObjectID `json:"id" bson:"_id"`
+	JMBG       string             `json:"jmbg" bson:"jmbg"`
+	DatumSmrti int64              `json:"datumSmrti" bson:"datumSmrti"`
+	MestoSmrti string             `json:"mestoSmrti" bson:"mestoSmrti"`
+}
+
 type UserType string
 
 const (
@@ -37,65 +43,3 @@ const (
 	Doctor    = "Doctor"
 	Registrar = "Registrar"
 )
-
-type UserDied struct {
-	JMBG       string `json:"jmbg" validate:"pattern=[0-9]+,required"`
-	DatimSmrti int64  `json:"datumSmrti" validate:"required"`
-	MestoSmrti string `json:"mestoSmrti" validate:"required"`
-}
-
-type BirthCertificate struct {
-	Ime           string `json:"ime"`
-	Prezime       string `json:"prezime"`
-	ImeOca        string `json:"ime_oca"`
-	JMBGOca       string `json:"jmbg_oca"`
-	ImeMajke      string `json:"ime_majke"`
-	JMBGMajke     string `json:"jmbg_majke"`
-	DatumRodjenja int64  `json:"datum_rodjenja"`
-	MestoRodjenja string `json:"mesto_rodjenja"`
-	JMBG          string `json:"jmbg"`
-	Pol           Pol    `json:"pol"`
-}
-
-type ExtractFromTheDeathRegister struct {
-	Ime           string `json:"ime"`
-	Prezime       string `json:"prezime"`
-	ImeOca        string `json:"ime_oca"`
-	JMBGOca       string `json:"jmbg_oca"`
-	ImeMajke      string `json:"ime_majke"`
-	JMBGMajke     string `json:"jmbg_majke"`
-	DatumRodjenja int64  `json:"datum_rodjenja"`
-	MestoRodjenja string `json:"mesto_rodjenja"`
-	JMBG          string `json:"jmbg"`
-	Pol           Pol    `json:"pol"`
-	DatimSmrti    int64  `json:"datim_smrti"`
-	MestoSmrti    string `json:"mesto_smrti"`
-}
-
-type CertificateOfCitizenship struct {
-	Ime           string `json:"ime"`
-	Prezime       string `json:"prezime"`
-	ImeOca        string `json:"ime_oca"`
-	JMBGOca       string `json:"jmbg_oca"`
-	ImeMajke      string `json:"ime_majke"`
-	JMBGMajke     string `json:"jmbg_majke"`
-	DatumRodjenja int64  `json:"datum_rodjenja"`
-	MestoRodjenja string `json:"mesto_rodjenja"`
-	JMBG          string `json:"jmbg"`
-	Pol           Pol    `json:"pol"`
-	Drzava        string `json:"drzava"`
-}
-
-type ExcerptFromTheMarriageRegister struct {
-	ID                     primitive.ObjectID `json:"id" bson:"_id"`
-	ImeMladozenje          string             `json:"ime_mladozenje" bson:"ime_mladozenje"`
-	ImeMlade               string             `json:"ime_mlade" bson:"ime_mlade"`
-	PrezimeMladozenje      string             `json:"prezime_mladozenje" bson:"prezime_mladozenje"`
-	DevojkackoPrezimeMlade string             `json:"devojkacko_prezime_mlade" bson:"devojkacko_prezime_mlade"`
-	DatumVencanja          int64              `json:"datum_vencanja" bson:"datum_vencanja"`
-	MestoVencanja          string             `json:"mesto_vencanja" bson:"mesto_vencanja"`
-	JMBGMladozenje         string             `json:"jmbg_mladozenje" bson:"jmbg_mladozenje"`
-	JMBGMlade              string             `json:"jmbg_mlade" bson:"jmbg_mlade"`
-	Svedok1                User               `json:"svedok_1" bson:"svedok_1"`
-	Svedok2                User               `json:"svedok_2" bson:"svedok_2"`
-}

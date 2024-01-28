@@ -7,7 +7,6 @@ import { MarriageComponent } from './components/eMaticar/marriage/marriage.compo
 import { ChooseServiceComponent } from './components/auth/choose-service/choose-service.component';
 import { RegularOrAdminComponent } from './components/auth/regular-or-admin/regular-or-admin.component';
 import { ViewMyRegistryComponent } from './components/eMaticar/view-my-registry/view-my-registry.component';
-import { UserDiedComponent } from './components/eZdravstvo/user-died/user-died.component';
 import { PreglediLekarComponent } from './components/eZdravstvo/pregled/pregledi-lekar/pregledi-lekar.component';
 import { PreglediGradjaninComponent } from './components/eZdravstvo/pregled/pregledi-gradjanin/pregledi-gradjanin.component';
 import { PregledAddComponent } from './components/eZdravstvo/pregled/pregled-add/pregled-add.component';
@@ -27,6 +26,7 @@ import { KartonViewMyComponent } from './components/eZdravstvo/karton/karton-vie
 import { GradjaninAddDoctorComponent } from './components/eZdravstvo/gradjanin/gradjanin-add-doctor/gradjanin-add-doctor.component';
 import { MyNovorodjeniComponent } from './components/eZdravstvo/gradjanin/my-novorodjeni/my-novorodjeni.component';
 import { GradjaninAddRoditeljComponent } from './components/eZdravstvo/gradjanin/gradjanin-add-roditelj/gradjanin-add-roditelj.component';
+import { PotvrdaSmrtiAddComponent } from './components/eZdravstvo/potvrda/potvrda-smrti-add/potvrda-smrti-add.component';
 
 const routes: Routes = [
   {
@@ -101,6 +101,10 @@ const routes: Routes = [
   {
     path: 'Karton-Edit-Invaliditeti/:jmbg',
     component: KartonEditInvaliditetiComponent
+  },
+  {
+    path: 'Potvrda-Smrti/:jmbg',
+    component: PotvrdaSmrtiAddComponent
   },
   {
     path: 'Add-User-Doctor',

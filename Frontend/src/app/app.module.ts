@@ -24,12 +24,6 @@ import { ChooseServiceComponent } from './components/auth/choose-service/choose-
 import { RegularOrAdminComponent } from './components/auth/regular-or-admin/regular-or-admin.component';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ViewMyRegistryComponent } from './components/eMaticar/view-my-registry/view-my-registry.component';
-import { ZdravstvenoStanjeItemComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-item/zdravstveno-stanje-item.component';
-import { ZdravstvenoStanjeListComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-list/zdravstveno-stanje-list.component';
-import { ZdravstvenoStanjeAddComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-add/zdravstveno-stanje-add.component';
-import { ZdravstvenaStanjaDoctorComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstvena-stanja-doctor/zdravstvena-stanja-doctor.component';
-import { ZdravstvenoStanjeViewMyComponent } from './components/eZdravstvo/zdravstveno-stanje/zdravstveno-stanje-view-my/zdravstveno-stanje-view-my.component';
-import { UserDiedComponent } from './components/eZdravstvo/user-died/user-died.component';
 import { PregledAddComponent } from './components/eZdravstvo/pregled/pregled-add/pregled-add.component';
 import { PregledItemComponent } from './components/eZdravstvo/pregled/pregled-item/pregled-item.component';
 import { PregledListComponent } from './components/eZdravstvo/pregled/pregled-list/pregled-list.component';
@@ -59,6 +53,7 @@ import { KartonViewMyComponent } from './components/eZdravstvo/karton/karton-vie
 import { GradjaninAddDoctorComponent } from './components/eZdravstvo/gradjanin/gradjanin-add-doctor/gradjanin-add-doctor.component';
 import { GradjaninAddRoditeljComponent } from './components/eZdravstvo/gradjanin/gradjanin-add-roditelj/gradjanin-add-roditelj.component';
 import { MyNovorodjeniComponent } from './components/eZdravstvo/gradjanin/my-novorodjeni/my-novorodjeni.component';
+import { PotvrdaSmrtiAddComponent } from './components/eZdravstvo/potvrda/potvrda-smrti-add/potvrda-smrti-add.component';
 
 
 
@@ -73,12 +68,6 @@ import { MyNovorodjeniComponent } from './components/eZdravstvo/gradjanin/my-nov
     ChooseServiceComponent,
     RegularOrAdminComponent,
     ViewMyRegistryComponent,
-    ZdravstvenoStanjeItemComponent,
-    ZdravstvenoStanjeListComponent,
-    ZdravstvenoStanjeAddComponent,
-    ZdravstvenaStanjaDoctorComponent,
-    ZdravstvenoStanjeViewMyComponent,
-    UserDiedComponent,
     PregledAddComponent,
     PregledItemComponent,
     PregledListComponent,
@@ -108,6 +97,7 @@ import { MyNovorodjeniComponent } from './components/eZdravstvo/gradjanin/my-nov
     GradjaninAddDoctorComponent,
     GradjaninAddRoditeljComponent,
     MyNovorodjeniComponent,
+    PotvrdaSmrtiAddComponent,
   ],
   imports: [
     BrowserModule,

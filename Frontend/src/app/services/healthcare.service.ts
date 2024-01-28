@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
-import { ZdravstvenoStanje } from '../models/zdravstvenoStanje.model';
 import { Vakcina } from '../models/vakcina.model';
 import { AddVakcina } from '../dto/addVakcina';
 import { AddPregled } from '../dto/addPregled';
@@ -163,27 +162,6 @@ export class HealthcareService {
 
   public GetMe(): Observable<User> {
     return this.http.get<User>(`${environment.baseApiUrl}/${this.url}/getMe`);
-  }
-
-  public GetAllZdravstvenaStanja(): Observable<ZdravstvenoStanje[]> {
-    return this.http.get<ZdravstvenoStanje[]>(
-      `${environment.baseApiUrl}/${this.url}/allZdravstvenaStanja`
-    );
-  }
-
-  public GetMyZdravstvenoStanje(): Observable<ZdravstvenoStanje> {
-    return this.http.get<ZdravstvenoStanje>(
-      `${environment.baseApiUrl}/${this.url}/myZdravstvenoStanje`
-    );
-  }
-
-  public NewZdravstvenoStanje(
-    zdravstvenoStanje: ZdravstvenoStanje
-  ): Observable<ZdravstvenoStanje> {
-    return this.http.post<ZdravstvenoStanje>(
-      `${environment.baseApiUrl}/${this.url}/newZdravstvenoStanje`,
-      zdravstvenoStanje
-    );
   }
 
   public DoctorCreateUser(user: User): Observable<User> {

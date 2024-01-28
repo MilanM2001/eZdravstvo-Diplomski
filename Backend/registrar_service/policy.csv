@@ -17,8 +17,11 @@ p, Doctor, /getNewbornsByMotherJMBG/*, GET
 p, Admin, /getNewbornsByMotherJMBG/*, GET
 p, Registrar, /getNewbornsByMotherJMBG/*, GET
 p, Regular, /getUserID/*, GET
+p, Doctor, /postPotvrdaSmrti, POST
 
 p, NotLoggedIn, /deleteUserID/*, DELETE
 p, NotLoggedIn, /registry, POST
 p, NotLoggedIn, /allUsers, GET
 p, NotLoggedIn, /deleteAllUsers, DELETE
+p, NotLoggedIn, /allPotvrdeSmrti, GET
+p, NotLoggedIn, /deletePotvrdaSmrtiID/*, DELETE

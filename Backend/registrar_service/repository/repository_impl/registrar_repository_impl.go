@@ -12,44 +12,44 @@ import (
 )
 
 type RegistrarRepositoryImpl struct {
-	user_registry *mongo.Collection //izvodi
-	marriage      *mongo.Collection //vencani
+	userRegistry *mongo.Collection
+	potvrdaSmrti *mongo.Collection
 }
 
 const (
-	DATABASE    = "users"
-	COLLECTION  = "user_registry"
-	COLLECTION1 = "marriage"
+	DATABASE               = "users"
+	CollectionUserRegistry = "user_registry"
+	CollectionPotvrdaSmrti = "potvrda_smrti"
 )
 
 func NewRegistrarRepositoryImpl(client *mongo.Client) repository.RegistrarRepository {
-	registrar := client.Database(DATABASE).Collection(COLLECTION)
-	marriage := client.Database(DATABASE).Collection(COLLECTION1)
+	registrar := client.Database(DATABASE).Collection(CollectionUserRegistry)
+	potvrdaOSmrti := client.Database(DATABASE).Collection(CollectionPotvrdaSmrti)
 
 	return &RegistrarRepositoryImpl{
-		user_registry: registrar,
-		marriage:      marriage,
+		userRegistry: registrar,
+		potvrdaSmrti: potvrdaOSmrti,
 	}
 }
 
 func (store *RegistrarRepositoryImpl) GetAllUsers() ([]*domain.User, error) {
 	filter := bson.M{}
-	return store.filter(filter)
+	return store.filterUserRegistries(filter)
 }
 
 func (store *RegistrarRepositoryImpl) GetUserJMBG(jmbg string) (*domain.User, error) {
 	filter := bson.M{"jmbg": jmbg}
-	return store.filterOne(filter)
+	return store.filterOneUserRegistry(filter)
 }
 
 func (store *RegistrarRepositoryImpl) GetNewbornByMotherJMBG(jmbgMajke string) ([]*domain.User, error) {
 	filter := bson.M{"jmbgMajke": jmbgMajke, "ime": "", "prezime": ""}
-	return store.filter(filter)
+	return store.filterUserRegistries(filter)
 }
 
-func (store *RegistrarRepositoryImpl) CreateNewBirthCertificate(user domain.User) error {
+func (store *RegistrarRepositoryImpl) CreateNewUser(user domain.User) error {
 	if !store.IsUserExist(user.JMBG) {
-		_, err := store.user_registry.InsertOne(context.Background(), user)
+		_, err := store.userRegistry.InsertOne(context.Background(), user)
 		if err != nil {
 			log.Println("Error in saving User")
 			return err
@@ -61,7 +61,7 @@ func (store *RegistrarRepositoryImpl) CreateNewBirthCertificate(user domain.User
 }
 
 func (store *RegistrarRepositoryImpl) DoctorCreateUser(user *domain.User) error {
-	_, err := store.user_registry.InsertOne(context.Background(), user)
+	_, err := store.userRegistry.InsertOne(context.Background(), user)
 	if err != nil {
 		log.Println("Error in saving User")
 		return err
@@ -72,7 +72,7 @@ func (store *RegistrarRepositoryImpl) DoctorCreateUser(user *domain.User) error 
 func (store *RegistrarRepositoryImpl) ParentCreateUser(user *domain.User) error {
 	filter := bson.M{"_id": user.ID}
 	update := bson.D{{"$set", user}}
-	_, err := store.user_registry.UpdateOne(context.Background(), filter, update)
+	_, err := store.userRegistry.UpdateOne(context.Background(), filter, update)
 	if err != nil {
 		log.Println("Updating User Error MongoDB", err.Error())
 		return err
@@ -83,7 +83,7 @@ func (store *RegistrarRepositoryImpl) ParentCreateUser(user *domain.User) error 
 
 func (store *RegistrarRepositoryImpl) DeleteUserID(id primitive.ObjectID) error {
 	filter := bson.M{"_id": id}
-	_, err := store.user_registry.DeleteOne(context.Background(), filter)
+	_, err := store.userRegistry.DeleteOne(context.Background(), filter)
 	if err != nil {
 		return err
 	}
@@ -93,7 +93,7 @@ func (store *RegistrarRepositoryImpl) DeleteUserID(id primitive.ObjectID) error 
 
 func (store *RegistrarRepositoryImpl) DeleteAllUsers() error {
 	filter := bson.D{}
-	_, err := store.user_registry.DeleteMany(context.Background(), filter)
+	_, err := store.userRegistry.DeleteMany(context.Background(), filter)
 	if err != nil {
 		return err
 	}
@@ -102,8 +102,7 @@ func (store *RegistrarRepositoryImpl) DeleteAllUsers() error {
 }
 
 func (store *RegistrarRepositoryImpl) IsUserExist(jmbg string) bool {
-
-	user, err := store.filterOne(bson.M{"jmbg": jmbg})
+	user, err := store.filterOneUserRegistry(bson.M{"jmbg": jmbg})
 	if err != nil {
 		log.Println(err.Error())
 		return false
@@ -117,24 +116,8 @@ func (store *RegistrarRepositoryImpl) IsUserExist(jmbg string) bool {
 
 }
 
-func (store *RegistrarRepositoryImpl) filterOne(filter interface{}) (user *domain.User, err error) {
-	result := store.user_registry.FindOne(context.TODO(), filter)
-	err = result.Decode(&user)
-	return
-}
-
-func (store *RegistrarRepositoryImpl) filter(filter interface{}) ([]*domain.User, error) {
-	cursor, err := store.user_registry.Find(context.Background(), filter)
-	defer cursor.Close(context.TODO())
-
-	if err != nil {
-		return nil, err
-	}
-	return decodeUser(cursor)
-}
-
 func (store *RegistrarRepositoryImpl) FindOneUser(jmbg string) *domain.User {
-	user, err := store.filterOne(bson.M{"jmbg": jmbg})
+	user, err := store.filterOneUserRegistry(bson.M{"jmbg": jmbg})
 	if err != nil {
 		log.Println(err.Error())
 		return nil
@@ -144,21 +127,13 @@ func (store *RegistrarRepositoryImpl) FindOneUser(jmbg string) *domain.User {
 }
 
 func (store *RegistrarRepositoryImpl) FindOneUserID(id primitive.ObjectID) (*domain.User, error) {
-	user, err := store.filterOne(bson.M{"_id": id})
+	user, err := store.filterOneUserRegistry(bson.M{"_id": id})
 	if err != nil {
 		log.Println(err.Error())
 		return nil, err
 	}
 
 	return user, nil
-}
-
-func (store *RegistrarRepositoryImpl) CreateNewMarriage(marriage domain.ExcerptFromTheMarriageRegister) {
-	_, err := store.marriage.InsertOne(context.Background(), marriage)
-	if err != nil {
-		log.Printf("Error in RegistrarRepositoryImpl CreateNewMarriage(): %s", err.Error())
-		return
-	}
 }
 
 func (store *RegistrarRepositoryImpl) UpdateCertificate(user domain.User) error {
@@ -178,7 +153,7 @@ func (store *RegistrarRepositoryImpl) UpdateCertificate(user domain.User) error 
 
 	filter := bson.M{"_id": user.ID}
 
-	_, err := store.user_registry.UpdateOne(context.Background(), filter, update)
+	_, err := store.userRegistry.UpdateOne(context.Background(), filter, update)
 	if err != nil {
 		log.Printf("Error in RegistrarRepositoryImpl UpdateOne(): %s", err.Error())
 		return err
@@ -198,7 +173,7 @@ func (store *RegistrarRepositoryImpl) GetChildren(jmbg string, pol domain.Pol) [
 	}
 	fmt.Printf("JMBG: %s\nPol: %s\nfilter: %s\n", jmbg, pol, filter)
 
-	users, err := store.user_registry.Find(context.Background(), filter)
+	users, err := store.userRegistry.Find(context.Background(), filter)
 	if err != nil {
 		return nil
 	}
@@ -223,7 +198,76 @@ func (store *RegistrarRepositoryImpl) GetChildren(jmbg string, pol domain.Pol) [
 	return children
 }
 
-func decodeUser(cursor *mongo.Cursor) (users []*domain.User, err error) {
+func (store *RegistrarRepositoryImpl) filterUserRegistries(filter interface{}) ([]*domain.User, error) {
+	cursor, err := store.userRegistry.Find(context.Background(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return decodeUserRegistry(cursor)
+}
+
+func (store *RegistrarRepositoryImpl) filterOneUserRegistry(filter interface{}) (user *domain.User, err error) {
+	result := store.userRegistry.FindOne(context.TODO(), filter)
+	err = result.Decode(&user)
+	return
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+func (store *RegistrarRepositoryImpl) PostPotvrdaSmrti(potvrda domain.PotvrdaSmrti) error {
+	_, err := store.potvrdaSmrti.InsertOne(context.Background(), potvrda)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (store *RegistrarRepositoryImpl) GetPotvrdaSmrtiJMBG(jmbg string) *domain.PotvrdaSmrti {
+	potvrdaOSmrti, err := store.filterOnePotvrdaSmrti(bson.M{"jmbg": jmbg})
+	if err != nil {
+		log.Println(err.Error())
+		return nil
+	}
+
+	return potvrdaOSmrti
+}
+
+func (store *RegistrarRepositoryImpl) GetAllPotvrdeSmrti() ([]*domain.PotvrdaSmrti, error) {
+	filter := bson.M{}
+	return store.filterPotvrdeSmrti(filter)
+}
+
+func (store *RegistrarRepositoryImpl) DeletePotvrdaSmrtiID(id primitive.ObjectID) error {
+	filter := bson.M{"_id": id}
+	_, err := store.potvrdaSmrti.DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (store *RegistrarRepositoryImpl) filterPotvrdeSmrti(filter interface{}) ([]*domain.PotvrdaSmrti, error) {
+	cursor, err := store.potvrdaSmrti.Find(context.Background(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return decodePotvrdaOSmrti(cursor)
+}
+
+func (store *RegistrarRepositoryImpl) filterOnePotvrdaSmrti(filter interface{}) (user *domain.PotvrdaSmrti, err error) {
+	result := store.potvrdaSmrti.FindOne(context.TODO(), filter)
+	err = result.Decode(&user)
+	return
+}
+
+func decodeUserRegistry(cursor *mongo.Cursor) (users []*domain.User, err error) {
 	for cursor.Next(context.Background()) {
 		var user domain.User
 		err = cursor.Decode(&user)
@@ -231,6 +275,19 @@ func decodeUser(cursor *mongo.Cursor) (users []*domain.User, err error) {
 			return
 		}
 		users = append(users, &user)
+	}
+	err = cursor.Err()
+	return
+}
+
+func decodePotvrdaOSmrti(cursor *mongo.Cursor) (potvrdeOSmrti []*domain.PotvrdaSmrti, err error) {
+	for cursor.Next(context.Background()) {
+		var potvrdaSmrti domain.PotvrdaSmrti
+		err = cursor.Decode(&potvrdaSmrti)
+		if err != nil {
+			return
+		}
+		potvrdeOSmrti = append(potvrdeOSmrti, &potvrdaSmrti)
 	}
 	err = cursor.Err()
 	return

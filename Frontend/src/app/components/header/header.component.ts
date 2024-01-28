@@ -22,18 +22,6 @@ export class HeaderComponent {
   isMother = false
 
   ngOnInit(): void {
-    this.healthcareService.GetMe()
-      .subscribe({
-        next: (data) => {
-          this.user = data
-          if (data.pol == "Zenski") {
-            this.isMother = true
-          }
-        },
-        error: (error) => {
-          console.error(error)
-        }
-      })
   }
 
   isLoggedIn(): boolean {

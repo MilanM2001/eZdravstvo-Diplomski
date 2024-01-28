@@ -12,7 +12,6 @@ type User struct {
 	JMBGMajke     string             `json:"jmbgMajke" bson:"jmbgMajke"`
 	JMBG          string             `json:"jmbg" bson:"jmbg" unique:"true"`
 	Pol           Pol                `json:"pol" bson:"pol"`
-	DatumSmrti    int64              `json:"datumSmrti" bson:"datumSmrti"`
 	DatumRodjenja int64              `json:"datumRodjenja" bson:"datumRodjenja"`
 	MestoRodjenja string             `json:"mestoRodjenja" bson:"mestoRodjenja"`
 }
@@ -51,6 +50,13 @@ type Karton struct {
 	JMBG         string             `json:"jmbg" bson:"jmbg"`
 	Alergije     []Alergija         `json:"alergije" bson:"alergije"`
 	Invaliditeti []Invaliditet      `json:"invaliditeti" bson:"invaliditeti"`
+}
+
+type PotvrdaSmrti struct {
+	ID         primitive.ObjectID `json:"id" bson:"_id"`
+	JMBG       string             `json:"jmbg" bson:"jmbg"`
+	DatumSmrti int64              `json:"datumSmrti" bson:"datumSmrti"`
+	MestoSmrti string             `json:"mestoSmrti" bson:"mestoSmrti"`
 }
 
 type Pol string

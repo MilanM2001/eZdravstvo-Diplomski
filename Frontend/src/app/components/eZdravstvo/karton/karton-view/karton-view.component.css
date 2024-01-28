@@ -24,6 +24,11 @@
     margin-right: 15px;
 }
 
+.btn-danger {
+    margin-top: 15px;
+    margin-left: 120px;
+}
+
 .search {
     margin-top: 30px;
     text-align: center;

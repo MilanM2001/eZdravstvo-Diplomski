@@ -19,20 +19,20 @@ type HealthcareRepositoryImpl struct {
 }
 
 const (
-	DATABASE               = "healthcare"
-	COLLECTION_PREGLED     = "pregled"
-	COLLECTION_VAKCINA     = "vakcina"
-	COLLECTION_ALERGIJA    = "alergija"
-	COLLECTION_INVALIDITET = "invaliditet"
-	COLLECTION_KARTON      = "karton"
+	DATABASE              = "healthcare"
+	CollectionPregled     = "pregled"
+	CollectionVakcina     = "vakcina"
+	CollectionAlergija    = "alergija"
+	CollectionInvaliditet = "invaliditet"
+	CollectionKarton      = "karton"
 )
 
 func NewAuthRepositoryImpl(client *mongo.Client) repository.HealthcareRepository {
-	pregled := client.Database(DATABASE).Collection(COLLECTION_PREGLED)
-	vakcina := client.Database(DATABASE).Collection(COLLECTION_VAKCINA)
-	alergija := client.Database(DATABASE).Collection(COLLECTION_ALERGIJA)
-	invaliditet := client.Database(DATABASE).Collection(COLLECTION_INVALIDITET)
-	karton := client.Database(DATABASE).Collection(COLLECTION_KARTON)
+	pregled := client.Database(DATABASE).Collection(CollectionPregled)
+	vakcina := client.Database(DATABASE).Collection(CollectionVakcina)
+	alergija := client.Database(DATABASE).Collection(CollectionAlergija)
+	invaliditet := client.Database(DATABASE).Collection(CollectionInvaliditet)
+	karton := client.Database(DATABASE).Collection(CollectionKarton)
 
 	return &HealthcareRepositoryImpl{
 		pregled:     pregled,

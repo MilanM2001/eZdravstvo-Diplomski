@@ -3,6 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
+import { PotvrdaSmrti } from '../models/potvrdaSmrti.model';
+import { AddPotvrdaSmrti } from '../dto/addPotvrdaSmrti';
 
 @Injectable({
     providedIn: 'root'
@@ -42,6 +44,12 @@ export class RegistrarService {
     public GetNewbornsByMotherJMBG(jmbg: string): Observable<User[]> {
         return this.http.get<User[]>(
             `${environment.baseApiUrl}/${this.url}/getNewbornsByMotherJMBG/` + jmbg
+        );
+    }
+
+    public PostPotvrdaSmrti(potvrda: AddPotvrdaSmrti): Observable<AddPotvrdaSmrti> {
+        return this.http.post<AddPotvrdaSmrti>(
+            `${environment.baseApiUrl}/${this.url}/postPotvrdaSmrti`, potvrda
         );
     }
 

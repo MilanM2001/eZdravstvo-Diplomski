@@ -16,7 +16,8 @@ export class GradjaninAddDoctorComponent implements OnInit {
     private healthcareService: HealthcareService,
     private registrarService: RegistrarService,
     private formBuilder: FormBuilder,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
   submitted = false
   motherNotExist = false

@@ -34,7 +34,7 @@ func (service *RegistrarService) FindOneUserID(id primitive.ObjectID) (*entity.U
 	return service.store.FindOneUserID(id)
 }
 
-func (service *RegistrarService) CreateNewBirthCertificate(user entity.User) (int, error) {
+func (service *RegistrarService) CreateNewUser(user entity.User) (int, error) {
 	isExist := service.store.IsUserExist(user.JMBG)
 	if isExist {
 		return 1, nil
@@ -43,7 +43,7 @@ func (service *RegistrarService) CreateNewBirthCertificate(user entity.User) (in
 	user.ID = primitive.NewObjectID()
 	user.JMBGOca = ""
 	user.JMBGMajke = ""
-	err := service.store.CreateNewBirthCertificate(user)
+	err := service.store.CreateNewUser(user)
 	if err != nil {
 		return 0, err
 	}
@@ -63,7 +63,6 @@ func (service *RegistrarService) DoctorCreateUser(user *entity.User) (int, error
 	user.Prezime = ""
 	user.JMBGOca = ""
 	user.JMBG = ""
-	user.DatumSmrti = 0
 
 	//JMBGMajke, Pol, DatumRodjenja i MestoRodjenja se unose
 
@@ -125,102 +124,33 @@ func (service *RegistrarService) DeleteAllUsers() error {
 	return service.store.DeleteAllUsers()
 }
 
-func (service *RegistrarService) FindOneCertificateByType(jmbg string, certificateType int) (*entity.BirthCertificate, *entity.ExtractFromTheDeathRegister, *entity.CertificateOfCitizenship) {
-
-	//user := service.store.FindOneUser(jmbg)
-	//
-	//if certificateType == 1 {
-	//
-	//	var certificate entity.BirthCertificate
-	//	certificate.Ime = user.Ime
-	//	certificate.Prezime = user.Prezime
-	//	certificate.ImeOca = user.ImeOca
-	//	certificate.JMBGOca = user.JMBGOca
-	//	certificate.ImeMajke = user.ImeMajke
-	//	certificate.JMBGMajke = user.JMBGMajke
-	//	certificate.DatumRodjenja = user.DatumRodjenja
-	//	certificate.MestoRodjenja = user.MestoRodjenja
-	//	certificate.JMBG = user.JMBG
-	//	certificate.Pol = user.Pol
-	//
-	//	//slanje nazad
-	//
-	//	return &certificate, nil, nil
-	//
-	//} else if certificateType == 2 {
-	//
-	//	if user.Preminuo == true {
-	//		var certificate entity.ExtractFromTheDeathRegister
-	//		certificate.Ime = user.Ime
-	//		certificate.Prezime = user.Prezime
-	//		certificate.ImeOca = user.ImeOca
-	//		certificate.JMBGOca = user.JMBGOca
-	//		certificate.ImeMajke = user.ImeMajke
-	//		certificate.JMBGMajke = user.JMBGMajke
-	//		certificate.DatumRodjenja = user.DatumRodjenja
-	//		certificate.MestoRodjenja = user.MestoRodjenja
-	//		certificate.JMBG = user.JMBG
-	//		certificate.Pol = user.Pol
-	//		certificate.DatimSmrti = user.DatimSmrti
-	//		certificate.MestoSmrti = user.MestoSmrti
-	//
-	//		//slanje nazad
-	//
-	//		return nil, &certificate, nil
-	//
-	//	}
-	//
-	//} else if certificateType == 3 {
-	//
-	//	var certificate entity.CertificateOfCitizenship
-	//	certificate.Ime = user.Ime
-	//	certificate.Prezime = user.Prezime
-	//	certificate.ImeOca = user.ImeOca
-	//	certificate.JMBGOca = user.JMBGOca
-	//	certificate.ImeMajke = user.ImeMajke
-	//	certificate.JMBGMajke = user.JMBGMajke
-	//	certificate.DatumRodjenja = user.DatumRodjenja
-	//	certificate.MestoRodjenja = user.MestoRodjenja
-	//	certificate.JMBG = user.JMBG
-	//	certificate.Pol = user.Pol
-	//	certificate.Drzava = user.Drzava
-	//
-	//	//slanje nazad
-	//
-	//	return nil, nil, &certificate
-	//}
-
-	return nil, nil, nil
-
-}
-
-func (service *RegistrarService) UpdateCertificate(died entity.UserDied) error {
-
-	//user := service.store.FindOneUser(died.JMBG)
-	//
-	//if user == nil {
-	//	return fmt.Errorf("user not exist in database")
-	//}
-	//
-	//user.Preminuo = true
-	//user.MestoSmrti = died.MestoSmrti
-	//user.DatimSmrti = died.DatimSmrti
-	//
-	//err := service.store.UpdateCertificate(*user)
-	//if err != nil {
-	//	log.Printf("Error: %s", err.Error())
-	//	return err
-	//}
-	return nil
-}
-
 func (service *RegistrarService) FindOneUser(jmbg string) *entity.User {
 	return service.store.FindOneUser(jmbg)
 }
 
-func (service *RegistrarService) CreateNewMarriage(marriage entity.ExcerptFromTheMarriageRegister) {
-	marriage.ID = primitive.NewObjectID()
-	service.store.CreateNewMarriage(marriage)
+func (service *RegistrarService) GetAllPotvrdeSmrti() ([]*entity.PotvrdaSmrti, error) {
+	return service.store.GetAllPotvrdeSmrti()
+}
+
+func (service *RegistrarService) PostPotvrdaSmrti(potvrda entity.PotvrdaSmrti) (int, error) {
+	potvrda.ID = primitive.NewObjectID()
+
+	existingPotvrda := service.store.GetPotvrdaSmrtiJMBG(potvrda.JMBG)
+	if existingPotvrda != nil {
+		return 1, nil
+	}
+
+	err := service.store.PostPotvrdaSmrti(potvrda)
+	if err != nil {
+		log.Println("Error in trying to save Potvrda")
+		return 0, err
+	}
+
+	return 0, nil
+}
+
+func (service *RegistrarService) DeletePotvrdaSmrtiID(id primitive.ObjectID) error {
+	return service.store.DeleteUserID(id)
 }
 
 func (service *RegistrarService) SubscribeToNats(natsConnection *nats.Conn) {
@@ -294,7 +224,7 @@ func (service *RegistrarService) SubscribeToNats(natsConnection *nats.Conn) {
 		}
 
 		user.ID = primitive.NewObjectID()
-		err = service.store.CreateNewBirthCertificate(user)
+		err = service.store.CreateNewUser(user)
 		if err != nil {
 			user.ID = primitive.NilObjectID
 			log.Println("Error in Nats")
@@ -319,21 +249,3 @@ func (service *RegistrarService) SubscribeToNats(natsConnection *nats.Conn) {
 
 	log.Printf("Subscribed to channel: %s", os.Getenv("CREATE_USER"))
 }
-
-func (service *RegistrarService) GetChildren(jmbg string) []entity.User {
-	return service.store.GetChildren(jmbg, service.FindOneUser(jmbg).Pol)
-}
-
-//func (service *RegistrarService) ReturnUserForHealthcare(natsConnection *nats.Conn) {
-//	_, err := natsConnection.QueueSubscribe(os.Getenv("CHECK_USER_JMBG"), "queue-group", func(message *nats.Msg) {
-//		var jmbg string
-//		err := json.Unmarshal(message.Data, &jmbg)
-//		if err != nil {
-//			log.Println("Error in unmarshal JSON!")
-//			return
-//		}
-//	})
-//	if err != nil {
-//		log.Println("Error in receiving message: %s", err.Error())
-//	}
-//}

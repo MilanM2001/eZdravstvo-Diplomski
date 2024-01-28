@@ -33,16 +33,14 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	router.HandleFunc("/getUserJMBG/{jmbg}", controller.GetUserJMBG).Methods("GET")
 	router.HandleFunc("/getUserID/{id}", controller.GetUserID).Methods("GET")
 	router.HandleFunc("/getNewbornsByMotherJMBG/{jmbg}", controller.GetNewbornByMotherJMBG).Methods("GET")
-	router.HandleFunc("/registry", controller.CreateNewBirthCertificate).Methods("POST")
+	router.HandleFunc("/registry", controller.CreateNewUser).Methods("POST")
 	router.HandleFunc("/doctorCreateUser", controller.DoctorCreateUser).Methods("POST")
 	router.HandleFunc("/parentCreateUser", controller.ParentCreateUser).Methods("POST")
 	router.HandleFunc("/deleteUserID/{id}", controller.DeleteUserID).Methods("DELETE")
 	router.HandleFunc("/deleteAllUsers", controller.DeleteAllUsers).Methods("DELETE")
-	//router.HandleFunc("/children/{jmbg}", controller.GetChildren).Methods("GET")
-	//router.HandleFunc("/certificate/{jmbg}/{typeOfCertificate}", controller.GetCertificate).Methods("GET")
-	//router.HandleFunc("/marriage", controller.Marriage).Methods("POST")
-	//router.HandleFunc("/isParent/{jmbg}", controller.IsParent).Methods("GET")
-	//router.HandleFunc("/died", controller.UpdateCertificate).Methods("POST")
+	router.HandleFunc("/postPotvrdaSmrti", controller.PostPotvrdaSmrti).Methods("POST")
+	router.HandleFunc("/allPotvrdeSmrti", controller.GetAllPotvrdeSmrti).Methods("GET")
+	router.HandleFunc("/deletePotvrdaSmrtiID/{id}", controller.DeletePotvrdaSmrtiID).Methods("DELETE")
 	http.Handle("/", router)
 
 	log.Fatal(http.ListenAndServe(":8001", authorization.Authorizer(authEnforcer)(router)))
@@ -92,7 +90,7 @@ func (controller *RegistrarController) GetUserID(writer http.ResponseWriter, req
 	writer.WriteHeader(http.StatusOK)
 }
 
-func (controller *RegistrarController) CreateNewBirthCertificate(writer http.ResponseWriter, req *http.Request) {
+func (controller *RegistrarController) CreateNewUser(writer http.ResponseWriter, req *http.Request) {
 	var user entity.User
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil {
@@ -101,7 +99,7 @@ func (controller *RegistrarController) CreateNewBirthCertificate(writer http.Res
 		return
 	}
 
-	value, err := controller.service.CreateNewBirthCertificate(user)
+	value, err := controller.service.CreateNewUser(user)
 	if value == 1 {
 		writer.WriteHeader(http.StatusAccepted)
 		writer.Write([]byte("JMBG already exist in system!"))
@@ -222,135 +220,60 @@ func (controller *RegistrarController) DeleteAllUsers(writer http.ResponseWriter
 	writer.WriteHeader(http.StatusOK)
 }
 
-//func (controller *RegistrarController) Marriage(writer http.ResponseWriter, req *http.Request) {
-//
-//	var marriage entity.ExcerptFromTheMarriageRegister
-//	err := json.NewDecoder(req.Body).Decode(&marriage)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte("Problem to parsing JSON to entity!"))
-//		return
-//	}
-//
-//	//find Svedok1 i Svedok2
-//	var svedok1 *entity.User
-//	var svedok2 *entity.User
-//	var mladozenja *entity.User
-//	var mlada *entity.User
-//
-//	mladozenja = controller.service.FindOneUser(marriage.JMBGMladozenje)
-//	mlada = controller.service.FindOneUser(marriage.JMBGMlade)
-//	svedok1 = controller.service.FindOneUser(marriage.Svedok1.JMBG)
-//	svedok2 = controller.service.FindOneUser(marriage.Svedok2.JMBG)
-//
-//	//kreiranje vencanja je moguce samo ukoliko postoje oba svedoka u bazi
-//	if mladozenja == nil {
-//		writer.WriteHeader(http.StatusAccepted)
-//		writer.Write([]byte("Ne postoji mladozenja u sistemu"))
-//		return
-//	} else if mlada == nil {
-//		writer.WriteHeader(http.StatusAccepted)
-//		writer.Write([]byte("Ne postoji mlada u sistemu"))
-//		return
-//	} else if svedok1 == nil {
-//		writer.WriteHeader(http.StatusAccepted)
-//		writer.Write([]byte("Ne postoji prvi svedok u sistemu"))
-//		return
-//	} else if svedok2 == nil {
-//		writer.WriteHeader(http.StatusAccepted)
-//		writer.Write([]byte("Ne postoji drugi svedok u sistemu"))
-//		return
-//	}
-//
-//	marriage.Svedok1 = *svedok1
-//	marriage.Svedok2 = *svedok2
-//
-//	controller.service.CreateNewMarriage(marriage)
-//}
-//
-//func (controller *RegistrarController) UpdateCertificate(writer http.ResponseWriter, req *http.Request) {
-//	var userDied entity.UserDied
-//	err := json.NewDecoder(req.Body).Decode(&userDied)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte("Problem to parsing JSON to entity!"))
-//		return
-//	}
-//
-//	err = controller.service.UpdateCertificate(userDied)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte(err.Error()))
-//		return
-//	}
-//
-//	writer.WriteHeader(http.StatusOK)
-//	//writer.Write([]byte("Okej"))
-//	//jsonResponse(token, writer)
-//}
+func (controller *RegistrarController) GetAllPotvrdeSmrti(writer http.ResponseWriter, req *http.Request) {
+	potvrde, err := controller.service.GetAllPotvrdeSmrti()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
 
-//func (controller *RegistrarController) GetChildren(writer http.ResponseWriter, req *http.Request) {
-//	vars := mux.Vars(req)
-//	jmbg, _ := vars["jmbg"]
-//
-//	//children := controller.service.GetChildren(jmbg)
-//	//fmt.Println(children)
-//
-//	jsonResponse(controller.service.GetChildren(jmbg), writer)
-//
-//	writer.WriteHeader(http.StatusOK)
-//}
+	jsonResponse(potvrde, writer)
+	writer.WriteHeader(http.StatusOK)
+}
 
-//func (controller *RegistrarController) GetCertificate(writer http.ResponseWriter, req *http.Request) {
-//	vars := mux.Vars(req)
-//	typeStr, _ := vars["typeOfCertificate"]
-//	num, err := strconv.Atoi(typeStr)
-//	if err != nil {
-//		writer.WriteHeader(http.StatusInternalServerError)
-//		writer.Write([]byte("Error in convert string to int"))
-//	}
-//	jmbg, _ := vars["jmbg"]
-//
-//	one, two, three := controller.service.FindOneCertificateByType(jmbg, num)
-//
-//	if num == 1 {
-//		jsonResponse(one, writer)
-//
-//	} else if num == 2 {
-//		jsonResponse(two, writer)
-//
-//	} else if num == 3 {
-//		jsonResponse(three, writer)
-//
-//	} else {
-//		writer.WriteHeader(http.StatusNotAcceptable)
-//		writer.Write([]byte("That type of certificate not exist!"))
-//		return
-//	}
-//
-//	writer.WriteHeader(http.StatusOK)
-//}
+func (controller *RegistrarController) PostPotvrdaSmrti(writer http.ResponseWriter, req *http.Request) {
+	var potvrda entity.PotvrdaSmrti
+	err := json.NewDecoder(req.Body).Decode(&potvrda)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("Problem to parsing JSON to entity!"))
+		return
+	}
 
-//func (controller *RegistrarController) IsParent(writer http.ResponseWriter, req *http.Request) {
-//
-//	authToken := req.Header.Get("Authorization")
-//	splitted := strings.Split(authToken, " ")
-//	claims := authorization.GetMapClaims([]byte(splitted[1]))
-//
-//	loggedInJMBG := claims["jmbg"]
-//
-//	vars := mux.Vars(req)
-//	jmbgStr, _ := vars["jmbg"]
-//
-//	user := controller.service.FindOneUser(jmbgStr)
-//
-//	//dodati prvo proveru ussera
-//
-//	if user == nil {
-//		jsonResponse(false, writer)
-//	} else if user.JMBGOca == loggedInJMBG || user.JMBGMajke == loggedInJMBG {
-//		jsonResponse(true, writer)
-//	} else {
-//		jsonResponse(false, writer)
-//	}
-//}
+	value, err := controller.service.PostPotvrdaSmrti(potvrda)
+	if value == 1 {
+		writer.WriteHeader(http.StatusAccepted)
+		writer.Write([]byte("Potvrda vec postoji u sistemu"))
+		return
+	}
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	jsonResponse(potvrda, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *RegistrarController) DeletePotvrdaSmrtiID(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	id, _ := vars["id"]
+
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println("Convert to Primitive error")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	err = controller.service.DeletePotvrdaSmrtiID(objectID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}

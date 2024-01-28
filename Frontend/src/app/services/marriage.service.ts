@@ -5,7 +5,6 @@ import {Marriage} from "../models/marriage";
 import * as http from "http";
 import {environment} from "../../environments/environment";
 import {StoreService} from "./store-service.service";
-import { UserDied } from '../models/userDied.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +24,5 @@ export class MarriageService {
 
   public GetCertificate(type: String): Observable<any> {
     return this.http.get(`${environment.baseApiUrl}/${this.url}/certificate/` + this.storeService.getJMBGFromToken() + '/' + type);
-  }
-
-  public UpdateCertificate(userDied: UserDied): Observable<string> {
-    return this.http.post<string>(`${environment.baseApiUrl}/${this.url}/died`, userDied);
   }
 }
