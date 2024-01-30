@@ -13,15 +13,22 @@
             </div>
         </mat-card-content>
     </mat-card>
-    <button [routerLink]="['/Karton-Edit-Alergije', this.jmbg]" type="submit" class="btn btn-warning">
+    <button *ngIf="!isDead" [routerLink]="['/Karton-Edit-Alergije', this.jmbg]" type="submit" class="btn btn-warning">
         Alergije
     </button>
-    <button [routerLink]="['/Karton-Edit-Invaliditeti', this.jmbg]" type="submit" class="btn btn-warning">
+    <button *ngIf="!isDead" [routerLink]="['/Karton-Edit-Invaliditeti', this.jmbg]" type="submit"
+        class="btn btn-warning">
         Invaliditeti
     </button>
-    <button [routerLink]="['/Potvrda-Smrti', this.jmbg]" type="submit" class="btn btn-danger">
+    <button *ngIf="!isDead" [routerLink]="['/Potvrda-Smrti', this.jmbg]" type="submit" class="btn btn-danger">
         Preminuo
     </button>
+    <div class="preminuo">
+        <p>Korisnik je preminuo <br> Datuma: <strong>{{potvrda.datumSmrti * 1000 | date: "dd.MM.yyyy"}}</strong> <br> U
+            mestu:
+            <strong>{{potvrda.mestoSmrti}}</strong>
+        </p>
+    </div>
 </div>
 
 <div class="search">

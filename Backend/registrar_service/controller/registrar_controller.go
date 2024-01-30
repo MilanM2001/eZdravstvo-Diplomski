@@ -41,6 +41,8 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 	router.HandleFunc("/postPotvrdaSmrti", controller.PostPotvrdaSmrti).Methods("POST")
 	router.HandleFunc("/allPotvrdeSmrti", controller.GetAllPotvrdeSmrti).Methods("GET")
 	router.HandleFunc("/deletePotvrdaSmrtiID/{id}", controller.DeletePotvrdaSmrtiID).Methods("DELETE")
+	router.HandleFunc("/isPotvrdaExist/{jmbg}", controller.IsPotvrdaExistJMBG).Methods("GET")
+	router.HandleFunc("/getPotvrdaSmrtiJMBG/{jmbg}", controller.GetPotvrdaSmrtiJMBG).Methods("GET")
 	http.Handle("/", router)
 
 	log.Fatal(http.ListenAndServe(":8001", authorization.Authorizer(authEnforcer)(router)))
@@ -229,6 +231,30 @@ func (controller *RegistrarController) GetAllPotvrdeSmrti(writer http.ResponseWr
 	}
 
 	jsonResponse(potvrde, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *RegistrarController) GetPotvrdaSmrtiJMBG(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	jmbg, _ := vars["jmbg"]
+
+	potvrda, err := controller.service.GetPotvrdaSmrtiJMBG(jmbg)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonResponse(potvrda, writer)
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *RegistrarController) IsPotvrdaExistJMBG(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	jmbg, _ := vars["jmbg"]
+	isExist := controller.service.IsPotvrdaExist(jmbg)
+
+	jsonResponse(isExist, writer)
 	writer.WriteHeader(http.StatusOK)
 }
 

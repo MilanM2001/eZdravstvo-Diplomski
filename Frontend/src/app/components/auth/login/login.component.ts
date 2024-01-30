@@ -27,7 +27,9 @@ export class LoginComponent implements OnInit {
     password: new FormControl(''),
   });
 
-  notFound = false;
+  jmbgNotFound = false //404
+  incorrectPassword = false //401
+  userDied = false // 409
   submitted = false;
 
   ngOnInit(): void {
@@ -69,11 +71,13 @@ export class LoginComponent implements OnInit {
     this.authService.Login(credentials).subscribe({
       next: (response) => {
         if (response != null) {
-          if (response == 'JMBG not exist!') {
+          if (response == "JMBG does not exist") {
             localStorage.clear();
-          } else if (response == "Password doesn't match!") {
+          } else if (response == "Incorrect password") {
             localStorage.clear();
-            this.notFound = true
+          } else if (response == "User died") {
+            localStorage.clear()
+            console.log("smrad")
           } else {
             localStorage.setItem('authToken', response);
             this.router.navigate(['/choose-service']).then();
@@ -82,10 +86,18 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         localStorage.clear();
-        console.log(error.status);
-        console.error(error);
-        if ((error.status = 403)) {
-          this.notFound = true;
+        if (error.status == 404) {
+          this.jmbgNotFound = true
+          this.incorrectPassword = false
+          this.userDied = false
+        } else if (error.status == 401) {
+          this.incorrectPassword = true
+          this.jmbgNotFound = false
+          this.userDied = false
+        } else if (error.status == 409) {
+          this.userDied = true
+          this.jmbgNotFound = false
+          this.incorrectPassword = false
         }
       }
     });

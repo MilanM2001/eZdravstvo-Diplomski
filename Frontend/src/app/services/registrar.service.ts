@@ -53,4 +53,16 @@ export class RegistrarService {
         );
     }
 
+    public IsPotvrdaExistJMBG(jmbg: string): Observable<boolean> {
+        return this.http.get<boolean>(
+            `${environment.baseApiUrl}/${this.url}/isPotvrdaExist/` + jmbg
+        );
+    }
+
+    public GetPotvrdaSmrtiJMBG(jmbg: string): Observable<PotvrdaSmrti> {
+        return this.http.get<PotvrdaSmrti>(
+            `${environment.baseApiUrl}/${this.url}/getPotvrdaSmrtiJMBG/` + jmbg
+        );
+    }
+
 }

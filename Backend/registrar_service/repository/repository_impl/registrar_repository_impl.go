@@ -113,7 +113,6 @@ func (store *RegistrarRepositoryImpl) IsUserExist(jmbg string) bool {
 	} else {
 		return false
 	}
-
 }
 
 func (store *RegistrarRepositoryImpl) FindOneUser(jmbg string) *domain.User {
@@ -225,14 +224,28 @@ func (store *RegistrarRepositoryImpl) PostPotvrdaSmrti(potvrda domain.PotvrdaSmr
 	return nil
 }
 
-func (store *RegistrarRepositoryImpl) GetPotvrdaSmrtiJMBG(jmbg string) *domain.PotvrdaSmrti {
+func (store *RegistrarRepositoryImpl) IsPotvrdaExist(jmbg string) bool {
+	potvrda, err := store.filterOnePotvrdaSmrti(bson.M{"jmbg": jmbg})
+	if err != nil {
+		log.Println(err.Error())
+		return false
+	}
+
+	if potvrda != nil {
+		return true
+	} else {
+		return false
+	}
+}
+
+func (store *RegistrarRepositoryImpl) GetPotvrdaSmrtiJMBG(jmbg string) (*domain.PotvrdaSmrti, error) {
 	potvrdaOSmrti, err := store.filterOnePotvrdaSmrti(bson.M{"jmbg": jmbg})
 	if err != nil {
 		log.Println(err.Error())
-		return nil
+		return nil, err
 	}
 
-	return potvrdaOSmrti
+	return potvrdaOSmrti, nil
 }
 
 func (store *RegistrarRepositoryImpl) GetAllPotvrdeSmrti() ([]*domain.PotvrdaSmrti, error) {

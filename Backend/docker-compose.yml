@@ -38,6 +38,7 @@ services:
       CREATE_USER: ${CREATE_USER}
       DELETE_KARTON: ${DELETE_KARTON}
       DELETE_CREDENTIALS: ${DELETE_CREDENTIALS}
+      CHECK_POTVRDA_SMRTI_JMBG: ${CHECK_POTVRDA_SMRTI_JMBG}
     networks:
       - network
     depends_on:
@@ -63,6 +64,7 @@ services:
       CHECK_USER_JMBG: ${CHECK_USER_JMBG}
       POST_KARTON: ${POST_KARTON}
       DELETE_CREDENTIALS: ${DELETE_CREDENTIALS}
+      CHECK_POTVRDA_SMRTI_JMBG: ${CHECK_POTVRDA_SMRTI_JMBG}
     networks:
       - network
     depends_on:

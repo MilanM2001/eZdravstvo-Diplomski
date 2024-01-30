@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Alergija } from 'src/app/models/alergija.model';
 import { Invaliditet } from 'src/app/models/invaliditet.model';
+import { PotvrdaSmrti } from 'src/app/models/potvrdaSmrti.model';
 import { Pregled } from 'src/app/models/pregled.model';
 import { User } from 'src/app/models/user.model';
 import { HealthcareService } from 'src/app/services/healthcare.service';
@@ -27,6 +28,8 @@ export class KartonViewComponent implements OnInit {
   alergije: Alergija[] = []
   invaliditeti: Invaliditet[] = []
   search_value: string = ""
+  isDead = false
+  potvrda = new PotvrdaSmrti()
 
   ngOnInit(): void {
     this.registrarService.GetUserJMBG(this.jmbg)
@@ -48,6 +51,29 @@ export class KartonViewComponent implements OnInit {
           console.error(error)
         }
       })
+    this.registrarService.IsPotvrdaExistJMBG(this.jmbg)
+      .subscribe({
+        next: (data) => {
+          this.isDead = data
+          if (this.isDead == true) {
+            this.registrarService.GetPotvrdaSmrtiJMBG(this.jmbg)
+              .subscribe({
+                next: (data) => {
+                  this.potvrda = data
+                  console.log(this.potvrda)
+                },
+                error: (error) => {
+                  console.error(error)
+                }
+              })
+          }
+        },
+        error: (error) => {
+          console.error(error)
+        }, complete: () => {
+
+        }
+      })
   }
 
   search(search_option: string) {
@@ -56,7 +82,6 @@ export class KartonViewComponent implements OnInit {
       this.healthcareService.GetMojiPreglediGradjanin().subscribe({
         next: (data) => {
           this.pregledi = data;
-          console.log(this.pregledi)
         },
         error: (error) => {
           console.log(error);

@@ -4,6 +4,7 @@ import (
 	domain "auth_service/model/entity"
 	"auth_service/repository"
 	"encoding/json"
+	"fmt"
 	"github.com/cristalhq/jwt/v4"
 	"github.com/nats-io/nats.go"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -96,9 +97,28 @@ func (service *AuthService) Login(jmbg string, password string) (string, int) {
 		return "", 2
 	}
 
+	dataToSend, err := json.Marshal(jmbg)
+	response, err := service.natsConnection.Request(os.Getenv("CHECK_POTVRDA_SMRTI_JMBG"), dataToSend, 5*time.Second)
+	if err != nil {
+		log.Println(err)
+		return "", 5
+	}
+
+	var isPotvrdaExist bool
+
+	err = json.Unmarshal(response.Data, &isPotvrdaExist)
+	if err != nil {
+		log.Println("Error in unmarshal json")
+		fmt.Println(err)
+	}
+
+	if isPotvrdaExist == true {
+		return "", 3
+	}
+
 	tokenString, err := GenerateJWT(credentials)
 	if err != nil {
-		return "", 3
+		return "", 4
 	}
 
 	return tokenString, 0

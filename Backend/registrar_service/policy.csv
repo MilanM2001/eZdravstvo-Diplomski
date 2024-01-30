@@ -18,6 +18,8 @@ p, Admin, /getNewbornsByMotherJMBG/*, GET
 p, Registrar, /getNewbornsByMotherJMBG/*, GET
 p, Regular, /getUserID/*, GET
 p, Doctor, /postPotvrdaSmrti, POST
+p, Doctor, /isPotvrdaExist/*, GET
+p, Doctor, /getPotvrdaSmrtiJMBG/*, GET
 
 p, NotLoggedIn, /deleteUserID/*, DELETE
 p, NotLoggedIn, /registry, POST
@@ -25,3 +27,4 @@ p, NotLoggedIn, /allUsers, GET
 p, NotLoggedIn, /deleteAllUsers, DELETE
 p, NotLoggedIn, /allPotvrdeSmrti, GET
 p, NotLoggedIn, /deletePotvrdaSmrtiID/*, DELETE
+p, NotLoggedIn, /isPotvrdaExist/*, GET

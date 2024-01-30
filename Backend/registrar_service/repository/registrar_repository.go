@@ -13,13 +13,14 @@ type RegistrarRepository interface {
 	ParentCreateUser(user *domain.User) error
 	GetNewbornByMotherJMBG(jmbgMajke string) ([]*domain.User, error)
 	IsUserExist(jmbg string) bool
+	IsPotvrdaExist(jmbg string) bool
 	FindOneUser(jmbg string) *domain.User
 	FindOneUserID(id primitive.ObjectID) (*domain.User, error)
 	GetChildren(jmbg string, pol domain.Pol) []domain.User
 	DeleteUserID(id primitive.ObjectID) error
 	DeleteAllUsers() error
 	PostPotvrdaSmrti(potvrdaOSmrti domain.PotvrdaSmrti) error
-	GetPotvrdaSmrtiJMBG(jmbg string) *domain.PotvrdaSmrti
+	GetPotvrdaSmrtiJMBG(jmbg string) (*domain.PotvrdaSmrti, error)
 	GetAllPotvrdeSmrti() ([]*domain.PotvrdaSmrti, error)
 	DeletePotvrdaSmrtiID(id primitive.ObjectID) error
 }

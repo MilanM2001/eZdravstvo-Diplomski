@@ -46,8 +46,14 @@
                   </div>
                 </div>
 
-                <div *ngIf="notFound" class="not-found">
-                  <h3>Neispravan JMBG ili šifra</h3>
+                <div *ngIf="jmbgNotFound" class="not-found">
+                  <h3>Nepostojeći JMBG</h3>
+                </div>
+                <div *ngIf="incorrectPassword" class="not-found">
+                  <h3>Pogrešna šifra</h3>
+                </div>
+                <div *ngIf="userDied" class="not-found">
+                  <h3>Korisnik je preminuo</h3>
                 </div>
 
                 <div class="d-flex justify-content-center">

@@ -51,59 +51,67 @@ func (controller *AuthController) GetAllCredentials(writer http.ResponseWriter, 
 	writer.WriteHeader(http.StatusOK)
 }
 
-func (controller *AuthController) Register(response http.ResponseWriter, request *http.Request) {
+func (controller *AuthController) Register(writer http.ResponseWriter, req *http.Request) {
 	var credentials domain.Credentials
-	err := json.NewDecoder(request.Body).Decode(&credentials)
+	err := json.NewDecoder(req.Body).Decode(&credentials)
 	fmt.Println(credentials)
 	if err != nil {
-		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte("There is problem in decoding JSON"))
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("There is problem in decoding JSON"))
 		return
 	}
 
 	value, err := controller.service.Register(credentials)
 	if err != nil {
-		response.WriteHeader(http.StatusInternalServerError)
+		writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	fmt.Println(value)
 	if value == -1 {
-		response.WriteHeader(http.StatusAccepted)
-		response.Write([]byte("JMBG je vec registrovan!"))
+		writer.WriteHeader(http.StatusAccepted)
+		writer.Write([]byte("JMBG je vec registrovan!"))
 		return
 	} else if value == -2 {
-		response.WriteHeader(http.StatusCreated)
-		response.Write([]byte("JMBG nije pronadjen u izvodima rodjenih lica!"))
+		writer.WriteHeader(http.StatusCreated)
+		writer.Write([]byte("JMBG nije pronadjen u izvodima rodjenih lica!"))
 		return
 	}
 }
 
-func (controller *AuthController) Login(response http.ResponseWriter, request *http.Request) {
+func (controller *AuthController) Login(writer http.ResponseWriter, req *http.Request) {
 	var credentials domain.Credentials
-	err := json.NewDecoder(request.Body).Decode(&credentials)
+	err := json.NewDecoder(req.Body).Decode(&credentials)
 	if err != nil {
-		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte("There is problem in decoding JSON"))
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("There is problem in decoding JSON"))
 		return
 	}
 
 	token, value := controller.service.Login(credentials.JMBG, credentials.Password)
 	if value == 1 {
-		response.WriteHeader(http.StatusNotFound)
-		response.Write([]byte("JMBG not exist!"))
+		writer.WriteHeader(http.StatusNotFound)
+		writer.Write([]byte("JMBG does not exist"))
 		return
 	} else if value == 2 {
-		response.WriteHeader(http.StatusAccepted)
-		response.Write([]byte("Password doesn't match!"))
+		writer.WriteHeader(http.StatusUnauthorized)
+		writer.Write([]byte("Incorrect password"))
 		return
 	} else if value == 3 {
-		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte("Problem with generating token"))
+		writer.WriteHeader(http.StatusConflict)
+		writer.Write([]byte("User died"))
+		return
+	} else if value == 4 {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("Problem with generating token"))
+		return
+	} else if value == 5 {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("NATS Error"))
 		return
 	}
 
-	response.WriteHeader(http.StatusOK)
-	response.Write([]byte(token))
+	writer.WriteHeader(http.StatusOK)
+	writer.Write([]byte(token))
 }
 
 func (controller *AuthController) DeleteCredentialsID(writer http.ResponseWriter, req *http.Request) {

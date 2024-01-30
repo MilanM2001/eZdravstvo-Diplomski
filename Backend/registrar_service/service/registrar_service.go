@@ -132,15 +132,27 @@ func (service *RegistrarService) GetAllPotvrdeSmrti() ([]*entity.PotvrdaSmrti, e
 	return service.store.GetAllPotvrdeSmrti()
 }
 
+func (service *RegistrarService) GetPotvrdaSmrtiJMBG(jmbg string) (*entity.PotvrdaSmrti, error) {
+	return service.store.GetPotvrdaSmrtiJMBG(jmbg)
+}
+
+func (service *RegistrarService) IsPotvrdaExist(jmbg string) bool {
+	return service.store.IsPotvrdaExist(jmbg)
+}
+
 func (service *RegistrarService) PostPotvrdaSmrti(potvrda entity.PotvrdaSmrti) (int, error) {
 	potvrda.ID = primitive.NewObjectID()
 
-	existingPotvrda := service.store.GetPotvrdaSmrtiJMBG(potvrda.JMBG)
+	existingPotvrda, err := service.store.GetPotvrdaSmrtiJMBG(potvrda.JMBG)
+	if err != nil {
+		log.Println("Error in trying to get potvrda smrti")
+		return 0, err
+	}
 	if existingPotvrda != nil {
 		return 1, nil
 	}
 
-	err := service.store.PostPotvrdaSmrti(potvrda)
+	err = service.store.PostPotvrdaSmrti(potvrda)
 	if err != nil {
 		log.Println("Error in trying to save Potvrda")
 		return 0, err
@@ -156,7 +168,6 @@ func (service *RegistrarService) DeletePotvrdaSmrtiID(id primitive.ObjectID) err
 func (service *RegistrarService) SubscribeToNats(natsConnection *nats.Conn) {
 
 	_, err := natsConnection.QueueSubscribe(os.Getenv("CHECK_USER_JMBG"), "queue-registrar-group", func(message *nats.Msg) {
-
 		var credentials entity.Credentials
 		err := json.Unmarshal(message.Data, &credentials)
 		if err != nil {
@@ -186,6 +197,35 @@ func (service *RegistrarService) SubscribeToNats(natsConnection *nats.Conn) {
 
 	log.Printf("Subscribed to channel: %s", os.Getenv("CHECK_USER_JMBG"))
 
+	_, err = natsConnection.QueueSubscribe(os.Getenv("CHECK_POTVRDA_SMRTI_JMBG"), "queue-registrar-group", func(message *nats.Msg) {
+		var jmbg string
+		err := json.Unmarshal(message.Data, &jmbg)
+		if err != nil {
+			log.Println("Error in unmarshal JSON")
+			return
+		}
+
+		isExist := service.IsPotvrdaExist(jmbg)
+
+		dataToSend, err := json.Marshal(isExist)
+		if err != nil {
+			log.Println("Error in marshaling json")
+			return
+		}
+		reply := dataToSend
+		err = natsConnection.Publish(message.Reply, reply)
+		if err != nil {
+			log.Printf("Error in publishing response: %s", err.Error())
+			return
+		}
+
+	})
+	if err != nil {
+		log.Printf("Error in receiving message: %s", err.Error())
+	}
+
+	log.Printf("Subscribed to channel: %s", os.Getenv("CHECK_POTVRDA_SMRTI_JMBG"))
+
 	_, err = natsConnection.QueueSubscribe(os.Getenv("GET_USER_BY_JMBG"), "queue-registrar-group", func(message *nats.Msg) {
 		var jmbg string
 		err := json.Unmarshal(message.Data, &jmbg)
@@ -210,7 +250,7 @@ func (service *RegistrarService) SubscribeToNats(natsConnection *nats.Conn) {
 
 	})
 	if err != nil {
-		log.Println("Error in receiving message: %s", err.Error())
+		log.Printf("Error in receiving message: %s", err.Error())
 	}
 
 	log.Printf("Subscribed to channel: %s", os.Getenv("GET_USER_BY_JMBG"))
