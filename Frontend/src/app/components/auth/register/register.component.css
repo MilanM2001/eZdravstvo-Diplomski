@@ -1,8 +1,17 @@
 .jmbg-not-exist {
     color: red;
-    
+
 }
 
 .password-not-match {
     color: red;
+}
+
+.go-to-login {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
 }

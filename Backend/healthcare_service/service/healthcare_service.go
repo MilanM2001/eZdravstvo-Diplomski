@@ -391,67 +391,7 @@ func (service *HealthcareService) GetMe(jmbg string) (*model.User, error) {
 	return &user, nil
 }
 
-//func (service *HealthcareService) AddPersonToRegistry(user *model.User) (*model.User, int) {
-//	user.ID = primitive.NewObjectID()
-//
-//	dataToSend, err := json.Marshal(user)
-//	if err != nil {
-//		log.Print("Error in Marshaling JSON")
-//		return nil, 0
-//	}
-//
-//	response, err := service.natsConnection.Request(os.Getenv("CREATE_USER"), dataToSend, 5*time.Second)
-//	if err != nil {
-//		log.Println(err)
-//		return nil, 0
-//	}
-//
-//	err = json.Unmarshal(response.Data, &user)
-//	if err != nil {
-//		log.Print("Error in Unmarshal JSON")
-//		return nil, 0
-//	}
-//
-//	if user.ID == primitive.NilObjectID {
-//		return nil, 1
-//	}
-//
-//	return user, 0
-//}
-
 func (service *HealthcareService) SubscribeToNats(natsConnection *nats.Conn) {
-
-	//_, err := natsConnection.QueueSubscribe(os.Getenv("GET_STANJE_BY_JMBG"), "queue-healthcare-group", func(message *nats.Msg) {
-	//	var jmbg string
-	//	err := json.Unmarshal(message.Data, &jmbg)
-	//	if err != nil {
-	//		log.Println("Error in unmarshal JSON")
-	//		return
-	//	}
-	//
-	//	zdravstvenoStanje, err := service.GetZdravstvenoStanjeByJMBG(jmbg)
-	//	if err != nil {
-	//		log.Println(err)
-	//		return
-	//	}
-	//
-	//	dataToSend, err := json.Marshal(zdravstvenoStanje)
-	//	if err != nil {
-	//		log.Println("Error in marshaling JSON")
-	//		return
-	//	}
-	//	reply := dataToSend
-	//	err = natsConnection.Publish(message.Reply, reply)
-	//	if err != nil {
-	//		log.Println("Error in publishing response: %s", err.Error())
-	//		return
-	//	}
-	//})
-	//if err != nil {
-	//	log.Print("Error in receiving message: %s", err.Error())
-	//}
-
-	log.Printf("Subscribed to channel: %s", os.Getenv("GET_STANJE_BY_JMBG"))
 
 	_, err := natsConnection.QueueSubscribe(os.Getenv("POST_KARTON"), "queue-healthcare-group", func(message *nats.Msg) {
 		var karton model.Karton
@@ -487,38 +427,4 @@ func (service *HealthcareService) SubscribeToNats(natsConnection *nats.Conn) {
 	}
 
 	log.Printf("Subscribed to channel: %s", os.Getenv("POST_KARTON"))
-
-	_, err = natsConnection.QueueSubscribe(os.Getenv("DELETE_KARTON"), "queue-healthcare-group", func(message *nats.Msg) {
-		var jmbg string
-		err := json.Unmarshal(message.Data, &jmbg)
-		if err != nil {
-			log.Println("Error in unmarshal JSON")
-			return
-		}
-
-		err = service.DeleteKartonJMBG(jmbg)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-
-		dataToSend, err := json.Marshal(jmbg)
-		if err != nil {
-			log.Println("Error in marshaling JSON!")
-			return
-		}
-
-		reply := dataToSend
-		err = natsConnection.Publish(message.Reply, reply)
-		if err != nil {
-			log.Printf("Error in publishing response: %s", err.Error())
-			return
-		}
-
-	})
-	if err != nil {
-		log.Printf("Error in receiving message: %s", err.Error())
-	}
-
-	log.Printf("Subscribed to channel: %s", os.Getenv("DELETE_KARTON"))
 }

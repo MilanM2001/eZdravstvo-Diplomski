@@ -2,3 +2,12 @@
     text-align: center;
     color: red;
 }
+
+.go-to-register {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

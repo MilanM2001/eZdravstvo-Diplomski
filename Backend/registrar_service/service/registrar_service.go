@@ -97,25 +97,6 @@ func (service *RegistrarService) DeleteUserID(id primitive.ObjectID) error {
 	if err != nil {
 		return err
 	}
-	//jmbg := user.JMBG
-
-	//jmbgToSend, err := json.Marshal(jmbg)
-	//if err != nil {
-	//	log.Println("Error in Marshaling JSON")
-	//	return err
-	//}
-
-	//_, err = service.natsConnection.Request(os.Getenv("DELETE_KARTON"), jmbgToSend, 5*time.Second)
-	//if err != nil {
-	//	log.Println(err)
-	//	return err
-	//}
-	//
-	//_, err = service.natsConnection.Request(os.Getenv("DELETE_CREDENTIALS"), jmbgToSend, 5*time.Second)
-	//if err != nil {
-	//	log.Println(err)
-	//	return err
-	//}
 
 	return service.store.DeleteUserID(id)
 }
@@ -254,38 +235,4 @@ func (service *RegistrarService) SubscribeToNats(natsConnection *nats.Conn) {
 	}
 
 	log.Printf("Subscribed to channel: %s", os.Getenv("GET_USER_BY_JMBG"))
-
-	_, err = natsConnection.QueueSubscribe(os.Getenv("CREATE_USER"), "queue-registrar-group", func(message *nats.Msg) {
-		var user entity.User
-		err := json.Unmarshal(message.Data, &user)
-		if err != nil {
-			log.Println("Error in unmarshal JSON!")
-			return
-		}
-
-		user.ID = primitive.NewObjectID()
-		err = service.store.CreateNewUser(user)
-		if err != nil {
-			user.ID = primitive.NilObjectID
-			log.Println("Error in Nats")
-		}
-
-		dataToSend, err := json.Marshal(user)
-		if err != nil {
-			log.Println("Error in marshaling json")
-			return
-		}
-		reply := dataToSend
-		err = natsConnection.Publish(message.Reply, reply)
-		if err != nil {
-			log.Printf("Error in publish response: %s", err.Error())
-			return
-		}
-
-	})
-	if err != nil {
-		log.Println("Error in receiving message: %s", err.Error())
-	}
-
-	log.Printf("Subscribed to channel: %s", os.Getenv("CREATE_USER"))
 }

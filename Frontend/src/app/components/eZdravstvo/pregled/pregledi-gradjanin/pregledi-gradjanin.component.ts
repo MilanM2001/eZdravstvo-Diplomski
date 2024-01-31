@@ -10,13 +10,12 @@ import { HealthcareService } from 'src/app/services/healthcare.service';
 export class PreglediGradjaninComponent implements OnInit {
   pregledi: Array<Pregled> = [];
 
-  constructor(private healthcareService: HealthcareService) {}
+  constructor(private healthcareService: HealthcareService) { }
 
   ngOnInit(): void {
     this.healthcareService.GetSviSlobodniPregledi().subscribe({
       next: (data) => {
         this.pregledi = data;
-        console.log(this.pregledi)
       },
       error: (error) => {
         console.log(error);

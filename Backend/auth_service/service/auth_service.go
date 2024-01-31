@@ -137,40 +137,7 @@ func (service *AuthService) DeleteCredentialsJMBG(jmbg string) error {
 }
 
 func (service *AuthService) SubscribeToNats(natsConnection *nats.Conn) {
-	_, err := natsConnection.QueueSubscribe(os.Getenv("DELETE_CREDENTIALS"), "queue-auth-group", func(message *nats.Msg) {
-		var jmbg string
-		err := json.Unmarshal(message.Data, &jmbg)
-		if err != nil {
-			log.Println("Error in unamrshal JSON")
-			return
-		}
 
-		err = service.DeleteCredentialsJMBG(jmbg)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-
-		dataToSend, err := json.Marshal(jmbg)
-		if err != nil {
-			log.Println("Error in marshaling JSON!")
-			return
-		}
-
-		reply := dataToSend
-		err = natsConnection.Publish(message.Reply, reply)
-		if err != nil {
-			log.Printf("Error in publishing response: %s", err.Error())
-			return
-		}
-
-	})
-	if err != nil {
-		log.Printf("Error in publishing response: %s", err.Error())
-		return
-	}
-
-	log.Printf("Error in receiving message: %s", err.Error())
 }
 
 func GenerateJWT(credentials *domain.Credentials) (string, error) {

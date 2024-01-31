@@ -50,5 +50,6 @@ p, NotLoggedIn, /deleteAllKarton, DELETE
 p, Doctor, /getMe, GET
 p, Regular, /getMe, GET
 p, Admin, /getMe, GET
+p, Registrar, /getMe, GET
 
 
