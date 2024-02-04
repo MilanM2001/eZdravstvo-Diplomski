@@ -40,12 +40,10 @@ export class KartoniComponent implements OnInit {
 
   search() {
     let search_input = this.searchFormGroup.get("search_input")?.value;
-    console.log(search_input);
 
     this.healthcareService.GetKartoneJMBG(search_input).subscribe({
       next: (data) => {
         this.kartoni = data
-        console.log(this.kartoni)
       },
       error: (error) => {
         console.error(error)

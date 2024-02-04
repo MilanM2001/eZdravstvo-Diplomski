@@ -87,11 +87,9 @@ export class RegisterComponent implements OnInit {
     ) {
       this.authService.Registration(credentials).subscribe({
         next: (response) => {
-          console.log(response);
           this.router.navigate(['Login']).then();
         },
         error: (error) => {
-          console.log(JSON.stringify(error?.error?.text));
           if (error.status == 202) {
             this.JMBGExists = true
             this.JMBGNotExist = false

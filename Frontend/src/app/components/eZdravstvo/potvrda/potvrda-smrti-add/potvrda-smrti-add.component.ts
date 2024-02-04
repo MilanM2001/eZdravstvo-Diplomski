@@ -54,8 +54,6 @@ export class PotvrdaSmrtiAddComponent implements OnInit {
     potvrda.mestoSmrti = this.formGroup.get('mestoSmrti')?.value
     potvrda.jmbg = this.jmbg
 
-    console.log(potvrda)
-
     this.registrarService.PostPotvrdaSmrti(potvrda)
       .subscribe({
         next: (data) => {

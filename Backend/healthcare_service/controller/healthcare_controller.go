@@ -39,6 +39,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/getMojiZauzetiPreglediLekar", controller.GetMojiZauzetiPreglediLekar).Methods("GET")
 	router.HandleFunc("/getMojiPreglediGradjanin", controller.GetMojiPreglediGradjanin).Methods("GET")
 	router.HandleFunc("/getSviSlobodniPregledi", controller.GetSviSlobodniPregledi).Methods("GET")
+	router.HandleFunc("/getPreglediByGradjaninID/{id}", controller.GetPreglediByGradjaninID).Methods("GET")
 	router.HandleFunc("/getPregledID/{id}", controller.GetPregledID).Methods("GET")
 	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
 	router.HandleFunc("/zakaziPregled/{id}", controller.ZakaziPregled).Methods("PUT")
@@ -87,8 +88,8 @@ func (controller *HealthcareController) GetSviPregledi(writer http.ResponseWrite
 		return
 	}
 
-	jsonResponse(pregledi, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(pregledi, writer)
 }
 
 func (controller *HealthcareController) GetMojiPreglediLekar(writer http.ResponseWriter, req *http.Request) {
@@ -101,8 +102,8 @@ func (controller *HealthcareController) GetMojiPreglediLekar(writer http.Respons
 		return
 	}
 
-	jsonResponse(pregledi, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(pregledi, writer)
 }
 
 func (controller *HealthcareController) GetMojiSlobodniPreglediLekar(writer http.ResponseWriter, req *http.Request) {
@@ -115,8 +116,8 @@ func (controller *HealthcareController) GetMojiSlobodniPreglediLekar(writer http
 		return
 	}
 
-	jsonResponse(pregledi, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(pregledi, writer)
 }
 
 func (controller *HealthcareController) GetMojiZauzetiPreglediLekar(writer http.ResponseWriter, req *http.Request) {
@@ -129,8 +130,8 @@ func (controller *HealthcareController) GetMojiZauzetiPreglediLekar(writer http.
 		return
 	}
 
-	jsonResponse(pregledi, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(pregledi, writer)
 }
 
 func (controller *HealthcareController) GetMojiPreglediGradjanin(writer http.ResponseWriter, req *http.Request) {
@@ -143,8 +144,8 @@ func (controller *HealthcareController) GetMojiPreglediGradjanin(writer http.Res
 		return
 	}
 
-	jsonResponse(pregledi, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(pregledi, writer)
 }
 
 func (controller *HealthcareController) GetSviSlobodniPregledi(writer http.ResponseWriter, _ *http.Request) {
@@ -154,8 +155,22 @@ func (controller *HealthcareController) GetSviSlobodniPregledi(writer http.Respo
 		return
 	}
 
-	jsonResponse(pregledi, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(pregledi, writer)
+}
+
+func (controller *HealthcareController) GetPreglediByGradjaninID(writer http.ResponseWriter, req *http.Request) {
+	objectID, err := getIDFromReqAsPrimitive(writer, req)
+
+	pregledi, err := controller.service.GetPreglediByGradjaninID(objectID)
+	if err != nil {
+		log.Println("Error finding Appointment By ID")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+	jsonResponse(pregledi, writer)
 }
 
 func (controller *HealthcareController) GetPregledID(writer http.ResponseWriter, req *http.Request) {
@@ -168,8 +183,8 @@ func (controller *HealthcareController) GetPregledID(writer http.ResponseWriter,
 		return
 	}
 
-	jsonResponse(pregled, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(pregled, writer)
 }
 
 func (controller *HealthcareController) PostPregled(writer http.ResponseWriter, req *http.Request) {
@@ -196,8 +211,8 @@ func (controller *HealthcareController) PostPregled(writer http.ResponseWriter, 
 		return
 	}
 
-	jsonResponse(pregled, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(pregled, writer)
 }
 
 func (controller *HealthcareController) ZakaziPregled(writer http.ResponseWriter, req *http.Request) {
@@ -211,8 +226,8 @@ func (controller *HealthcareController) ZakaziPregled(writer http.ResponseWriter
 		return
 	}
 
-	jsonResponse(appointment, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(appointment, writer)
 }
 
 func (controller *HealthcareController) DeletePregledID(writer http.ResponseWriter, req *http.Request) {
@@ -238,8 +253,8 @@ func (controller *HealthcareController) GetSveVakcine(writer http.ResponseWriter
 		return
 	}
 
-	jsonResponse(vakcine, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(vakcine, writer)
 }
 
 func (controller *HealthcareController) GetVakcinaID(writer http.ResponseWriter, req *http.Request) {
@@ -252,8 +267,8 @@ func (controller *HealthcareController) GetVakcinaID(writer http.ResponseWriter,
 		return
 	}
 
-	jsonResponse(vakcina, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(vakcina, writer)
 }
 
 func (controller *HealthcareController) PostVakcina(writer http.ResponseWriter, req *http.Request) {
@@ -275,8 +290,8 @@ func (controller *HealthcareController) PostVakcina(writer http.ResponseWriter, 
 		return
 	}
 
-	jsonResponse(vakcina, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(vakcina, writer)
 }
 
 func (controller *HealthcareController) PutVakcina(writer http.ResponseWriter, req *http.Request) {
@@ -305,8 +320,8 @@ func (controller *HealthcareController) PutVakcina(writer http.ResponseWriter, r
 		return
 	}
 
-	jsonResponse(vakcina, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(vakcina, writer)
 }
 
 func (controller *HealthcareController) DeleteVakcinaID(writer http.ResponseWriter, req *http.Request) {
@@ -332,8 +347,8 @@ func (controller *HealthcareController) GetSveAlergije(writer http.ResponseWrite
 		return
 	}
 
-	jsonResponse(alergije, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(alergije, writer)
 }
 
 func (controller *HealthcareController) GetAlergijaID(writer http.ResponseWriter, req *http.Request) {
@@ -346,8 +361,8 @@ func (controller *HealthcareController) GetAlergijaID(writer http.ResponseWriter
 		return
 	}
 
-	jsonResponse(alergija, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(alergija, writer)
 }
 
 func (controller *HealthcareController) PostAlergija(writer http.ResponseWriter, req *http.Request) {
@@ -372,8 +387,8 @@ func (controller *HealthcareController) PostAlergija(writer http.ResponseWriter,
 		return
 	}
 
-	jsonResponse(alergija, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(alergija, writer)
 }
 
 func (controller *HealthcareController) DeleteAlergijaID(writer http.ResponseWriter, req *http.Request) {
@@ -399,8 +414,8 @@ func (controller *HealthcareController) GetSveInvaliditete(writer http.ResponseW
 		return
 	}
 
-	jsonResponse(invaliditeti, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(invaliditeti, writer)
 }
 
 func (controller *HealthcareController) GetInvaliditetID(writer http.ResponseWriter, req *http.Request) {
@@ -413,8 +428,8 @@ func (controller *HealthcareController) GetInvaliditetID(writer http.ResponseWri
 		return
 	}
 
-	jsonResponse(invaliditet, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(invaliditet, writer)
 }
 
 func (controller *HealthcareController) PostInvaliditet(writer http.ResponseWriter, req *http.Request) {
@@ -439,8 +454,8 @@ func (controller *HealthcareController) PostInvaliditet(writer http.ResponseWrit
 		return
 	}
 
-	jsonResponse(invaliditet, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(invaliditet, writer)
 }
 
 func (controller *HealthcareController) DeleteInvaliditetID(writer http.ResponseWriter, req *http.Request) {
@@ -466,8 +481,8 @@ func (controller *HealthcareController) GetSveKartone(writer http.ResponseWriter
 		return
 	}
 
-	jsonResponse(kartoni, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(kartoni, writer)
 }
 
 func (controller *HealthcareController) GetKartoneJMBG(writer http.ResponseWriter, req *http.Request) {
@@ -481,8 +496,8 @@ func (controller *HealthcareController) GetKartoneJMBG(writer http.ResponseWrite
 		return
 	}
 
-	jsonResponse(kartoni, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(kartoni, writer)
 }
 
 func (controller *HealthcareController) GetKartonJMBG(writer http.ResponseWriter, req *http.Request) {
@@ -517,8 +532,8 @@ func (controller *HealthcareController) PutKarton(writer http.ResponseWriter, re
 		return
 	}
 
-	jsonResponse(karton, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(karton, writer)
 }
 
 func (controller *HealthcareController) DeleteKartonID(writer http.ResponseWriter, req *http.Request) {
@@ -553,6 +568,6 @@ func (controller *HealthcareController) GetMe(writer http.ResponseWriter, req *h
 		log.Println("Error getting User")
 	}
 
-	jsonResponse(user, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(user, writer)
 }

@@ -13,17 +13,20 @@
             </div>
         </mat-card-content>
     </mat-card>
-    <button *ngIf="!isDead" [routerLink]="['/Karton-Edit-Alergije', this.jmbg]" type="submit" class="btn btn-warning">
-        Alergije
-    </button>
-    <button *ngIf="!isDead" [routerLink]="['/Karton-Edit-Invaliditeti', this.jmbg]" type="submit"
-        class="btn btn-warning">
-        Invaliditeti
-    </button>
-    <button *ngIf="!isDead" [routerLink]="['/Potvrda-Smrti', this.jmbg]" type="submit" class="btn btn-danger">
-        Preminuo
-    </button>
-    <div class="preminuo">
+    <div *ngIf="!isDead">
+        <button *ngIf="!isMe()" [routerLink]="['/Karton-Edit-Alergije', this.jmbg]" type="submit"
+            class="btn btn-warning">
+            Alergije
+        </button>
+        <button *ngIf="!isMe()" [routerLink]="['/Karton-Edit-Invaliditeti', this.jmbg]" type="submit"
+            class="btn btn-warning">
+            Invaliditeti
+        </button>
+        <button *ngIf="!isMe()" [routerLink]="['/Potvrda-Smrti', this.jmbg]" type="submit" class="btn btn-danger">
+            Preminuo
+        </button>
+    </div>
+    <div *ngIf="isDead" class="preminuo">
         <p>Korisnik je preminuo <br> Datuma: <strong>{{potvrda.datumSmrti * 1000 | date: "dd.MM.yyyy"}}</strong> <br> U
             mestu:
             <strong>{{potvrda.mestoSmrti}}</strong>
@@ -68,8 +71,8 @@
 
 <div *ngIf="search_value == 'Alergije'">
     <h3 class="my-title">Alergije</h3>
-    <mat-card class="card-alergija-invaliditet">
-        <div *ngFor="let alergija of alergije" class="list-item">
+    <mat-card *ngFor="let alergija of alergije" class="card-alergija-invaliditet">
+        <div class="list-item">
             <div class="naziv">{{alergija.naziv}}</div>
         </div>
     </mat-card>
@@ -78,8 +81,8 @@
 
 <div *ngIf="search_value == 'Invaliditeti'">
     <h3 class="my-title">Invaliditeti</h3>
-    <mat-card class="card-alergija-invaliditet">
-        <div *ngFor="let invaliditet of invaliditeti" class="list-item">
+    <mat-card *ngFor="let invaliditet of invaliditeti" class="card-alergija-invaliditet">
+        <div class="list-item">
             <div class="naziv">{{invaliditet.naziv}}</div>
         </div>
     </mat-card>

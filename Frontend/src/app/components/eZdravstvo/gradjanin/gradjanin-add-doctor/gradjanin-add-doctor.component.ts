@@ -66,7 +66,7 @@ export class GradjaninAddDoctorComponent implements OnInit {
           this.router.navigate(['/Pregledi-Lekar'])
         },
         error: (error) => {
-          console.log(error)
+          console.error(error);
           if (error.status == 409) {
             this.motherNotExist = true
             this.isMale = false

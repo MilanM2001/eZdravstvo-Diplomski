@@ -14,7 +14,7 @@ export class PregledViewComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private healthcareService: HealthcareService
-  ) {}
+  ) { }
 
   pregled: Pregled = new Pregled();
   pregled_id = String(this.route.snapshot.paramMap.get('id'));
@@ -32,7 +32,7 @@ export class PregledViewComponent implements OnInit {
         this.user = data;
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
       },
     });
   }
@@ -51,7 +51,7 @@ export class PregledViewComponent implements OnInit {
         this.router.navigate(['/Pregledi-Gradjanin']);
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
       },
     });
   }
@@ -62,7 +62,7 @@ export class PregledViewComponent implements OnInit {
         this.router.navigate(['/Pregledi-Lekar']);
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
       },
     });
   }

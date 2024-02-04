@@ -75,6 +75,11 @@ func (repository *HealthcareRepositoryImpl) GetSviSlobodniPregledi() ([]*model.P
 	return repository.filterPregledi(filter)
 }
 
+func (repository *HealthcareRepositoryImpl) GetPreglediByGradjaninID(id primitive.ObjectID) ([]*model.Pregled, error) {
+	filter := bson.M{"gradjanin._id": id}
+	return repository.filterPregledi(filter)
+}
+
 func (repository *HealthcareRepositoryImpl) GetPregledID(id primitive.ObjectID) (*model.Pregled, error) {
 	filter := bson.M{"_id": id}
 	return repository.filterOnePregled(filter)

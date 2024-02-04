@@ -19,11 +19,9 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from '@angular/material/icon'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MarriageComponent } from './components/eMaticar/marriage/marriage.component';
 import { ChooseServiceComponent } from './components/auth/choose-service/choose-service.component';
 import { RegularOrAdminComponent } from './components/auth/regular-or-admin/regular-or-admin.component';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { ViewMyRegistryComponent } from './components/eMaticar/view-my-registry/view-my-registry.component';
 import { PregledAddComponent } from './components/eZdravstvo/pregled/pregled-add/pregled-add.component';
 import { PregledItemComponent } from './components/eZdravstvo/pregled/pregled-item/pregled-item.component';
 import { PregledListComponent } from './components/eZdravstvo/pregled/pregled-list/pregled-list.component';
@@ -55,8 +53,6 @@ import { GradjaninAddRoditeljComponent } from './components/eZdravstvo/gradjanin
 import { MyNovorodjeniComponent } from './components/eZdravstvo/gradjanin/my-novorodjeni/my-novorodjeni.component';
 import { PotvrdaSmrtiAddComponent } from './components/eZdravstvo/potvrda/potvrda-smrti-add/potvrda-smrti-add.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,10 +60,8 @@ import { PotvrdaSmrtiAddComponent } from './components/eZdravstvo/potvrda/potvrd
     RegisterComponent,
     LoginComponent,
     WelcomeComponent,
-    MarriageComponent,
     ChooseServiceComponent,
     RegularOrAdminComponent,
-    ViewMyRegistryComponent,
     PregledAddComponent,
     PregledItemComponent,
     PregledListComponent,

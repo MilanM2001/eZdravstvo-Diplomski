@@ -65,16 +65,13 @@ export class VakcinaViewComponent implements OnInit {
     vakcina.naziv = this.vakcinaFormGroup.get('naziv')?.value
     vakcina.kompanija = this.vakcinaFormGroup.get('kompanija')?.value
 
-    console.log(vakcina)
-
     this.healthcareService.PutVakcina(vakcina, this.vakcina_id)
       .subscribe({
         next: (data) => {
-          console.log("Uspeh")
           this.router.navigate(['/Vakcine']);
         },
         error: (error) => {
-          console.log(error)
+          console.error(error);
           if (error.status == 406) {
             this.alreadyExists = true
           }

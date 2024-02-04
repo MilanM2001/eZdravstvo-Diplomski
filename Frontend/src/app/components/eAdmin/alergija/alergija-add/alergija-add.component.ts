@@ -48,8 +48,6 @@ export class AlergijaAddComponent implements OnInit {
     alergija.naziv = this.alergijaFormGroup.get('naziv')?.value
     alergija.ozbiljnost = this.alergijaFormGroup.get('ozbiljnost')?.value
 
-    console.log(alergija)
-
     this.healthcareService.PostAlergija(alergija).subscribe({
       next: (data) => {
         this.router.navigate(['/Alergije-Admin'])

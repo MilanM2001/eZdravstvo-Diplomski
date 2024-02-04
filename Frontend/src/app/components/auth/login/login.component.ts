@@ -77,7 +77,6 @@ export class LoginComponent implements OnInit {
             localStorage.clear();
           } else if (response == "User died") {
             localStorage.clear()
-            console.log("smrad")
           } else {
             localStorage.setItem('authToken', response);
             this.router.navigate(['/choose-service']).then();

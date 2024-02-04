@@ -12,6 +12,7 @@ type HealthcareRepository interface {
 	GetMojiZauzetiPreglediLekar(id primitive.ObjectID) ([]*model.Pregled, error)
 	GetMojiPreglediGradjanin(id primitive.ObjectID) ([]*model.Pregled, error)
 	GetSviSlobodniPregledi() ([]*model.Pregled, error)
+	GetPreglediByGradjaninID(id primitive.ObjectID) ([]*model.Pregled, error)
 	GetPregledID(id primitive.ObjectID) (*model.Pregled, error)
 	PostPregled(appointment *model.Pregled) error
 	PutPregled(appointment *model.Pregled) error

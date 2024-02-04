@@ -41,7 +41,6 @@ type Alergija struct {
 type Invaliditet struct {
 	ID         primitive.ObjectID `json:"id" bson:"_id"`
 	Naziv      string             `json:"naziv" bson:"naziv"`
-	Opis       string             `json:"opis" bson:"opis"`
 	Ozbiljnost Ozbiljnost         `json:"ozbiljnost" bson:"ozbiljnost"`
 }
 

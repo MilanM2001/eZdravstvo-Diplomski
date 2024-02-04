@@ -56,6 +56,12 @@ export class HealthcareService {
     );
   }
 
+  public GetPreglediByGradjaninID(id: string): Observable<Pregled[]> {
+    return this.http.get<Pregled[]>(
+      `${environment.baseApiUrl}/${this.url}/getPreglediByGradjaninID/` + id
+    );
+  }
+
   public PostPregled(pregled: AddPregled): Observable<AddPregled> {
     return this.http.post<AddPregled>(
       `${environment.baseApiUrl}/${this.url}/postPregled`,

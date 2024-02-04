@@ -117,6 +117,10 @@ func (service *HealthcareService) GetPregledID(id primitive.ObjectID) (*model.Pr
 	return service.repository.GetPregledID(id)
 }
 
+func (service *HealthcareService) GetPreglediByGradjaninID(id primitive.ObjectID) ([]*model.Pregled, error) {
+	return service.repository.GetPreglediByGradjaninID(id)
+}
+
 func (service *HealthcareService) PostPregled(addPregled *model.AddPregled, jmbg string) (int, error) {
 	var pregled model.Pregled
 	pregled.PocetakPregleda = addPregled.PocetakPregleda

@@ -11,3 +11,4 @@
 </div>
 <button class="btn btn-success" routerLink="/Pregled-Add">Dodavanje Pregleda</button>
 <app-pregled-list [pregledi]="pregledi"></app-pregled-list>
+<h3 *ngIf="pregledi?.length == 0 || !pregledi" class="empty-list">Nema pregleda</h3>

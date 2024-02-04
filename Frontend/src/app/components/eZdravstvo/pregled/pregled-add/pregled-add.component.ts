@@ -118,8 +118,6 @@ export class PregledAddComponent implements OnInit {
     pregled.zavrsetakPregleda = ZavrsetakPregleda.getTime() / 1000
     pregled.vakcinaID = this.vakcinaID
 
-    console.log(pregled);
-
     this.healthcareService.PostPregled(pregled).subscribe({
       next: (data) => {
         this.router.navigate(['/Pregledi-Lekar']);

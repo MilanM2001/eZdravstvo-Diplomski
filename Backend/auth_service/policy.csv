@@ -1,10 +1,8 @@
 p, NotLoggedIn, /registration, POST
 p, NotLoggedIn, /login, POST
-p, Regular, /test, GET
-p, NotLoggedIn, /allCredentials, GET
-
 p, NotLoggedIn, /deleteCredentialsID/*, DELETE
 p, NotLoggedIn, /deleteAllCredentials, DELETE
+p, NotLoggedIn, /allCredentials, GET
 
 
 

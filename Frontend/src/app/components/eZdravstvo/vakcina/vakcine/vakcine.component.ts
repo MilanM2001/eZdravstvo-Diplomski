@@ -19,7 +19,7 @@ export class VakcineComponent implements OnInit {
           this.vakcine = data
         },
         error: (error) => {
-          console.log(error)
+          console.error(error);
         }
       })
   }

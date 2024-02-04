@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { HealthcareService } from 'src/app/services/healthcare.service';
 import { RegistrarService } from 'src/app/services/registrar.service';
+import { LOCALE_ID } from '@angular/core';
 
 @Component({
   selector: 'app-my-novorodjeni',

@@ -100,7 +100,7 @@ export class GradjaninAddRoditeljComponent implements OnInit {
           this.router.navigate(['/My-Novorodjeni'])
         },
         error: (error) => {
-          console.log(error)
+          console.error(error);
           if (error.status == 409) {
             this.fatherNotExist = true
             this.isFemale = false

@@ -13,6 +13,7 @@ export class PreglediLekarComponent implements OnInit {
   
   pregledi: Array<Pregled> = [];
   options = ['Slobodni', 'Zauzeti', 'Svi'];
+  
 
   ngOnInit(): void {
     this.healthcareService.GetMojiPreglediLekar().subscribe({
@@ -20,7 +21,7 @@ export class PreglediLekarComponent implements OnInit {
         this.pregledi = data;
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
       },
     });
   }
@@ -32,7 +33,7 @@ export class PreglediLekarComponent implements OnInit {
           this.pregledi = data;
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
         },
       });
     }
@@ -42,7 +43,7 @@ export class PreglediLekarComponent implements OnInit {
           this.pregledi = data;
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
         },
       });
     }
@@ -52,7 +53,7 @@ export class PreglediLekarComponent implements OnInit {
           this.pregledi = data;
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
         },
       });
     }

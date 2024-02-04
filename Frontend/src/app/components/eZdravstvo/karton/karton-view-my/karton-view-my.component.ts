@@ -57,10 +57,9 @@ export class KartonViewMyComponent implements OnInit {
       this.healthcareService.GetMojiPreglediGradjanin().subscribe({
         next: (data) => {
           this.pregledi = data;
-          console.log(this.pregledi)
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
         },
       });
     }

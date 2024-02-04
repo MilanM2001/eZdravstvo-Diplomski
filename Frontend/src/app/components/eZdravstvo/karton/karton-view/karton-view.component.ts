@@ -30,6 +30,7 @@ export class KartonViewComponent implements OnInit {
   search_value: string = ""
   isDead = false
   potvrda = new PotvrdaSmrti()
+  loggedInUser = new User()
 
   ngOnInit(): void {
     this.registrarService.GetUserJMBG(this.jmbg)
@@ -55,12 +56,11 @@ export class KartonViewComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.isDead = data
-          if (this.isDead == true) {
+          if (this.isDead) {
             this.registrarService.GetPotvrdaSmrtiJMBG(this.jmbg)
               .subscribe({
                 next: (data) => {
                   this.potvrda = data
-                  console.log(this.potvrda)
                 },
                 error: (error) => {
                   console.error(error)
@@ -74,17 +74,26 @@ export class KartonViewComponent implements OnInit {
 
         }
       })
+    this.healthcareService.GetMe()
+      .subscribe({
+        next: (data) => {
+          this.loggedInUser = data
+        },
+        error: (error) => {
+          console.error(error)
+        }
+      })
   }
 
   search(search_option: string) {
     if (search_option == 'Pregledi') {
       this.search_value = "Pregledi"
-      this.healthcareService.GetMojiPreglediGradjanin().subscribe({
+      this.healthcareService.GetPreglediByGradjaninID(this.user.id).subscribe({
         next: (data) => {
           this.pregledi = data;
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
         },
       });
     }
@@ -94,6 +103,15 @@ export class KartonViewComponent implements OnInit {
     if (search_option == 'Invaliditeti') {
       this.search_value = "Invaliditeti"
     }
+  }
+
+  isMe(): boolean {
+    if (this.loggedInUser.jmbg == this.jmbg) {
+      return true
+    } else {
+      return false
+    }
+
   }
 
 }

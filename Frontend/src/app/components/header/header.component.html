@@ -1,4 +1,9 @@
 <mat-toolbar class="app-navbar" color="primary">
+    <div class="left">
+        <div>
+            <img routerLink="/choose-service" class="logo" src="assets\images\logo_euprava.jpg" alt="Logo">
+        </div>
+    </div>
     <div class="right">
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center">
             <button *ngIf="!isLoggedIn()" mat-button mat-ripple routerLink="/Login">
@@ -66,10 +71,6 @@
                 <span>Invaliditeti</span>
             </button>
 
-
-            <button *ngIf="isLoggedIn()" mat-button mat-ripple routerLink="/choose-service">
-                <span>Servisi</span>
-            </button>
             <button *ngIf="isLoggedIn()" (click)="logout()" mat-button mat-ripple>
                 <span>Logout</span>
             </button>

@@ -3,10 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { MarriageComponent } from './components/eMaticar/marriage/marriage.component';
 import { ChooseServiceComponent } from './components/auth/choose-service/choose-service.component';
 import { RegularOrAdminComponent } from './components/auth/regular-or-admin/regular-or-admin.component';
-import { ViewMyRegistryComponent } from './components/eMaticar/view-my-registry/view-my-registry.component';
 import { PreglediLekarComponent } from './components/eZdravstvo/pregled/pregledi-lekar/pregledi-lekar.component';
 import { PreglediGradjaninComponent } from './components/eZdravstvo/pregled/pregledi-gradjanin/pregledi-gradjanin.component';
 import { PregledAddComponent } from './components/eZdravstvo/pregled/pregled-add/pregled-add.component';
@@ -118,15 +116,9 @@ const routes: Routes = [
     path: "My-Novorodjeni",
     component: MyNovorodjeniComponent
   },
-
-
   {
     path: 'Welcome',
     component: WelcomeComponent,
-  },
-  {
-    path: 'Marriage',
-    component: MarriageComponent,
   },
   {
     path: 'choose-service',
@@ -135,10 +127,6 @@ const routes: Routes = [
   {
     path: 'regular-or-admin',
     component: RegularOrAdminComponent,
-  },
-  {
-    path: 'view-my-registry',
-    component: ViewMyRegistryComponent,
   },
 ];
 

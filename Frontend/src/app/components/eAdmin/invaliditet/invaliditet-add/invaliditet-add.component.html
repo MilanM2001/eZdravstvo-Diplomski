@@ -31,25 +31,6 @@
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <h3 class="field-name">Opis</h3>
-                                    <input type="text" id="opis" class="form-control form-control-lg"
-                                        formControlName="opis" [ngClass]="{
-                        'is-invalid': submitted && invaliditetGroup['opis'].errors
-                      }" />
-                                    <div *ngIf="submitted && invaliditetGroup['opis'].errors" class="invalid-feedback">
-                                        <div *ngIf="invaliditetGroup['opis'].errors['required']">
-                                            Opis je obavezan.
-                                        </div>
-                                        <div *ngIf="invaliditetGroup['opis'].errors['minlength']">
-                                            Opis mora biti bar 2 karaktera.
-                                        </div>
-                                        <div *ngIf="invaliditetGroup['opis'].errors['maxlength']">
-                                            Opis ne može biti duži od 20 karaktera.
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-outline mb-4">
                                     <h3 class="field-name">Ozbiljnost</h3>
                                     <select id="ozbiljnost" class="form-control form-control-lg"
                                         formControlName="ozbiljnost"

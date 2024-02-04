@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AddAlergija } from 'src/app/dto/addAlergija';
 import { AddInvaliditet } from 'src/app/dto/addInvaliditet';
 import { HealthcareService } from 'src/app/services/healthcare.service';
 
@@ -20,7 +19,6 @@ export class InvaliditetAddComponent implements OnInit {
 
   invaliditetFormGroup: FormGroup = new FormGroup({
     naziv: new FormControl(''),
-    opis: new FormControl(''),
     ozbiljnost: new FormControl(''),
   })
 
@@ -30,7 +28,6 @@ export class InvaliditetAddComponent implements OnInit {
   ngOnInit(): void {
     this.invaliditetFormGroup = this.formBuilder.group({
       naziv: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
-      opis: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
       ozbiljnost: ['', [Validators.required]]
     })
   }
@@ -49,7 +46,6 @@ export class InvaliditetAddComponent implements OnInit {
     let invaliditet: AddInvaliditet = new AddInvaliditet();
 
     invaliditet.naziv = this.invaliditetFormGroup.get('naziv')?.value
-    invaliditet.opis = this.invaliditetFormGroup.get('opis')?.value
     invaliditet.ozbiljnost = this.invaliditetFormGroup.get('ozbiljnost')?.value
 
     this.healthcareService.PostInvaliditet(invaliditet).subscribe({

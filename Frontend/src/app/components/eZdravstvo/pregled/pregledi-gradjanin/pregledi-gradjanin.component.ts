@@ -18,7 +18,7 @@ export class PreglediGradjaninComponent implements OnInit {
         this.pregledi = data;
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
       },
     });
   }

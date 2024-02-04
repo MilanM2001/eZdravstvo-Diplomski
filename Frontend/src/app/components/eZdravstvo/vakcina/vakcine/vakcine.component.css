@@ -4,12 +4,12 @@
     margin-top: 30px;
 }
 
-.title {
+.welcome {
+    font-size: 35px;
     text-align: center;
-    color: blue;
-    font-size: 45px;
-    margin-top: 40px;
+    margin-top: 30px;
     margin-bottom: 60px;
+    color: blue;
 }
 
 .table {

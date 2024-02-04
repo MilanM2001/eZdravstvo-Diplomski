@@ -25,3 +25,10 @@
 .search-h3 {
     font-size: 23px;
 }
+
+.empty-list {
+    margin-left: 700px;
+    margin-top: 50px;
+    color: red;
+    font-size: 20px;
+}

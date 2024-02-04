@@ -29,20 +29,21 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 		log.Fatal(err)
 	}
 
-	router.HandleFunc("/allUsers", controller.GetAllUsers).Methods("GET")
 	router.HandleFunc("/getUserJMBG/{jmbg}", controller.GetUserJMBG).Methods("GET")
 	router.HandleFunc("/getUserID/{id}", controller.GetUserID).Methods("GET")
 	router.HandleFunc("/getNewbornsByMotherJMBG/{jmbg}", controller.GetNewbornByMotherJMBG).Methods("GET")
-	router.HandleFunc("/registry", controller.CreateNewUser).Methods("POST")
 	router.HandleFunc("/doctorCreateUser", controller.DoctorCreateUser).Methods("POST")
 	router.HandleFunc("/parentCreateUser", controller.ParentCreateUser).Methods("POST")
-	router.HandleFunc("/deleteUserID/{id}", controller.DeleteUserID).Methods("DELETE")
-	router.HandleFunc("/deleteAllUsers", controller.DeleteAllUsers).Methods("DELETE")
 	router.HandleFunc("/postPotvrdaSmrti", controller.PostPotvrdaSmrti).Methods("POST")
-	router.HandleFunc("/allPotvrdeSmrti", controller.GetAllPotvrdeSmrti).Methods("GET")
-	router.HandleFunc("/deletePotvrdaSmrtiID/{id}", controller.DeletePotvrdaSmrtiID).Methods("DELETE")
 	router.HandleFunc("/isPotvrdaExist/{jmbg}", controller.IsPotvrdaExistJMBG).Methods("GET")
 	router.HandleFunc("/getPotvrdaSmrtiJMBG/{jmbg}", controller.GetPotvrdaSmrtiJMBG).Methods("GET")
+
+	router.HandleFunc("/allUsers", controller.GetAllUsers).Methods("GET")
+	router.HandleFunc("/deleteUserID/{id}", controller.DeleteUserID).Methods("DELETE")
+	router.HandleFunc("/deleteAllUsers", controller.DeleteAllUsers).Methods("DELETE")
+	router.HandleFunc("/registry", controller.CreateNewUser).Methods("POST")
+	router.HandleFunc("/allPotvrdeSmrti", controller.GetAllPotvrdeSmrti).Methods("GET")
+	router.HandleFunc("/deletePotvrdaSmrtiID/{id}", controller.DeletePotvrdaSmrtiID).Methods("DELETE")
 	http.Handle("/", router)
 
 	log.Fatal(http.ListenAndServe(":8001", authorization.Authorizer(authEnforcer)(router)))
@@ -123,7 +124,7 @@ func (controller *RegistrarController) DoctorCreateUser(writer http.ResponseWrit
 	if err != nil {
 		fmt.Printf("Error decoding JSON: %s\n", err)
 		writer.WriteHeader(http.StatusInternalServerError)
-		writer.Write([]byte("Problem to parsing JSON to entity!"))
+		writer.Write([]byte("Problem parsing JSON to entity!"))
 		return
 	}
 
@@ -142,8 +143,8 @@ func (controller *RegistrarController) DoctorCreateUser(writer http.ResponseWrit
 		return
 	}
 
-	jsonResponse(user, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(user, writer)
 }
 
 func (controller *RegistrarController) ParentCreateUser(writer http.ResponseWriter, req *http.Request) {
@@ -171,8 +172,8 @@ func (controller *RegistrarController) ParentCreateUser(writer http.ResponseWrit
 		return
 	}
 
-	jsonResponse(user, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(user, writer)
 }
 
 func (controller *RegistrarController) GetNewbornByMotherJMBG(writer http.ResponseWriter, req *http.Request) {
@@ -186,8 +187,8 @@ func (controller *RegistrarController) GetNewbornByMotherJMBG(writer http.Respon
 		return
 	}
 
-	jsonResponse(newborns, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(newborns, writer)
 }
 
 func (controller *RegistrarController) DeleteUserID(writer http.ResponseWriter, req *http.Request) {
@@ -230,8 +231,8 @@ func (controller *RegistrarController) GetAllPotvrdeSmrti(writer http.ResponseWr
 		return
 	}
 
-	jsonResponse(potvrde, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(potvrde, writer)
 }
 
 func (controller *RegistrarController) GetPotvrdaSmrtiJMBG(writer http.ResponseWriter, req *http.Request) {
@@ -245,8 +246,8 @@ func (controller *RegistrarController) GetPotvrdaSmrtiJMBG(writer http.ResponseW
 		return
 	}
 
-	jsonResponse(potvrda, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(potvrda, writer)
 }
 
 func (controller *RegistrarController) IsPotvrdaExistJMBG(writer http.ResponseWriter, req *http.Request) {
@@ -254,8 +255,8 @@ func (controller *RegistrarController) IsPotvrdaExistJMBG(writer http.ResponseWr
 	jmbg, _ := vars["jmbg"]
 	isExist := controller.service.IsPotvrdaExist(jmbg)
 
-	jsonResponse(isExist, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(isExist, writer)
 }
 
 func (controller *RegistrarController) PostPotvrdaSmrti(writer http.ResponseWriter, req *http.Request) {
@@ -279,8 +280,8 @@ func (controller *RegistrarController) PostPotvrdaSmrti(writer http.ResponseWrit
 		return
 	}
 
-	jsonResponse(potvrda, writer)
 	writer.WriteHeader(http.StatusOK)
+	jsonResponse(potvrda, writer)
 }
 
 func (controller *RegistrarController) DeletePotvrdaSmrtiID(writer http.ResponseWriter, req *http.Request) {

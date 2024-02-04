@@ -1,30 +1,33 @@
-p, Registrar, /registry, POST
-p, Registrar, /marriage, POST
-p, Registrar, /died, POST
-p, Doctor, /died, POST
-p, Registrar, /certificate/*, GET
-p, Regular, /certificate/*, GET
-p, Doctor, /certificate/*, GET
+p, Regular, /getUserJMBG/*, GET
 p, Doctor, /getUserJMBG/*, GET
-p, Admin, /certificate/*, GET
-p, NotLoggedIn, /children/*, GET
-p, Regular, /isParent/*, GET
+p, Admin, /getUserJMBG/*, GET
+p, Registrar, /getUserJMBG/*, GET
 
-p, Doctor, /doctorCreateUser, POST
-p, Regular, /parentCreateUser, POST
+p, Regular, /getUserID/*, GET
+p, Doctor, /getUserID/*, GET
+p, Admin, /getUserID/*, GET
+p, Registrar, /getUserID/*, GET
+
 p, Regular, /getNewbornsByMotherJMBG/*, GET
 p, Doctor, /getNewbornsByMotherJMBG/*, GET
 p, Admin, /getNewbornsByMotherJMBG/*, GET
 p, Registrar, /getNewbornsByMotherJMBG/*, GET
-p, Regular, /getUserID/*, GET
+
+p, Doctor, /doctorCreateUser, POST
+
+p, Regular, /parentCreateUser, POST
+p, Doctor, /parentCreateUser, POST
+p, Admin, /parentCreateUser, POST
+p, Registrar, /parentCreateUser, POST
+
 p, Doctor, /postPotvrdaSmrti, POST
+
 p, Doctor, /isPotvrdaExist/*, GET
 p, Doctor, /getPotvrdaSmrtiJMBG/*, GET
 
+p, NotLoggedIn, /allUsers, GET
 p, NotLoggedIn, /deleteUserID/*, DELETE
 p, NotLoggedIn, /registry, POST
-p, NotLoggedIn, /allUsers, GET
 p, NotLoggedIn, /deleteAllUsers, DELETE
 p, NotLoggedIn, /allPotvrdeSmrti, GET
 p, NotLoggedIn, /deletePotvrdaSmrtiID/*, DELETE
-p, NotLoggedIn, /isPotvrdaExist/*, GET
