@@ -105,6 +105,10 @@ func (service *RegistrarService) DeleteAllUsers() error {
 	return service.store.DeleteAllUsers()
 }
 
+func (service *RegistrarService) DeleteAllPotvrde() error {
+	return service.store.DeleteAllPotvrde()
+}
+
 func (service *RegistrarService) FindOneUser(jmbg string) *entity.User {
 	return service.store.FindOneUser(jmbg)
 }
@@ -124,16 +128,16 @@ func (service *RegistrarService) IsPotvrdaExist(jmbg string) bool {
 func (service *RegistrarService) PostPotvrdaSmrti(potvrda entity.PotvrdaSmrti) (int, error) {
 	potvrda.ID = primitive.NewObjectID()
 
-	existingPotvrda, err := service.store.GetPotvrdaSmrtiJMBG(potvrda.JMBG)
-	if err != nil {
-		log.Println("Error in trying to get potvrda smrti")
-		return 0, err
-	}
-	if existingPotvrda != nil {
-		return 1, nil
-	}
+	//existingPotvrda, err := service.store.GetPotvrdaSmrtiJMBG(potvrda.JMBG)
+	//if err != nil {
+	//	log.Println("Error in trying to get potvrda smrti")
+	//	return 0, err
+	//}
+	//if existingPotvrda != nil {
+	//	return 1, nil
+	//}
 
-	err = service.store.PostPotvrdaSmrti(potvrda)
+	err := service.store.PostPotvrdaSmrti(potvrda)
 	if err != nil {
 		log.Println("Error in trying to save Potvrda")
 		return 0, err

@@ -29,5 +29,6 @@ p, NotLoggedIn, /allUsers, GET
 p, NotLoggedIn, /deleteUserID/*, DELETE
 p, NotLoggedIn, /registry, POST
 p, NotLoggedIn, /deleteAllUsers, DELETE
+p, NotLoggedIn, /deleteAllPotvrde, DELETE
 p, NotLoggedIn, /allPotvrdeSmrti, GET
 p, NotLoggedIn, /deletePotvrdaSmrtiID/*, DELETE

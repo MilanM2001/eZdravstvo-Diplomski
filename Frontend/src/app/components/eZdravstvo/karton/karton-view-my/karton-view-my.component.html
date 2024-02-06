@@ -8,7 +8,7 @@
                 <p><strong>Prezime:</strong> {{ user.prezime }}</p>
                 <p><strong>JMBG:</strong> {{ user.jmbg }}</p>
                 <p><strong>Pol:</strong> {{ user.pol }}</p>
-                <p><strong>Datum rođenja:</strong> {{ user.datumRodjenja | date: 'longDate' }}</p>
+                <p><strong>Datum rođenja:</strong> {{ user.datumRodjenja * 1000 | date: 'longDate' }}</p>
                 <p><strong>Mesto rođenja:</strong> {{ user.mestoRodjenja }}</p>
             </div>
         </mat-card-content>

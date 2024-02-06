@@ -44,6 +44,7 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/postPregled", controller.PostPregled).Methods("POST")
 	router.HandleFunc("/zakaziPregled/{id}", controller.ZakaziPregled).Methods("PUT")
 	router.HandleFunc("/deletePregledID/{id}", controller.DeletePregledID).Methods("DELETE")
+	router.HandleFunc("/deleteAllPregled", controller.DeleteAllPregled).Methods("DELETE")
 
 	//Vakcina
 	router.HandleFunc("/getSveVakcine", controller.GetSveVakcine).Methods("GET")
@@ -51,18 +52,21 @@ func (controller *HealthcareController) Init(router *mux.Router) {
 	router.HandleFunc("/postVakcina", controller.PostVakcina).Methods("POST")
 	router.HandleFunc("/putVakcina/{id}", controller.PutVakcina).Methods("PUT")
 	router.HandleFunc("/deleteVakcinaID/{id}", controller.DeleteVakcinaID).Methods("DELETE")
+	router.HandleFunc("/deleteAllVakcina", controller.DeleteAllVakcina).Methods("DELETE")
 
 	//Alergija
 	router.HandleFunc("/getSveAlergije", controller.GetSveAlergije).Methods("GET")
 	router.HandleFunc("/getAlergijaID/{id}", controller.GetAlergijaID).Methods("GET")
 	router.HandleFunc("/postAlergija", controller.PostAlergija).Methods("POST")
 	router.HandleFunc("/deleteAlergijaID/{id}", controller.DeleteAlergijaID).Methods("DELETE")
+	router.HandleFunc("/deleteAllAlergija", controller.DeleteAllAlergija).Methods("DELETE")
 
 	//Invaliditet
 	router.HandleFunc("/getSveInvaliditete", controller.GetSveInvaliditete).Methods("GET")
 	router.HandleFunc("/getInvaliditetID/{id}", controller.GetInvaliditetID).Methods("GET")
 	router.HandleFunc("/postInvaliditet", controller.PostInvaliditet).Methods("POST")
 	router.HandleFunc("/deleteInvaliditetID/{id}", controller.DeleteInvaliditetID).Methods("DELETE")
+	router.HandleFunc("/deleteAllInvaliditet", controller.DeleteAllInvaliditet).Methods("DELETE")
 
 	//Karton
 	router.HandleFunc("/getSveKartone", controller.GetSveKartone).Methods("GET")
@@ -549,17 +553,6 @@ func (controller *HealthcareController) DeleteKartonID(writer http.ResponseWrite
 	writer.WriteHeader(http.StatusOK)
 }
 
-func (controller *HealthcareController) DeleteAllKarton(writer http.ResponseWriter, req *http.Request) {
-	err := controller.service.DeleteAllKarton()
-	if err != nil {
-		writer.WriteHeader(http.StatusInternalServerError)
-		writer.Write([]byte(err.Error()))
-		return
-	}
-
-	writer.WriteHeader(http.StatusOK)
-}
-
 func (controller *HealthcareController) GetMe(writer http.ResponseWriter, req *http.Request) {
 	jmbg, err := extractJMBGFromClaims(writer, req)
 
@@ -570,4 +563,61 @@ func (controller *HealthcareController) GetMe(writer http.ResponseWriter, req *h
 
 	writer.WriteHeader(http.StatusOK)
 	jsonResponse(user, writer)
+}
+
+//---------------------------------------------------------------------------
+
+func (controller *HealthcareController) DeleteAllPregled(writer http.ResponseWriter, req *http.Request) {
+	err := controller.service.DeleteAllPregled()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) DeleteAllVakcina(writer http.ResponseWriter, req *http.Request) {
+	err := controller.service.DeleteAllVakcina()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) DeleteAllAlergija(writer http.ResponseWriter, req *http.Request) {
+	err := controller.service.DeleteAllAlergija()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) DeleteAllInvaliditet(writer http.ResponseWriter, req *http.Request) {
+	err := controller.service.DeleteAllInvaliditet()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+}
+
+func (controller *HealthcareController) DeleteAllKarton(writer http.ResponseWriter, req *http.Request) {
+	err := controller.service.DeleteAllKarton()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte(err.Error()))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
 }

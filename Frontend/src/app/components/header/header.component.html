@@ -1,7 +1,12 @@
 <mat-toolbar class="app-navbar" color="primary">
-    <div class="left">
+    <div *ngIf="isLoggedIn()" class="left">
         <div>
             <img routerLink="/choose-service" class="logo" src="assets\images\logo_euprava.jpg" alt="Logo">
+        </div>
+    </div>
+    <div *ngIf="!isLoggedIn()" class="left">
+        <div>
+            <img class="logo" src="assets\images\logo_euprava.jpg" alt="Logo">
         </div>
     </div>
     <div class="right">

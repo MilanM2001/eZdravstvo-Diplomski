@@ -19,7 +19,6 @@ export class AlergijaAddComponent implements OnInit {
 
   alergijaFormGroup: FormGroup = new FormGroup({
     naziv: new FormControl(''),
-    ozbiljnost: new FormControl(''),
   })
 
   submitted = false
@@ -28,7 +27,6 @@ export class AlergijaAddComponent implements OnInit {
   ngOnInit(): void {
     this.alergijaFormGroup = this.formBuilder.group({
       naziv: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
-      ozbiljnost: ['', [Validators.required]]
     })
   }
 
@@ -46,7 +44,6 @@ export class AlergijaAddComponent implements OnInit {
     let alergija: AddAlergija = new AddAlergija();
 
     alergija.naziv = this.alergijaFormGroup.get('naziv')?.value
-    alergija.ozbiljnost = this.alergijaFormGroup.get('ozbiljnost')?.value
 
     this.healthcareService.PostAlergija(alergija).subscribe({
       next: (data) => {
@@ -60,7 +57,5 @@ export class AlergijaAddComponent implements OnInit {
       }
     })
   }
-
-  Ozbiljnosti: string[] = ["Blaga", "Umerena", "Ozbiljna"]
 
 }

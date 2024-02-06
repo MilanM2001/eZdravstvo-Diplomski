@@ -367,10 +367,6 @@ func (service *HealthcareService) DeleteKartonID(id primitive.ObjectID) error {
 	return service.repository.DeleteKartonID(id)
 }
 
-func (service *HealthcareService) DeleteAllKarton() error {
-	return service.repository.DeleteAllKarton()
-}
-
 func (service *HealthcareService) DeleteKartonJMBG(jmbg string) error {
 	return service.repository.DeleteKartonJMBG(jmbg)
 }
@@ -431,4 +427,21 @@ func (service *HealthcareService) SubscribeToNats(natsConnection *nats.Conn) {
 	}
 
 	log.Printf("Subscribed to channel: %s", os.Getenv("POST_KARTON"))
+}
+
+//-------------------------------------------
+func (service *HealthcareService) DeleteAllPregled() error {
+	return service.repository.DeleteAllPregled()
+}
+func (service *HealthcareService) DeleteAllVakcina() error {
+	return service.repository.DeleteAllVakcina()
+}
+func (service *HealthcareService) DeleteAllAlergija() error {
+	return service.repository.DeleteAllAlergija()
+}
+func (service *HealthcareService) DeleteAllInvaliditet() error {
+	return service.repository.DeleteAllInvaliditet()
+}
+func (service *HealthcareService) DeleteAllKarton() error {
+	return service.repository.DeleteAllKarton()
 }

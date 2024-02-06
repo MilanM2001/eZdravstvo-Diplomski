@@ -1,9 +1,7 @@
 export class AddInvaliditet {
     naziv: string = ""
-    ozbiljnost: string = ""
 
-    AddInvaliditet(naziv: string, ozbiljnost: string) {
+    AddInvaliditet(naziv: string) {
         this.naziv = naziv
-        this.ozbiljnost = ozbiljnost
     }
 }

@@ -10,7 +10,7 @@
               <form [formGroup]="registerFormGroup">
                 <div class="form-outline mb-4">
                   <input type="text" id="form3Example1cg" class="form-control form-control-lg" formControlName="jmbg"
-                    [ngClass]="{
+                    autocomplete="off" [ngClass]="{
                       'is-invalid': submitted && registerGroup['jmbg'].errors
                     }" />
                   <label class="form-label" for="form3Example1cg">Unesite vaš JMBG</label>
@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4cg" class="form-control form-control-lg"
+                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" autocomplete="off"
                     formControlName="password" [ngClass]="{
                       'is-invalid':
                         submitted && registerGroup['password'].errors

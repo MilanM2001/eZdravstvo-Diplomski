@@ -66,8 +66,15 @@ p, NotLoggedIn, /getPregledID/*, GET
 p, NotLoggedIn, /getSveVakcine, GET
 p, NotLoggedIn, /getVakcinaID/*, GET
 p, NotLoggedIn, /getSveKartone, GET
+p, NotLoggedIn, /getSveAlergije, GET
+p, NotLoggedIn, /getSveInvaliditete, GET
 p, NotLoggedIn, /getKartonJMBG/*, GET
 p, NotLoggedIn, /deleteKartonID/*, DELETE
+
+p, NotLoggedIn, /deleteAllPregled, DELETE
+p, NotLoggedIn, /deleteAllVakcina, DELETE
+p, NotLoggedIn, /deleteAllAlergija, DELETE
+p, NotLoggedIn, /deleteAllInvaliditet, DELETE
 p, NotLoggedIn, /deleteAllKarton, DELETE
 
 p, Regular, /getMe, GET

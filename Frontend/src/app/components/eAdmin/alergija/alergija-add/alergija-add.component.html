@@ -29,20 +29,8 @@
                   </div>
                 </div>
 
-                <div class="form-outline mb-4">
-                  <h3 class="field-name">Ozbiljnost</h3>
-                  <select id="ozbiljnost" class="form-control form-control-lg" formControlName="ozbiljnost"
-                    [ngClass]="{ 'is-invalid': submitted && alergijaGroup['ozbiljnost'].errors }">
-                    <option *ngFor="let ozbiljnost of Ozbiljnosti" [value]="ozbiljnost">{{ozbiljnost}}
-                    </option>
-                  </select>
-                  <div *ngIf="submitted && alergijaGroup['ozbiljnost'].errors" class="invalid-feedback">
-                    <div *ngIf="alergijaGroup['ozbiljnost'].errors['required']">Ozbiljnost je obavezna.</div>
-                  </div>
-                </div>
-
                 <div *ngIf="alreadyExists">
-                  <h1 class="vakcina-exists">Vakcina već postoji</h1>
+                  <h1 class="alergija-exists">Alergija već postoji</h1>
                 </div>
 
                 <div class="d-flex justify-content-center">

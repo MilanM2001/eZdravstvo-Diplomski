@@ -10,7 +10,7 @@
               <form [formGroup]="loginFormGroup">
                 <div class="form-outline mb-4">
                   <input type="text" id="form3Example1cg" class="form-control form-control-lg" formControlName="jmbg"
-                    [ngClass]="{
+                    autocomplete="off" [ngClass]="{
                       'is-invalid': submitted && loginGroup['jmbg'].errors
                     }" />
                   <label class="form-label" for="form3Example1cg">Unesite vaš JMBG</label>
@@ -19,16 +19,16 @@
                       JMBG je obavezan.
                     </div>
                     <div *ngIf="loginGroup['jmbg'].errors['minlength']">
-                      JMBG mora biti bar 1 karaktera.
+                      JMBG mora biti 13 karaktera.
                     </div>
                     <div *ngIf="loginGroup['jmbg'].errors['maxlength']">
-                      JMBG ne može biti duži od 20 karaktera.
+                      JMBG ne može biti duži od 13 karaktera.
                     </div>
                   </div>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4cg" class="form-control form-control-lg"
+                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" autocomplete="off"
                     formControlName="password" [ngClass]="{
                       'is-invalid': submitted && loginGroup['password'].errors
                     }" />

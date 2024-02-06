@@ -19,7 +19,6 @@ export class InvaliditetAddComponent implements OnInit {
 
   invaliditetFormGroup: FormGroup = new FormGroup({
     naziv: new FormControl(''),
-    ozbiljnost: new FormControl(''),
   })
 
   submitted = false
@@ -28,7 +27,6 @@ export class InvaliditetAddComponent implements OnInit {
   ngOnInit(): void {
     this.invaliditetFormGroup = this.formBuilder.group({
       naziv: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
-      ozbiljnost: ['', [Validators.required]]
     })
   }
 
@@ -46,7 +44,6 @@ export class InvaliditetAddComponent implements OnInit {
     let invaliditet: AddInvaliditet = new AddInvaliditet();
 
     invaliditet.naziv = this.invaliditetFormGroup.get('naziv')?.value
-    invaliditet.ozbiljnost = this.invaliditetFormGroup.get('ozbiljnost')?.value
 
     this.healthcareService.PostInvaliditet(invaliditet).subscribe({
       next: (data) => {
@@ -60,7 +57,5 @@ export class InvaliditetAddComponent implements OnInit {
       }
     })
   }
-
-  Ozbiljnosti: string[] = ["Blaga", "Umerena", "Ozbiljna"]
 
 }

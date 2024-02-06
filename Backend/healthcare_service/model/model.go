@@ -33,15 +33,13 @@ type Vakcina struct {
 }
 
 type Alergija struct {
-	ID         primitive.ObjectID `json:"id" bson:"_id"`
-	Naziv      string             `json:"naziv" bson:"naziv"`
-	Ozbiljnost Ozbiljnost         `json:"ozbiljnost" bson:"ozbiljnost"`
+	ID    primitive.ObjectID `json:"id" bson:"_id"`
+	Naziv string             `json:"naziv" bson:"naziv"`
 }
 
 type Invaliditet struct {
-	ID         primitive.ObjectID `json:"id" bson:"_id"`
-	Naziv      string             `json:"naziv" bson:"naziv"`
-	Ozbiljnost Ozbiljnost         `json:"ozbiljnost" bson:"ozbiljnost"`
+	ID    primitive.ObjectID `json:"id" bson:"_id"`
+	Naziv string             `json:"naziv" bson:"naziv"`
 }
 
 type Karton struct {

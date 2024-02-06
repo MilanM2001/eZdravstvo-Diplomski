@@ -19,6 +19,7 @@ type RegistrarRepository interface {
 	GetChildren(jmbg string, pol domain.Pol) []domain.User
 	DeleteUserID(id primitive.ObjectID) error
 	DeleteAllUsers() error
+	DeleteAllPotvrde() error
 	PostPotvrdaSmrti(potvrdaOSmrti domain.PotvrdaSmrti) error
 	GetPotvrdaSmrtiJMBG(jmbg string) (*domain.PotvrdaSmrti, error)
 	GetAllPotvrdeSmrti() ([]*domain.PotvrdaSmrti, error)
