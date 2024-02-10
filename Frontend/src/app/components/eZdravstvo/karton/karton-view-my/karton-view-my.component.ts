@@ -19,19 +19,24 @@ export class KartonViewMyComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   user: User = new User()
-  options = ['Pregledi', 'Alergije', 'Invaliditeti'];
+  options = ['Pregledi', 'Alergije', 'Invaliditeti', 'Deca'];
 
   pregledi: Pregled[] = []
   vakcinacije: Pregled[] = []
   alergije: Alergija[] = []
   invaliditeti: Invaliditet[] = []
+  children: User[] = []
   search_value: string = ""
+  jmbg: string = ""
+  pol: string = ""
 
   ngOnInit(): void {
     this.healthcareService.GetMe()
       .subscribe({
         next: (data) => {
           this.user = data
+          this.jmbg = data.jmbg
+          this.pol = data.pol
         },
         error: (error) => {
           console.error(error)
@@ -68,6 +73,18 @@ export class KartonViewMyComponent implements OnInit {
     }
     if (search_option == 'Invaliditeti') {
       this.search_value = "Invaliditeti"
+    }
+    if (search_option == 'Deca') {
+      this.search_value = "Deca"
+      this.registrarService.GetChildrenByParentJMBG(this.jmbg, this.pol)
+        .subscribe({
+          next: (data) => {
+            this.children = data
+          },
+          error: (error) => {
+            console.error(error)
+          }
+        })
     }
   }
 

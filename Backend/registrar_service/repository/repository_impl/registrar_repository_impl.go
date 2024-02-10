@@ -47,6 +47,19 @@ func (store *RegistrarRepositoryImpl) GetNewbornByMotherJMBG(jmbgMajke string) (
 	return store.filterUserRegistries(filter)
 }
 
+func (store *RegistrarRepositoryImpl) GetChildrenByParentJMBG(jmbg string, pol string) ([]*domain.User, error) {
+	var filter interface{}
+
+	if pol == "Muski" {
+		filter = bson.M{"jmbgOca": jmbg}
+	} else if pol == "Zenski" {
+		filter = bson.M{"jmbgMajke": jmbg}
+	}
+
+	return store.filterUserRegistries(filter)
+
+}
+
 func (store *RegistrarRepositoryImpl) CreateNewUser(user domain.User) error {
 	if !store.IsUserExist(user.JMBG) {
 		_, err := store.userRegistry.InsertOne(context.Background(), user)

@@ -92,6 +92,10 @@ func (service *RegistrarService) GetNewbornByMotherJMBG(jmbgMajke string) ([]*en
 	return service.store.GetNewbornByMotherJMBG(jmbgMajke)
 }
 
+func (service *RegistrarService) GetChildrenByParentJMBG(jmbg string, pol string) ([]*entity.User, error) {
+	return service.store.GetChildrenByParentJMBG(jmbg, pol)
+}
+
 func (service *RegistrarService) DeleteUserID(id primitive.ObjectID) error {
 	_, err := service.store.FindOneUserID(id)
 	if err != nil {

@@ -121,22 +121,22 @@ func (service *HealthcareService) GetPreglediByGradjaninID(id primitive.ObjectID
 	return service.repository.GetPreglediByGradjaninID(id)
 }
 
+//																		PRE konekcije sa nats da se stavi
+
 func (service *HealthcareService) PostPregled(addPregled *model.AddPregled, jmbg string) (int, error) {
 	var pregled model.Pregled
-	pregled.PocetakPregleda = addPregled.PocetakPregleda
-	pregled.ZavrsetakPregleda = addPregled.ZavrsetakPregleda
-	pregled.TipPregleda = addPregled.TipPregleda
+	var vakcina *model.Vakcina
 
 	dataToSend, err := json.Marshal(jmbg)
 	if err != nil {
 		log.Println("Error Marshaling JMBG")
 	}
 
-	existingPregledi, err := service.repository.GetSviPregledi()
+	existingPregledi, err := service.GetMojiSlobodniPreglediLekar(jmbg)
 	for _, existingPregled := range existingPregledi {
-		if (existingPregled.PocetakPregleda >= pregled.PocetakPregleda && existingPregled.PocetakPregleda <= pregled.ZavrsetakPregleda) ||
-			(existingPregled.ZavrsetakPregleda >= pregled.PocetakPregleda && existingPregled.ZavrsetakPregleda <= pregled.ZavrsetakPregleda) ||
-			(existingPregled.PocetakPregleda >= pregled.PocetakPregleda && existingPregled.ZavrsetakPregleda <= pregled.ZavrsetakPregleda) {
+		if (existingPregled.PocetakPregleda >= addPregled.PocetakPregleda && existingPregled.PocetakPregleda <= addPregled.ZavrsetakPregleda) ||
+			(existingPregled.ZavrsetakPregleda >= addPregled.PocetakPregleda && existingPregled.ZavrsetakPregleda <= addPregled.ZavrsetakPregleda) ||
+			(existingPregled.PocetakPregleda >= addPregled.PocetakPregleda && existingPregled.ZavrsetakPregleda <= addPregled.ZavrsetakPregleda) {
 			return 1, nil
 		}
 	}
@@ -146,33 +146,56 @@ func (service *HealthcareService) PostPregled(addPregled *model.AddPregled, jmbg
 	}
 
 	response, err := service.natsConnection.Request(os.Getenv("GET_USER_BY_JMBG"), dataToSend, 5*time.Second)
+	if err != nil {
+		log.Println("Error requesting user by JMBG:", err)
+		return 0, err
+	}
 
 	var lekar model.User
-	err = json.Unmarshal(response.Data, &lekar)
-	if err != nil {
-		log.Println("Error in Unmarshalling json")
+	if err := json.Unmarshal(response.Data, &lekar); err != nil {
+		log.Println("Error in Unmarshalling json:", err)
 		return 0, err
 	}
 
 	if addPregled.VakcinaID != "" {
 		vakcinaID, err := primitive.ObjectIDFromHex(addPregled.VakcinaID)
 		if err != nil {
-			log.Println("Convert to Primitive error")
+			log.Println("Convert to Primitive error:", err)
 			return 0, err
 		}
 
-		vakcina, err := service.repository.GetVakcinaID(vakcinaID)
-		pregled.Vakcina = vakcina
+		vakcina, err = service.repository.GetVakcinaID(vakcinaID)
+		if err != nil {
+			log.Println("Error getting vaccine by ID:", err)
+			return 0, err
+		}
+	} else {
+		vakcina = nil
 	}
 
-	pregled.ID = primitive.NewObjectID()
-	pregled.Lekar = &lekar
-	pregled.Gradjanin = nil
+	pocetakTime := time.Unix(addPregled.PocetakPregleda, 0)
+	zavrsetakTime := time.Unix(addPregled.ZavrsetakPregleda, 0)
 
-	err = service.repository.PostPregled(&pregled)
-	if err != nil {
-		log.Println("Error in trying to save Pregled")
-		return 0, err
+	appointmentDuration := 20 * time.Minute
+
+	for current := pocetakTime; current.Before(zavrsetakTime); current = current.Add(appointmentDuration) {
+		pregled.ID = primitive.NewObjectID()
+		pregled.Lekar = &lekar
+		pregled.Gradjanin = nil
+		pregled.PocetakPregleda = current.Unix()
+		pregled.ZavrsetakPregleda = current.Add(appointmentDuration).Unix()
+		pregled.TipPregleda = addPregled.TipPregleda
+		if vakcina != nil {
+			pregled.Vakcina = vakcina
+		} else {
+			pregled.Vakcina = nil
+		}
+
+		err := service.repository.PostPregled(&pregled)
+		if err != nil {
+			log.Println("Error in trying to save Pregled:", err)
+			return 0, err
+		}
 	}
 
 	return 0, nil

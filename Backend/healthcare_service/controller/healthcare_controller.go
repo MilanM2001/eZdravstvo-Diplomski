@@ -203,12 +203,12 @@ func (controller *HealthcareController) PostPregled(writer http.ResponseWriter, 
 
 	jmbg, err := extractJMBGFromClaims(writer, req)
 
-	value, err := controller.service.PostPregled(&pregled, jmbg)
-	if value == 1 {
-		writer.WriteHeader(http.StatusNotAcceptable)
-		writer.Write([]byte("Appointment already exists in that time"))
-		return
-	}
+	_, err = controller.service.PostPregled(&pregled, jmbg)
+	//if value == 1 {
+	//	writer.WriteHeader(http.StatusNotAcceptable)
+	//	writer.Write([]byte("Appointment already exists in that time"))
+	//	return
+	//}
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)

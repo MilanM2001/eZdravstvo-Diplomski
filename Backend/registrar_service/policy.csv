@@ -13,6 +13,11 @@ p, Doctor, /getNewbornsByMotherJMBG/*, GET
 p, Admin, /getNewbornsByMotherJMBG/*, GET
 p, Registrar, /getNewbornsByMotherJMBG/*, GET
 
+p, Regular, /getChildrenByParentJMBG/*/*, GET
+p, Doctor, /getChildrenByParentJMBG/*/*, GET
+p, Admin, /getChildrenByParentJMBG/*/*, GET
+p, Registrar, /getChildrenByParentJMBG/*/*, GET
+
 p, Doctor, /doctorCreateUser, POST
 
 p, Regular, /parentCreateUser, POST
@@ -32,3 +37,4 @@ p, NotLoggedIn, /deleteAllUsers, DELETE
 p, NotLoggedIn, /deleteAllPotvrde, DELETE
 p, NotLoggedIn, /allPotvrdeSmrti, GET
 p, NotLoggedIn, /deletePotvrdaSmrtiID/*, DELETE
+p, NotLoggedIn, /getChildrenByParentJMBG/*/*, GET

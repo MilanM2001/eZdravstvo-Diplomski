@@ -29,21 +29,22 @@ func (controller *RegistrarController) Init(router *mux.Router) {
 		log.Fatal(err)
 	}
 
+	router.HandleFunc("/allUsers", controller.GetAllUsers).Methods("GET")
 	router.HandleFunc("/getUserJMBG/{jmbg}", controller.GetUserJMBG).Methods("GET")
 	router.HandleFunc("/getUserID/{id}", controller.GetUserID).Methods("GET")
 	router.HandleFunc("/getNewbornsByMotherJMBG/{jmbg}", controller.GetNewbornByMotherJMBG).Methods("GET")
+	router.HandleFunc("/getChildrenByParentJMBG/{jmbg}/{pol}", controller.GetChildrenByParentJMBG).Methods("GET")
 	router.HandleFunc("/doctorCreateUser", controller.DoctorCreateUser).Methods("POST")
 	router.HandleFunc("/parentCreateUser", controller.ParentCreateUser).Methods("POST")
-	router.HandleFunc("/postPotvrdaSmrti", controller.PostPotvrdaSmrti).Methods("POST")
-	router.HandleFunc("/isPotvrdaExist/{jmbg}", controller.IsPotvrdaExistJMBG).Methods("GET")
-	router.HandleFunc("/getPotvrdaSmrtiJMBG/{jmbg}", controller.GetPotvrdaSmrtiJMBG).Methods("GET")
-
-	router.HandleFunc("/allUsers", controller.GetAllUsers).Methods("GET")
+	router.HandleFunc("/registry", controller.CreateNewUser).Methods("POST")
 	router.HandleFunc("/deleteUserID/{id}", controller.DeleteUserID).Methods("DELETE")
 	router.HandleFunc("/deleteAllUsers", controller.DeleteAllUsers).Methods("DELETE")
-	router.HandleFunc("/deleteAllPotvrde", controller.DeleteAllPotvrde).Methods("DELETE")
-	router.HandleFunc("/registry", controller.CreateNewUser).Methods("POST")
+
 	router.HandleFunc("/allPotvrdeSmrti", controller.GetAllPotvrdeSmrti).Methods("GET")
+	router.HandleFunc("/getPotvrdaSmrtiJMBG/{jmbg}", controller.GetPotvrdaSmrtiJMBG).Methods("GET")
+	router.HandleFunc("/isPotvrdaExist/{jmbg}", controller.IsPotvrdaExistJMBG).Methods("GET")
+	router.HandleFunc("/postPotvrdaSmrti", controller.PostPotvrdaSmrti).Methods("POST")
+	router.HandleFunc("/deleteAllPotvrde", controller.DeleteAllPotvrde).Methods("DELETE")
 	router.HandleFunc("/deletePotvrdaSmrtiID/{id}", controller.DeletePotvrdaSmrtiID).Methods("DELETE")
 	http.Handle("/", router)
 
@@ -190,6 +191,22 @@ func (controller *RegistrarController) GetNewbornByMotherJMBG(writer http.Respon
 
 	writer.WriteHeader(http.StatusOK)
 	jsonResponse(newborns, writer)
+}
+
+func (controller *RegistrarController) GetChildrenByParentJMBG(writer http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	jmbg, _ := vars["jmbg"]
+	pol, _ := vars["pol"]
+
+	children, err := controller.service.GetChildrenByParentJMBG(jmbg, pol)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("Errror in getting children"))
+		return
+	}
+
+	writer.WriteHeader(http.StatusOK)
+	jsonResponse(children, writer)
 }
 
 func (controller *RegistrarController) DeleteUserID(writer http.ResponseWriter, req *http.Request) {

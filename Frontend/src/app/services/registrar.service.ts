@@ -47,6 +47,12 @@ export class RegistrarService {
         );
     }
 
+    public GetChildrenByParentJMBG(jmbg: string, pol: string): Observable<User[]> {
+        return this.http.get<User[]>(
+            `${environment.baseApiUrl}/${this.url}/getChildrenByParentJMBG/` + jmbg + "/" + pol
+        );
+    }
+
     public PostPotvrdaSmrti(potvrda: AddPotvrdaSmrti): Observable<AddPotvrdaSmrti> {
         return this.http.post<AddPotvrdaSmrti>(
             `${environment.baseApiUrl}/${this.url}/postPotvrdaSmrti`, potvrda

@@ -52,8 +52,8 @@
 
 <div *ngIf="search_value == 'Alergije'">
     <h3 class="my-title">Alergije</h3>
-    <mat-card class="card-alergija-invaliditet">
-        <div *ngFor="let alergija of alergije" class="list-item">
+    <mat-card *ngFor="let alergija of alergije" class="card-alergija-invaliditet">
+        <div class="list-item">
             <div class="naziv">{{alergija.naziv}}</div>
         </div>
     </mat-card>
@@ -62,10 +62,21 @@
 
 <div *ngIf="search_value == 'Invaliditeti'">
     <h3 class="my-title">Invaliditeti</h3>
-    <mat-card class="card-alergija-invaliditet">
-        <div *ngFor="let invaliditet of invaliditeti" class="list-item">
+    <mat-card *ngFor="let invaliditet of invaliditeti" class="card-alergija-invaliditet">
+        <div class="list-item">
             <div class="naziv">{{invaliditet.naziv}}</div>
         </div>
     </mat-card>
     <h3 *ngIf="invaliditeti?.length == 0 || !invaliditeti" class="empty-list">Nema invaliditeta u kartonu</h3>
+</div>
+
+<div *ngIf="search_value == 'Deca'">
+    <h3 class="my-title">Deca</h3>
+    <mat-card *ngFor="let child of children" class="children-card">
+        <mat-card-title class="children-field">Ime: {{child.ime + " " + child.prezime}}</mat-card-title>
+        <mat-card-title class="children-field">JMBG: {{child.jmbg}}</mat-card-title>
+        <p class="children-field">Datum rođenja: {{child.datumRodjenja * 1000 | date: "longDate"}}</p>
+
+    </mat-card>
+    <h3 *ngIf="children?.length == 0 || !children" class="empty-list">Nema dece</h3>
 </div>
